@@ -1,0 +1,14 @@
+**/*/.terraform/*
+**/*/*.crt
+**/*/*.key
+**/*/*.tfvars
+**/*/*.tfplan
+**/*/*.pem
+**/*/*.pub
+**/*/*.sh
+**/*/license.*
+**/*/*.tfstate
+**/*/*.tfstate.*
+**/*/*.hcl
+
+
