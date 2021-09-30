@@ -1,7 +1,6 @@
 **/*/.terraform/*
 **/*/*.crt
 **/*/*.key
-**/*/*.tfvars
 **/*/*.tfplan
 **/*/*.pem
 **/*/*.pub

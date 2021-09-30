@@ -1,0 +1,13 @@
+prefix                    = "wingd-dev"
+region                    = "eu-west-1"
+evt_instance_type         = "t3.small"
+sizop_instance_type       = "t2.small"
+wideonline1_instance_type = "t3.medium"
+wideonline2_instance_type = "t3.medium"
+subnet_id                 = "subnet-03d178759a58a50ee"
+vpc_id                    = "vpc-0e0c88e2e959500f0"
+vpc_cidr_range            = "10.0.0.0/16"
+volume_size               = 30
+iam_instance_profile      = "ssm-role1"
+alb_arn                   = "arn:aws:elasticloadbalancing:eu-west-1:901259681273:loadbalancer/app/wingd-alb/b55db3173f34a226"
+alb_listener_arn          = "arn:aws:elasticloadbalancing:eu-west-1:901259681273:listener/app/wingd-alb/b55db3173f34a226/cd8337fb070c3bed"
