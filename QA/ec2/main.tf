@@ -289,8 +289,8 @@ module "alb" {
 
 /* terraform {
   backend "s3" {
-    bucket                  = "eu-west-1buck"
-    key                     = "eu-west-1/ec2/terraform.tfstate"
+    bucket                  = "wingd-tf-state"
+    key                     = "terraform/eu-west-1/jenkins/terraform.tfstate"
     region                  = "eu-west-1"
     profile                 = "default"
     shared_credentials_file = "~/.aws/credentials"
