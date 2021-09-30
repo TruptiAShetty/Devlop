@@ -24,12 +24,12 @@ Steps:
     4)  Goto jenkins folder
          cd jenkins
     5)  Make sure the following S3 Bucket(wingd-tf-state) available in the AWS console.
-        Note: Terraform stores information about your infrastructure in a state file. This state file keeps track of resources created by your configuration and maps them to real-                         world resources.
+        Note: Terraform stores information about your infrastructure in a state file. This state file keeps track of resources created by your configuration and maps them to real-world resources.
     6)  Run the terraform init command which initiates the modules & versions 
                      terraform init
-    7)  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real                  infrastructure objects being managed with the current working directory and workspace.
+    7)  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
                      terraform plan
-    8)  Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the            changes appropriately.
+    8)  Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
                      terraform apply
         Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created         
     9)  After successful resources created.Access the Jenkins portal “http://:ALBendpoind:80
