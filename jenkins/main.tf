@@ -67,7 +67,7 @@ module "jenkins_ec2" {
   monitoring                  = true
   subnet_id                   = module.vpc.private_subnets[0]
   vpc_security_group_ids      = [module.jenkins_sg.security_group_id]
-  associate_public_ip_address = true
+  associate_public_ip_address = false
   user_data                   = file("./provisioner.sh")
   root_block_device = [
     {
