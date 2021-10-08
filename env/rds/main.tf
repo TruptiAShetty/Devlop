@@ -48,7 +48,7 @@ module "db" {
 
 terraform {
   backend "s3" {
-    bucket                  = "terraform-tf-state"
+    bucket                  = "wingd-tf-state"
     key                     = "rds/terraform.tfstate"
     region                  = "eu-west-1"
     profile                 = "default"
