@@ -1,0 +1,12 @@
+prefix               = "wingd"
+region               = "eu-west-1"
+engine_version       = "5.7.19"
+db_instance_class    = "db.t2.medium"
+db_allocated_storage = "30"
+db_username          = "root"
+db_password          = "SunLight#6"
+db_port              = "3306"
+identifier           = "rds-prod-mysql"
+subnet_ids           = ["subnet-0346297747ee184e5", "subnet-096c74c705e11bec8"]
+vpc_cidr_block       = "10.0.0.0/16"
+vpc_id               = "vpc-00006d29c3d0caf9f"

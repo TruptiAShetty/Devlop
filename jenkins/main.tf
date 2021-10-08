@@ -27,7 +27,7 @@ module "jenkins_sg" {
   name                = "${var.prefix}-jenkins-sg"
   vpc_id              = module.vpc.vpc_id
   ingress_cidr_blocks = [var.vpc_cidr]
-  ingress_rules       = ["ssh-tcp"]
+  ingress_rules       = ["http-80-tcp","https-443-tcp"]
   ingress_with_cidr_blocks = [
     {
       from_port   = 8080
@@ -57,6 +57,8 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
+
+
 module "jenkins_ec2" {
   depends_on                  = [module.jenkins_sg]
   source                      = "../modules/ec2"
@@ -67,7 +69,7 @@ module "jenkins_ec2" {
   monitoring                  = true
   subnet_id                   = module.vpc.private_subnets[0]
   vpc_security_group_ids      = [module.jenkins_sg.security_group_id]
-  associate_public_ip_address = false
+  associate_public_ip_address = false 
   user_data                   = file("./provisioner.sh")
   root_block_device = [
     {
@@ -88,10 +90,9 @@ module "alb_sg" {
   name                = "${var.prefix}-alb-sg"
   vpc_id              = module.vpc.vpc_id
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["http-80-tcp"]
+  ingress_rules       = ["http-80-tcp","https-443-tcp"]
   egress_rules        = ["all-all"]
 }
-
 module "alb" {
   depends_on         = [module.jenkins_ec2]
   source             = "../modules/alb"
@@ -113,10 +114,11 @@ module "alb" {
       ]
     }
   ]
-  http_tcp_listeners = [
+  https_listeners = [
     {
-      port               = 80
-      protocol           = "HTTP"
+      port               = 443
+      protocol           = "HTTPS"
+      certificate_arn    = "arn:aws:acm:eu-west-1:901259681273:certificate/a58c0fd2-02ad-4ee7-9850-97b8b2361991"
       target_group_index = 0
     }
   ]
@@ -124,7 +126,6 @@ module "alb" {
     name = "${var.prefix}-alb"
   }
 }
-
 
 terraform {
   backend "s3" {
