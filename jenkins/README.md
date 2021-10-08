@@ -5,8 +5,8 @@ Steps:
           Installation guide:
           https://www.terraform.io/docs/cli/install/apt.html
         1.2) git required.
-	  Installation guide:
-	  https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+	        Installation guide:
+	        https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
         1.3) awscli required.(awscli version = 1.18.69 )
           Installation guide:
           https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
@@ -35,7 +35,7 @@ Steps:
     9)  After successful resources created.Access the Jenkins portal “http://:ALBendpoind:80
     10) Run the below command for connecting to the jenkins instance.
             aws ssm start-session --target "instance-id" 
-	Note: instance-id = which is created by terraform script (wingd-jenkins)
+	      Note: instance-id = which is created by terraform script (wingd-jenkins)
     12) Read the file initial password of Jenkins.
         "sudo cat /var/lib/Jenkins/secrets/initialAdminPassword
     13) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
