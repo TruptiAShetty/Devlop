@@ -15,6 +15,13 @@ module "evt_sg" {
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
+    },
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      description = "The protocol. If not icmp, tcp, udp, or all use the"
+      cidr_blocks = var.vpc_cidr_range
     }
   ]
   egress_rules = ["all-all"]
@@ -28,6 +35,13 @@ module "sizop_sg" {
     {
       from_port   = 80
       to_port     = 80
+      protocol    = "tcp"
+      description = "The protocol. If not icmp, tcp, udp, or all use the"
+      cidr_blocks = var.vpc_cidr_range
+    },
+    {
+      from_port   = 22
+      to_port     = 22
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
@@ -47,6 +61,13 @@ module "wideonline1_sg" {
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
+    },
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      description = "The protocol. If not icmp, tcp, udp, or all use the"
+      cidr_blocks = var.vpc_cidr_range
     }
   ]
   egress_rules = ["all-all"]
@@ -60,6 +81,13 @@ module "wideonline2_sg" {
     {
       from_port   = 80
       to_port     = 80
+      protocol    = "tcp"
+      description = "The protocol. If not icmp, tcp, udp, or all use the"
+      cidr_blocks = var.vpc_cidr_range
+    },
+    {
+      from_port   = 22
+      to_port     = 22
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
