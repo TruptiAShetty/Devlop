@@ -1,7 +1,7 @@
 Steps for the creation of Environment infrastructure Dev,QA & Prod
     
     1) install terraform plugin
-          1.1 First we need to install terraform plugin Goto manage jenkins under (Jenkins’s header) <manage plugins> and then select avaliable.Type terraform in search and install without               restart.
+          1.1 First we need to install terraform plugin Goto manage jenkins under (Jenkins’s header) <manage plugins> and then select avaliable.Type terraform in search and install without restart.
     2) Configure global tool
           2.1 First, we need set up the global tool configuration under (Jenkins’s header) <Manage Jenkins > Global Tool Configuration.
           2.2 Now in this page configure terraform.
@@ -11,7 +11,7 @@ Steps for the creation of Environment infrastructure Dev,QA & Prod
           2.3 Inside the folder Creating a Jenkins job1 for dev_ec2 
                       2.3.1 Now go to Jenkins’s dashboard page by clicking “Jenkins” under the header and click on “New  Item” from the left menu panel.
                       2.3.2 Enter your Jenkins job name and select pipeline project (As we are using pipeline project, you can select as per your project type) and then click on “OK”.
-                      2.3.3 Now you must configure your Jenkins job. First under General section check “This project is parameterized” option and then select String Parameter option by                                  clicking the “Add Parameter” button.
+                      2.3.3 Now you must configure your Jenkins job. First under General section check “This project is parameterized” option and then select String Parameter option by clicking the “Add Parameter” button.
                                [NOTE parameters AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN]
                       2.3.4 Then write the pipeline and click save
                       2.3.5 Run the job with bulid with parameters give the values for the string parameters.
@@ -19,7 +19,7 @@ Steps for the creation of Environment infrastructure Dev,QA & Prod
           2.4 Inside the folder Creating a Jenkins job1 for dev_rds 
                       2.4.1 Now go to Jenkins’s dashboard page by clicking “Jenkins” under the header and click on “New  Item” from the left menu panel.
                       2.4.2 Enter your Jenkins job name and select pipeline project (As we are using pipeline project, you can select as per your project type) and then click on “OK”.
-                      2.4.3 Now you must configure your Jenkins job. First under General section check “This project is parameterized” option and then select String Parameter option by                                  clicking the “Add Parameter” button.
+                      2.4.3 Now you must configure your Jenkins job. First under General section check “This project is parameterized” option and then select String Parameter option by clicking the “Add Parameter” button.
                                [NOTE parameters AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN]
                       2.4.4 Then write the pipeline and click save
                       2.4.5 Run the job with bulid with parameters give the values for the string parameters.
