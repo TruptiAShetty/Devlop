@@ -32,7 +32,7 @@ Steps:
     8)  Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
                      terraform apply
         Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created         
-    9)  After successful resources created.Access the Jenkins portal “http://:ALBendpoind:80
+    9)  After successful resources created.Access the Jenkins portal “https://:ALBendpoind:80
     10) Run the below command for connecting to the jenkins instance.
             aws ssm start-session --target "instance-id" 
 	    Note: instance-id = which is created by terraform script (wingd-jenkins)
