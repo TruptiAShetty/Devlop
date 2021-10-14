@@ -3,7 +3,7 @@ A) Steps for the creation of DEV infrastructure,
       1) For the creation of dev_infra we have to create 2 pipeline 
               pipeline 1 : for the creation of 4 ec2 & ALB in public subnet.  
               pipeline 2 : for the creation of rds in dev environment.
-      2) Access the jenkins portal "https://ALBendpoind:80
+      2) Access the jenkins portal "https://ALBendpoind:80"
       3) use the login credentials of jenkins (username & password) it is dependent on README.md step 13(https://gitlab.wingd.com/wide2/aws_infra_terraform/-/tree/terraform_scripts/jenkins)
       4) Creating a folder for Dev_infra
               4.1 Now go to Jenkins’s dashboard on “New Item” from the left menu panel.
