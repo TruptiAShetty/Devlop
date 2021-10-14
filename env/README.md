@@ -13,14 +13,14 @@ A) Steps for the creation of DEV infrastructure,
                       4.3.2 Enter your Jenkins job name and select pipeline project and then click on “OK”.
                       4.3.3 Now you must configure your Jenkins job. First under General section check “This project is parameterized” option and then select String Parameter option by clicking the “Add Parameter” button and add parameters AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN                      
                       4.3.4 Then write the pipeline and click save
-                      4.3.5 Run the job bulid with parameters give the values AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN .
+                      4.3.5 Run the job build with parameters give the values AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN .
                       4.3.6 The creation of 4 ec2 in private subnet & one ALB will be taken place before the build success.
-              4.4 Inside the folder Create a Jenkins job2 for dev_rds
+              4.4 Inside the folder Create a Jenkins pipeline2 for dev_rds
                       4.4.1 click on “New  Item” from the left menu panel.
                       4.4.2 Enter your Jenkins job name and select pipeline project and then click on “OK”.
                       4.4.3 Now you must configure your Jenkins job. First under General section check “This project is parameterized” option and then select String Parameter option by clicking the “Add Parameter” button and parameters AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN.
                       4.4.4 Then write the pipeline and click save
-                      4.4.5 Run the job bulid with parameters give the values of AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN 
+                      4.4.5 Run the job build with parameters give the values of AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN 
                       4.4.6 The creation of rds will be taken place before the build success.
 
 B) Steps for the creation of QA infrastructure,
