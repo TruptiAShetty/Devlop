@@ -22,7 +22,7 @@ A) Steps for the creation of DEV infrastructure,
                       4.4.4 Then write the pipeline and click save
                       4.4.5 Run the job build with parameters give the values of AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN 
                       4.4.6 The creation of rds will be taken place before the build success.
-    5) For the cleaning of resources after creation using command 
+     5) For the cleaning of resources after creation using command 
                  terraform destroy -var-file dev-terraform.tfvars
 B) Steps for the creation of QA infrastructure,
 
