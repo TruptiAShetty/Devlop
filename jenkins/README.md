@@ -39,4 +39,5 @@ Steps:
     12) Read the file initial password of Jenkins.
         "sudo cat /var/lib/Jenkins/secrets/initialAdminPassword
     13) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
-    
+    14) After the creation of the resources we can clean by using the command.
+                    terraform destroy
