@@ -22,17 +22,21 @@ A) Steps for the creation of DEV infrastructure,
                       4.4.4 Then write the pipeline and click save
                       4.4.5 Run the job build with parameters give the values of AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY & AWS_SESSION_TOKEN 
                       4.4.6 The creation of rds will be taken place before the build success.
-
+    5) For the cleaning of resources after creation using command 
+                 terraform destroy -var-file dev-terraform.tfvars
 B) Steps for the creation of QA infrastructure,
 
        1)The creation of QA infrastructure as follows same steps for the dev_infra.Create a folder name Qa_infra.
        2) inside the folder,Create a job1 qa_ec2 & job2 qa_rds.
+       3) For the cleaning of resources after creation using command
+                 terraform destroy -var-file qa-terraform.tfvars
 
 c) Steps for the creation of PROD infrastructure,
 
        1)The creation of PROD infrastructure as follows same steps for the dev_infra.Create a folder name Prod_infra.
        2) inside the folder,Create a job1 prod_ec2 & job2 prod_rds.
-
+       3) For the cleaning of resources after creation using command
+	         terraform destroy -var-file prod-terraform.tfvars
 
   
 
