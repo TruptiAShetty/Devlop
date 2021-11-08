@@ -1,9 +1,9 @@
 provider "aws" {
-  profile                 = "default"
+  profile                 = var.aws_profile
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
-
+# creation of VPC networking 
 module "vpc" {
   source                 = "../modules/vpc"
   name                   = "${var.prefix}_vpc"
@@ -20,7 +20,7 @@ module "vpc" {
     name = "${var.prefix}_vpc"
   }
 }
-
+# creation of jenkind_instance security_group
 module "jenkins_sg" {
   depends_on          = [module.vpc]
   source              = "../modules/security_group"
@@ -58,7 +58,7 @@ data "aws_ami" "ubuntu" {
 }
 
 
-
+# creation of ec2_instance
 module "jenkins_ec2" {
   depends_on                  = [module.jenkins_sg]
   source                      = "../modules/ec2"
@@ -83,7 +83,7 @@ module "jenkins_ec2" {
     name = "${var.prefix}-jenkins"
   }
 }
-
+# creation of ALB security_group
 module "alb_sg" {
   depends_on          = [module.vpc]
   source              = "../modules/security_group"
@@ -93,6 +93,7 @@ module "alb_sg" {
   ingress_rules       = ["http-80-tcp","https-443-tcp"]
   egress_rules        = ["all-all"]
 }
+# creation of ALB
 module "alb" {
   depends_on         = [module.jenkins_ec2]
   source             = "../modules/alb"
@@ -126,13 +127,13 @@ module "alb" {
     name = "${var.prefix}-alb"
   }
 }
-
+# s3_backend configuration
 terraform {
   backend "s3" {
     bucket                  = "wingd-tf-state"
     key                     = "terraform/eu-west-1/jenkins/terraform.tfstate"
-    region                  = "eu-west-1"
-    profile                 = "default"
+    region                  = var.region
+    profile                 = var.aws_profile
     shared_credentials_file = "~/.aws/credentials"
   }
 }

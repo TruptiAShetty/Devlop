@@ -5,6 +5,10 @@ variable "prefix" {
 variable "region" {
   default = "us-east-1"
 }
+variable "aws_profile" {
+  description = "profile name for aws credentials"
+  default     = ""
+}
 ###################vpc########################
 variable "vpc_cidr" {
   description = "The CIDR block for the VPC. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
