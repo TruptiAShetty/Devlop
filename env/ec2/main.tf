@@ -228,8 +228,8 @@ module "alb" {
       ]
     },
     {
-      backend_protocol = "HTTP"
-      backend_port     = 80
+      backend_protocol = var.backend_protocol
+      backend_port     = var.backend_port
       target_type      = "instance"
       targets = [
         {
@@ -239,8 +239,8 @@ module "alb" {
       ]
     },
     {
-      backend_protocol = "HTTP"
-      backend_port     = 80
+      backend_protocol = var.backend_protocol
+      backend_port     = var.backend_port
       target_type      = "instance"
       targets = [
         {
@@ -250,8 +250,8 @@ module "alb" {
       ]
     },
     {
-      backend_protocol = "HTTP"
-      backend_port     = 80
+      backend_protocol = var.backend_protocol
+      backend_port     = var.backend_port
       target_type      = "instance"
       targets = [
         {

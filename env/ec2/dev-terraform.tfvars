@@ -15,3 +15,7 @@ ingress_with_cidr_blocks_to_port1   = 80
 ingress_with_cidr_blocks_from_port2 = 22
 ingress_with_cidr_blocks_to_port2   = 22
 protocol                            = "tcp"
+backend_protocol                    = "HTTP"
+backend_port                        = 80
+https_listeners_port                = 443
+https_listeners_protocol            = "HTTPS"
