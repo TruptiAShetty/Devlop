@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = var.aws_profile
+  profile                 = "default"
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -132,8 +132,8 @@ terraform {
   backend "s3" {
     bucket                  = "wingd-tf-state"
     key                     = "terraform/eu-west-1/jenkins/terraform.tfstate"
-    region                  = var.region
-    profile                 = var.aws_profile
+    region                  = "eu-west-1"
+    profile                 = "default"
     shared_credentials_file = "~/.aws/credentials"
   }
 }
