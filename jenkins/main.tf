@@ -20,7 +20,7 @@ module "vpc" {
     name = "${var.prefix}_vpc"
   }
 }
-# creation of jenkind_instance security_group
+# creation of jenkins_instance security_group
 module "jenkins_sg" {
   depends_on          = [module.vpc]
   source              = "../modules/security_group"
