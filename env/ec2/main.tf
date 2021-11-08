@@ -19,7 +19,7 @@ module "evt_sg" {
     {
       from_port   = var.ingress_with_cidr_blocks_from_port2
       to_port     = var.ingress_with_cidr_blocks_to_port2
-      protocol    = "tcp"
+      protocol    = var.protocol
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     }
@@ -35,14 +35,14 @@ module "sizop_sg" {
     {
       from_port   =  var.ingress_with_cidr_blocks_from_port1
       to_port     =  var.ingress_with_cidr_blocks_to_port1
-      protocol    = "tcp"
+      protocol    = var.protocol
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },
     {
       from_port   =  var.ingress_with_cidr_blocks_from_port2
       to_port     =  var.ingress_with_cidr_blocks_to_port2
-      protocol    = "tcp"
+      protocol    =  var.protocol
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     }
@@ -58,14 +58,14 @@ module "wideonline1_sg" {
     {
       from_port   =  var.ingress_with_cidr_blocks_from_port1
       to_port     =  var.ingress_with_cidr_blocks_to_port1
-      protocol    = "tcp"
+      protocol    =  var.protocol
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },
     {
       from_port   =  var.ingress_with_cidr_blocks_from_port2
       to_port     =  var.ingress_with_cidr_blocks_to_port2
-      protocol    = "tcp"
+      protocol    =  var.protocol
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     }
@@ -81,14 +81,14 @@ module "wideonline2_sg" {
     {
       from_port   =  var.ingress_with_cidr_blocks_from_port1
       to_port     =  var.ingress_with_cidr_blocks_to_port1
-      protocol    = "tcp"
+      protocol    =  var.protocol
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },
     {
       from_port   =  var.ingress_with_cidr_blocks_from_port2
-      to_port     =   var.ingress_with_cidr_blocks_to_port2
-      protocol    = "tcp"
+      to_port     =  var.ingress_with_cidr_blocks_to_port2
+      protocol    =  var.protocol
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     }
