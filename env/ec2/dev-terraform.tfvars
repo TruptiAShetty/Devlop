@@ -1,6 +1,5 @@
 prefix                    = "wingd"
 region                    = "eu-west-1"
-aws_profile               = "default"
 evt_instance_type         = "t3.small"
 sizop_instance_type       = "t2.small"
 wideonline1_instance_type = "t3.medium"

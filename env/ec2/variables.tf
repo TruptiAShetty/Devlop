@@ -6,10 +6,6 @@ variable "region" {
   description = "AWS Region the instance is launched in"
   default     = ""
 }
-variable "aws_profile" {
-  description = "profile name for aws credentials"
-  default     = ""
-}
 
 variable "evt_instance_type" {
   description = "The type of evt instance to start"
