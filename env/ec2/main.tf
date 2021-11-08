@@ -1,24 +1,24 @@
 provider "aws" {
-  profile                 = "default"
+  profile                 = var.aws_profile
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
-
+# creation of evt_instance security_group
 module "evt_sg" {
   source = "../../modules/security_group"
   name   = "${var.prefix}-${terraform.workspace}-evt-sg"
   vpc_id = var.vpc_id
   ingress_with_cidr_blocks = [
     {
-      from_port   = 80
-      to_port     = 80
+      from_port   = var.ingress_with_cidr_block1_from_port
+      to_port     = var.ingress_with_cidr_block1_to_port
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },
     {
-      from_port   = 22
-      to_port     = 22
+      from_port   = var.ingress_with_cidr_block2_from_port
+      to_port     = var.ingress_with_cidr_block2_from_port
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
@@ -26,7 +26,7 @@ module "evt_sg" {
   ]
   egress_rules = ["all-all"]
 }
-
+# creation of sizop_instance security_group
 module "sizop_sg" {
   source = "../../modules/security_group"
   name   = "${var.prefix}-${terraform.workspace}-sizop-sg"
@@ -49,7 +49,7 @@ module "sizop_sg" {
   ]
   egress_rules = ["all-all"]
 }
-
+# creation of wideonline1_instance security_group
 module "wideonline1_sg" {
   source = "../../modules/security_group"
   name   = "${var.prefix}-${terraform.workspace}-wideonline1-sg"
@@ -72,7 +72,7 @@ module "wideonline1_sg" {
   ]
   egress_rules = ["all-all"]
 }
-
+# creation of wideonline2_instance security_group
 module "wideonline2_sg" {
   source = "../../modules/security_group"
   name   = "${var.prefix}-${terraform.workspace}-wideonline2-sg"
@@ -113,7 +113,7 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
-
+# creation of evt_ec2_instance
 module "evt_ec2" {
   depends_on                  = [module.evt_sg]
   source                      = "../../modules/ec2"
@@ -134,7 +134,7 @@ module "evt_ec2" {
     }
   ]
 }
-
+# creation of sizop_ec2_instance
 module "sizop_ec2" {
   depends_on                  = [module.evt_ec2]
   source                      = "../../modules/ec2"
@@ -155,6 +155,7 @@ module "sizop_ec2" {
     }
   ]
 }
+# creation of wideonline1_ec2_instance
 module "wideonline1_ec2" {
   depends_on                  = [module.sizop_ec2]
   source                      = "../../modules/ec2"
@@ -175,7 +176,7 @@ module "wideonline1_ec2" {
     }
   ]
 }
-
+# creation of wideonline2_ec2_instance
 module "wideonline2_ec2" {
   depends_on                  = [module.wideonline1_ec2]
   source                      = "../../modules/ec2"
@@ -196,6 +197,7 @@ module "wideonline2_ec2" {
     }
   ]
 }
+# creation ALB security_group
 module "alb_sg" {
   source              = "../../modules/security_group"
   name                = "${var.prefix}-${terraform.workspace}-alb-sg"
@@ -204,7 +206,7 @@ module "alb_sg" {
   ingress_rules       = ["http-80-tcp","https-443-tcp"]
   egress_rules        = ["all-all"]
 }
-
+# creation of ALB
 module "alb" {
   depends_on         = [module.wideonline2_ec2]
   source             = "../../modules/alb"
@@ -317,13 +319,13 @@ module "alb" {
     name = "${var.prefix}-${terraform.workspace}-alb"
   }
 }
-
+# S3_backend configuration
 terraform {
   backend "s3" {
     bucket                  = "wingd-tf-state"
     key                     = "ec2/terraform.tfstate"
-    region                  = "eu-west-1"
-    profile                 = "default"
+    region                  = var.region
+    profile                 = var.aws_profile
     shared_credentials_file = "~/.aws/credentials"
   }
 }
