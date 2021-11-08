@@ -3,22 +3,23 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
+# creation of RDS security_group
 module "rds_sg" {
   source = "../../modules/security_group"
   name   = "${var.prefix}-${terraform.workspace}-rds-sg"
   vpc_id = var.vpc_id
   ingress_with_cidr_blocks = [
     {
-      from_port   = 3306
-      to_port     = 3306
-      protocol    = "tcp"
+      from_port   = var.ingress_with_cidr_blocks_from_port
+      to_port     = var.ingress_with_cidr_blocks_to_port
+      protocol    = var.protocol
       description = "MySQL access from within VPC"
       cidr_blocks = var.vpc_cidr_block
     },
   ]
   egress_rules = ["all-all"]
 }
-
+# creation of RDS_MYSQL
 module "db" {
   source                                = "../../modules/rds"
   identifier                            = var.identifier
@@ -45,7 +46,7 @@ module "db" {
 # monitoring_role_name                  = "${var.prefix}-rds-monitor-role"
 # monitoring_interval                   = 30
 }
-
+# S3_backend configuration
 terraform {
   backend "s3" {
     bucket                  = "wingd-tf-state"

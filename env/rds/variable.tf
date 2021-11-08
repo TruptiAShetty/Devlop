@@ -62,3 +62,17 @@ variable "subnet_ids" {
   description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file"
 
 }
+variable "ingress_with_cidr_blocks_from_port" {
+   description = "enable port"
+   type        = number
+}
+variable "ingress_with_cidr_blocks_to_port" {
+   description = "enable port"
+   type        = number
+}
+variable "protocol"{
+   description = "protocol to be attached"
+   type        = string
+}
+
+
