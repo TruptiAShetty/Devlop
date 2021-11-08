@@ -10,15 +10,15 @@ module "evt_sg" {
   vpc_id = var.vpc_id
   ingress_with_cidr_blocks = [
     {
-      from_port   = var.ingress_with_cidr_block1_from_port
-      to_port     = var.ingress_with_cidr_block1_to_port
+      from_port   = 80
+      to_port     = 80
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },
     {
-      from_port   = var.ingress_with_cidr_block2_from_port
-      to_port     = var.ingress_with_cidr_block2_from_port
+      from_port   = 22
+      to_port     = 22
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
@@ -324,7 +324,7 @@ terraform {
   backend "s3" {
     bucket                  = "wingd-tf-state"
     key                     = "ec2/terraform.tfstate"
-    region                  = var.region
+    region                  = "eu-west-1"
     profile                 = var.aws_profile
     shared_credentials_file = "~/.aws/credentials"
   }

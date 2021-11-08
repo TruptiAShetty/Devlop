@@ -10,22 +10,7 @@ variable "aws_profile" {
   description = "profile name for aws credentials"
   default     = ""
 }
-variable "ingress_with_cidr_block1_from_port" {
-  description = "port enable"
-  type        = number
-}
-variable "ingress_with_cidr_block1_to_port" {
-  description = "port enable"
-  type        = number
-}
-variable "ingress_with_cidr_block2_to_port" {
-  description = "port enable"
-  type        = number
-}
-variable "ingress_with_cidr_block2_from_port" {
-  description = "port enable"
-   type        = number
-}
+
 variable "evt_instance_type" {
   description = "The type of evt instance to start"
   type        = string
