@@ -75,8 +75,23 @@ variable "protocol"{
 }
 
 
+variable "backend_protocol"{
+    description = "protocol to be attached to ALB"
+    TYPE        = string
+}
 
-
+variable "backend_port"{
+    description = "protocol to be attached to ALB"
+    type        = number
+}
+variable "https_listeners_port" {
+    description = "https_listeners_port to be attached"
+    type        = number 
+}
+variable "https_listeners_protocol" {
+    description = "protocol to be attached"
+    type        = string
+}
 
 
 
