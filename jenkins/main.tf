@@ -30,9 +30,9 @@ module "jenkins_sg" {
   ingress_rules       = ["http-80-tcp","https-443-tcp"]
   ingress_with_cidr_blocks = [
     {
-      from_port   = 8080
-      to_port     = 8080
-      protocol    = "tcp"
+      from_port   = var.ingress_with_cidr_blocks_from_port
+      to_port     = var.ingress_with_cidr_blocks_to_port
+      protocol    = var.protocol
       description = "Jenkins Port"
       cidr_blocks = var.vpc_cidr
     },
@@ -104,8 +104,8 @@ module "alb" {
   security_groups    = [module.alb_sg.security_group_id]
   target_groups = [
     {
-      backend_protocol = "HTTP"
-      backend_port     = 80
+      backend_protocol = var.backend_protocol
+      backend_port     = var.backend_port
       target_type      = "instance"
       targets = [
         {
@@ -117,8 +117,8 @@ module "alb" {
   ]
   https_listeners = [
     {
-      port               = 443
-      protocol           = "HTTPS"
+      port               = var.https_listeners_port
+      protocol           = var.https_listeners_protocol
       certificate_arn    = "arn:aws:acm:eu-west-1:901259681273:certificate/a58c0fd2-02ad-4ee7-9850-97b8b2361991"
       target_group_index = 0
     }

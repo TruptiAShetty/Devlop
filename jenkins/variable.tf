@@ -81,3 +81,37 @@ variable "jenkins_ec2_volume_size" {
   description = "The root volume size"
   type        = string
 }
+###############jenkins security_sg#########################
+variable "ingress_with_cidr_blocks_from_port" {
+   description = "enable port"
+   type        = number
+}
+variable "ingress_with_cidr_blocks_to_port" {
+   description = "enable port"
+   type        = number
+}
+variable "protocol"{
+   description = "protocol to be attached"
+   type        = string
+}
+
+
+variable "backend_protocol"{
+    description = "protocol to be attached to ALB"
+    type        = string
+}
+
+variable "backend_port"{
+    description = "protocol to be attached to ALB"
+    type        = number
+}
+variable "https_listeners_port" {
+    description = "https_listeners_port to be attached"
+    type        = number 
+}
+variable "https_listeners_protocol" {
+    description = "protocol to be attached"
+    type        = string
+}
+
+

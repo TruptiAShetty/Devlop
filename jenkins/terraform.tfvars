@@ -14,3 +14,13 @@ enable_dns_support     = true
 ##############jenkins_ec2##########
 jenkins_ec2_instance_type = "t2.medium"
 jenkins_ec2_volume_size   = "20"
+###############jenkins security_group########
+ingress_with_cidr_blocks_from_port  = 8080
+ingress_with_cidr_blocks_to_port    = 8080
+protocol                            = "tcp"
+
+backend_protocol             = "HTTP"
+backend_port                 = 80
+https_listeners_port         = 443
+https_listeners_protocol     = "HTTPS"
+
