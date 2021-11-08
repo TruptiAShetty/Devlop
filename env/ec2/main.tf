@@ -40,7 +40,7 @@ module "sizop_sg" {
       cidr_blocks = var.vpc_cidr_range
     },
     {
-      from_port   =  var.ingress_with_cidr_blocks_from_port1
+      from_port   =  var.ingress_with_cidr_blocks_from_port2
       to_port     =  var.ingress_with_cidr_blocks_to_port2
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
