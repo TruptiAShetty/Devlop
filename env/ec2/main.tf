@@ -12,7 +12,7 @@ module "evt_sg" {
     {
       from_port   = var.ingress_with_cidr_blocks_from_port1
       to_port     = var.ingress_with_cidr_blocks_to_port1
-      protocol    = "tcp"
+      protocol    = var.protocol
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },

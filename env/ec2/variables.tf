@@ -69,7 +69,10 @@ variable "ingress_with_cidr_blocks_to_port2" {
    description = "enable port"
    type        = number
 }
-
+variable "protocol"{
+   description = "protocol to be attached"
+   type        = string
+}
 
 
 
