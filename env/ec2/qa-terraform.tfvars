@@ -11,3 +11,6 @@ iam_instance_profile      = "ssm-role1"
 volume_size               = 30
 public_subnets            = ["subnet-0192fcf75eb938a9a", "subnet-0e98b4b49d56f3ba3"]
 ingress_with_cidr_blocks_from_port1 = 80
+ingress_with_cidr_blocks_to_port1 = 80
+ingress_with_cidr_blocks_from_port2 = 22
+ingress_with_cidr_blocks_to_port2 = 22

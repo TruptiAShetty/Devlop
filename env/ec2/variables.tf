@@ -53,4 +53,29 @@ variable "public_subnets" {
   type        = list(string)
 }
 
-variable "ingress_with_cidr_blocks_from_port1" {}
+variable "ingress_with_cidr_blocks_from_port1" {
+   description = "enable port"
+   type        = number
+}
+variable "ingress_with_cidr_blocks_to_port1" {
+   description = "enable port"
+   type        = number
+}
+variable "ingress_with_cidr_blocks_from_port2" {
+   description = "enable port"
+   type        = number
+}
+variable "ingress_with_cidr_blocks_to_port2" {
+   description = "enable port"
+   type        = number
+}
+
+
+
+
+
+
+
+
+
+
