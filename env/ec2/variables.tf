@@ -52,3 +52,5 @@ variable "public_subnets" {
   description = "A list of subnets to attach alb"
   type        = list(string)
 }
+
+variable "ingress_with_cidr_blocks_from_port1" {}

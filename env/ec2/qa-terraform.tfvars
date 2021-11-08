@@ -10,3 +10,4 @@ vpc_cidr_range            = "10.0.0.0/16"
 iam_instance_profile      = "ssm-role1"
 volume_size               = 30
 public_subnets            = ["subnet-0192fcf75eb938a9a", "subnet-0e98b4b49d56f3ba3"]
+ingress_with_cidr_blocks_from_port1 = 80

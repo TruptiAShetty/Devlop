@@ -10,7 +10,7 @@ module "evt_sg" {
   vpc_id = var.vpc_id
   ingress_with_cidr_blocks = [
     {
-      from_port   = 80
+      from_port   = var.ingress_with_cidr_blocks_from_port1
       to_port     = 80
       protocol    = "tcp"
       description = "The protocol. If not icmp, tcp, udp, or all use the"
