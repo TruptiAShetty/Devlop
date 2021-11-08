@@ -7,6 +7,12 @@ variable "region" {
   default     = ""
 }
 
+variable "profile" {
+  description = "profile for aws credentials"
+  default     = ""
+}
+
+
 variable "evt_instance_type" {
   description = "The type of evt instance to start"
   type        = string

@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = "default"
+  profile                 = var.profile
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -325,7 +325,7 @@ terraform {
     bucket                  = "wingd-tf-state"
     key                     = "ec2/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"
+    profile                 = var.profile
     shared_credentials_file = "~/.aws/credentials"
   }
 }
