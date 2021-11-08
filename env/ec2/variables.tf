@@ -77,7 +77,7 @@ variable "protocol"{
 
 variable "backend_protocol"{
     description = "protocol to be attached to ALB"
-    TYPE        = string
+    type        = string
 }
 
 variable "backend_port"{
