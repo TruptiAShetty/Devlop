@@ -93,7 +93,7 @@ variable "https_listeners_protocol" {
     type        = string
 }
 
-variable "lb_sg_ingress_rules" {
+variable "alb_sg_ingress_rules" {
   description = "A list of ingress_rules to attach alb"
   type        = list(string)
 }
