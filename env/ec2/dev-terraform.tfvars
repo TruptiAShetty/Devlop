@@ -19,4 +19,4 @@ backend_protocol                    = "HTTP"
 backend_port                        = 80
 https_listeners_port                = 443
 https_listeners_protocol            = "HTTPS"
-alb_sg_ingress_rules                = ["http-80-tcp","https-443-tcp"]
+sg_alb_ingress_rules                = ["http-80-tcp","https-443-tcp"]
