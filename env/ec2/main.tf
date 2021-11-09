@@ -203,7 +203,7 @@ module "alb_sg" {
   name                = "${var.prefix}-${terraform.workspace}-alb-sg"
   vpc_id              = var.vpc_id
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["http-80-tcp","https-443-tcp"]
+  ingress_rules       = var.alb_sg_ingress_rules
   egress_rules        = ["all-all"]
 }
 # creation of ALB
