@@ -14,6 +14,7 @@ enable_dns_support     = true
 ##############jenkins_ec2##########
 jenkins_ec2_instance_type = "t2.medium"
 jenkins_ec2_volume_size   = "20"
+iam_instance_profile      = "ssm-role1"
 ###############jenkins security_group########
 ingress_with_cidr_blocks_from_port  = 8080
 ingress_with_cidr_blocks_to_port    = 8080
@@ -23,4 +24,7 @@ backend_protocol             = "HTTP"
 backend_port                 = 80
 https_listeners_port         = 443
 https_listeners_protocol     = "HTTPS"
+sg_alb_ingress_rules         = ["http-80-tcp","https-443-tcp"]
+sg_jenkins_ingress_rules     = ["http-80-tcp","https-443-tcp"]
+
 
