@@ -34,12 +34,12 @@ Steps:
     10)  Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
                      terraform apply
         Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created         
-    12)  After successful resources created.Access the Jenkins portal “https://:ALBendpoind:80"
-    13) Run the below command for connecting to the jenkins instance.
+    11)  After successful resources created.Access the Jenkins portal “https://:ALBendpoind:80"
+    12) Run the below command for connecting to the jenkins instance.
             aws ssm start-session --target "instance-id" 
 	    Note: instance-id = which is created by terraform script (wingd-jenkins)
-    14) Read the file initial password of Jenkins.
+    13) Read the file initial password of Jenkins.
         "sudo cat /var/lib/Jenkins/secrets/initialAdminPassword"
-    15) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
-    16) After the creation of the resources we can clean by using the command.
+    14) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
+    15) After the creation of the resources we can clean by using the command.
                     terraform destroy
