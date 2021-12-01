@@ -30,7 +30,6 @@ Steps:
                      terraform init
     8)  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
                      terraform plan
- 
     9)  Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
                      terraform apply
         Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created         
