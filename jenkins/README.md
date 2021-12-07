@@ -23,23 +23,31 @@ Steps:
           git clone "https://www.wingd.com/gitlab/wide2/aws_infra_terraform"  
     4)  Goto jenkins folder
          cd jenkins
-    5)  Make sure the following S3 Bucket(wingd-tf-state) available in the AWS console.
+    5)  For the log file purpose please use the below commands
+                      5.1 Windows:
+		             set TF_LOG=TRACE
+			     set TF_LOG_PATH="terraform.txt"
+		      5.2 Linux:
+		             export TF_LOG=TRACE
+			     export TF_LOG_PATH="terraform.txt"
+    6)  Make sure the following S3 Bucket(wingd-tf-state) available in the AWS console.
         Note: Terraform stores information about your infrastructure in a state file. This state file keeps track of resources created by your configuration and maps them to real-world resources.
-    6)  Make sure create a role for the ssm in the aws account where we are going to excute the terraform script. while creation of the role take the policy of "AmazonEC2RoleforSSM" & "AmazonSSMManagedInstanceCore" pass the role name to the "Iam_instance_profile" as a parametre in the terraform.tfvars.
-    7)  In the teraform script of main.tf change the profile parameter in which the s3 bucket has present
-    8)  Run the terraform init command which initiates the modules & versions 
+    7)  Make sure create a role for the ssm in the aws account where we are going to excute the terraform script. while creation of the role take the policy of "AmazonEC2RoleforSSM" & "AmazonSSMManagedInstanceCore" pass the role name to the "Iam_instance_profile" as a parametre in the terraform.tfvars.
+    8)  In the teraform script of main.tf change the profile parameter in which the s3 bucket has present.
+    9)  Make sure the SSl certificate is present in AWS_account in which infra is going to deploy because in main.tf "https_listeners" we are passing certificate_arn as a parameter
+    10)  Run the terraform init command which initiates the modules & versions 
                      terraform init
-    9)  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
+    11)  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
                      terraform plan
-    10)  Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
+    12)  Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
                      terraform apply
         Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created         
-    11)  After successful resources created.Access the Jenkins portal “https://:ALBendpoind:80"
-    12) Run the below command for connecting to the jenkins instance.
+    13)  After successful resources created.Access the Jenkins portal “https://:ALBendpoind:80"
+    14) Run the below command for connecting to the jenkins instance.
             aws ssm start-session --target "instance-id" 
 	    Note: instance-id = which is created by terraform script (wingd-jenkins)
-    13) Read the file initial password of Jenkins.
+    15) Read the file initial password of Jenkins.
         "sudo cat /var/lib/Jenkins/secrets/initialAdminPassword"
-    14) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
-    15) After the creation of the resources we can clean by using the command.
+    16) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
+    17) After the creation of the resources we can clean by using the command.
                     terraform destroy
