@@ -27,7 +27,7 @@ Steps:
                       5.1 Windows:
 		             set TF_LOG=TRACE
 			     set TF_LOG_PATH="terraform.txt"
-		      5.2 Linux:
+		           5.2 Linux:
 		             export TF_LOG=TRACE
 			     export TF_LOG_PATH="terraform.txt"
     6)  Make sure the following S3 Bucket(wingd-tf-state) available in the AWS console.
