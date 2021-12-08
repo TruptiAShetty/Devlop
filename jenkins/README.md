@@ -35,19 +35,20 @@ Steps:
     7)  Make sure create a role for the ssm in the aws account where we are going to excute the terraform script. while creation of the role take the policy of "AmazonEC2RoleforSSM" & "AmazonSSMManagedInstanceCore" pass the role name to the "Iam_instance_profile" as a parametre in the terraform.tfvars.
     8)  In the teraform script of main.tf change the profile parameter in which the s3 bucket has present.
     9)  Make sure the SSl certificate is present in AWS_account in which infra is going to deploy because in main.tf "https_listeners" we are passing certificate_arn as a parameter
-    10)  Run the terraform init command which initiates the modules & versions 
+    10) Run the terraform init command which initiates the modules & versions 
                      terraform init
-    11)  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
+    11) The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
                      terraform plan
-    12)  Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
+    12) Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
                      terraform apply
-        Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created         
-    13)  After successful resources created.Access the Jenkins portal “https://:ALBendpoind:80"
-    14) Run the below command for connecting to the jenkins instance.
+        Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created
+    13) After the creation of the resources. the file name "terraform.txt" will be create where all logs are present in terraform.txt
+    14) After successful resources created.Access the Jenkins portal “https://:ALBendpoind:80"
+    15) Run the below command for connecting to the jenkins instance.
             aws ssm start-session --target "instance-id" 
 	    Note: instance-id = which is created by terraform script (wingd-jenkins)
-    15) Read the file initial password of Jenkins.
+    16) Read the file initial password of Jenkins.
         "sudo cat /var/lib/Jenkins/secrets/initialAdminPassword"
-    16) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
-    17) After the creation of the resources we can clean by using the command.
+    17) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
+    18) After the creation of the resources we can clean by using the command.
                     terraform destroy
