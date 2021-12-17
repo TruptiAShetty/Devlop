@@ -44,11 +44,17 @@ Steps:
         Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created
     13) After the creation of the resources. the file name "terraform.txt" will be create where all logs are present in terraform.txt
     14) After successful resources created.Access the Jenkins portal “https://:ALBendpoind:80"
-    15) Run the below command for connecting to the jenkins instance.
+    15) Configure aws credentials : 
+                 Export the aws_access_key ,secrete_key & token 
+                  Eg: export AWS_ACCESS_KEY_ID="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                      export AWS_SECRET_ACCESS_KEY="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                      export AWS_SESSION_TOKEN= "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+    16) Run the below command for connecting to the jenkins instance.
             aws ssm start-session --target "instance-id" 
 	    Note: instance-id = which is created by terraform script (wingd-jenkins)
-    16) Read the file initial password of Jenkins.
+    17) Read the file initial password of Jenkins.
         "sudo cat /var/lib/Jenkins/secrets/initialAdminPassword"
-    17) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
-    18) After the creation of the resources we can clean by using the command.
+    18) Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
+    19) After the creation of the resources we can clean by using the command.
                     terraform destroy
