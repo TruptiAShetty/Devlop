@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = "default"
+  profile                 = "default"                            // pass a profile parameter
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -35,7 +35,7 @@ module "db" {
   port                                  = var.db_port
   name                                  = "${var.prefix}_rds"
   multi_az                              = var.db_multi_az
-  subnet_ids                            = var.subnet_ids
+  subnet_ids                            = var.subnet_ids                     // pass subnet_ids as parameter which is already in existion aws_account
   vpc_security_group_ids                = [module.rds_sg.security_group_id]
   enabled_cloudwatch_logs_exports       = ["general"]
   backup_retention_period               = 0
@@ -49,10 +49,10 @@ module "db" {
 # S3_backend configuration
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"
+    bucket                  = "wingd-tf-state"                       //pass bucket name as parameter which is already present in aws_account
     key                     = "rds/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"
+    profile                 = "default"                             //pass a profile parameter
     shared_credentials_file = "~/.aws/credentials"
   }
 }
