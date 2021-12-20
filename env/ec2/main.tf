@@ -265,7 +265,7 @@ module "alb" {
     {
       port               = var.https_listeners_port
       protocol           = var.https_listeners_protocol
-      certificate_arn    = "arn:aws:acm:eu-west-1:901259681273:certificate/a58c0fd2-02ad-4ee7-9850-97b8b2361991"            //pass certificate_arn as parameter which is already in existion aws_account
+      certificate_arn    = "arn:aws:acm:eu-west-1:901259681273:certificate/a58c0fd2-02ad-4ee7-9850-97b8b2361991"            //pass certificate_arn as parameter which is already in existing aws_account
       target_group_index = 0
     }
   ]
