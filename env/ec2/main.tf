@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = "default"
+  profile                 = "default"                                                 // pass a profile parameter
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -120,7 +120,7 @@ module "evt_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-evt-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.evt_instance_type
-  iam_instance_profile        = var.iam_instance_profile
+  iam_instance_profile        = var.iam_instance_profile                          //pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [module.evt_sg.security_group_id]
@@ -141,7 +141,7 @@ module "sizop_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-sizop-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.sizop_instance_type
-  iam_instance_profile        = var.iam_instance_profile
+  iam_instance_profile        = var.iam_instance_profile                          //pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [module.sizop_sg.security_group_id]
@@ -162,7 +162,7 @@ module "wideonline1_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-wideonline1-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.wideonline1_instance_type
-  iam_instance_profile        = var.iam_instance_profile
+  iam_instance_profile        = var.iam_instance_profile                       //pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [module.wideonline1_sg.security_group_id]
@@ -183,7 +183,7 @@ module "wideonline2_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-wideonline2-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.wideonline2_instance_type
-  iam_instance_profile        = var.iam_instance_profile
+  iam_instance_profile        = var.iam_instance_profile                     //pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [module.wideonline2_sg.security_group_id]
@@ -265,7 +265,7 @@ module "alb" {
     {
       port               = var.https_listeners_port
       protocol           = var.https_listeners_protocol
-      certificate_arn    = "arn:aws:acm:eu-west-1:901259681273:certificate/a58c0fd2-02ad-4ee7-9850-97b8b2361991"
+      certificate_arn    = "arn:aws:acm:eu-west-1:901259681273:certificate/a58c0fd2-02ad-4ee7-9850-97b8b2361991"            //pass certificate_arn as parameter which is already in existion aws_account
       target_group_index = 0
     }
   ]
@@ -322,10 +322,10 @@ module "alb" {
 # S3_backend configuration
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"
+    bucket                  = "wingd-tf-state"                          //pass bucket name as parameter which is already present in aws_account
     key                     = "ec2/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"
+    profile                 = "default"                                // pass a profile parameter
     shared_credentials_file = "~/.aws/credentials"
   }
 }
