@@ -9,7 +9,7 @@ steps for the creation of VPC in env (QA & PROD)
     5. After that we should configure s3 backend by using terrform init command.
     6.senciorio 1 for vpc for QA environment:
          6.1. Then we should create workspace by usung command "terraform workspace new qa"
-                   "syntax: terraform workspace new name"
+                   "syntax: terraform workspace new qa"
          6.2. After creation of the terraform workspace qa then we can proceed with a command "terraform workspace show" it show in which workspace are we in.
                    "syntax: terraform workspace show"
          6.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
@@ -21,7 +21,7 @@ steps for the creation of VPC in env (QA & PROD)
                    "syntax: terraform destroy -var-file qa-terraform.tfvars"
     7.senciorio 2 for vpc for PROD environment:
          7.1. Then we should create workspace by usung command "terraform workspace new prod"
-                    "syntax: terraform workspace new name"
+                    "syntax: terraform workspace new prod"
          7.2. After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace are we in.
                      "syntax: terraform workspace show"
          7.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
