@@ -90,6 +90,15 @@ variable "ingress_with_cidr_blocks_to_port" {
    description = "enable port"
    type        = number
 }
+variable "egress_with_cidr_blocks_from_port" {
+    description = "enable port"
+    type        = number 
+}
+variable "egress_with_cidr_blocks_to_port" {
+    description = "enable port"
+    type        = number
+}
+
 variable "protocol"{
    description = "protocol to be attached"
    type        = string
@@ -126,4 +135,21 @@ variable "iam_instance_profile" {
   type        = string
 }
 
+variable "access_logs" {
+  description = "Map containing access logging configuration for load balancer."
+  type        = map(string)
+  default     = {}
+}
+variable "bucket_name" {
+     description = "creation of a bucket name for the vpc_logs"
+    type = string
+}
+variable "bucket_name_1" {
+     description = "creation of the bucket for the elb_logs"
+      type = string
+}
+variable "sg_engress_cidr_block" {
+     description = "The CIDR block for the engress. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
+     type = string
+}
 
