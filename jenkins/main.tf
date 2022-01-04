@@ -3,7 +3,7 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
-# creation of VPC networking 
+############### creation of VPC networking##################################
 module "vpc" {
   source                 = "../modules/vpc"
   name                   = "${var.prefix}_vpc"
@@ -16,15 +16,111 @@ module "vpc" {
   one_nat_gateway_per_az = var.one_nat_gateway_per_az
   enable_dns_hostnames   = var.enable_dns_hostnames
   enable_dns_support     = var.enable_dns_support
+  igw_tags = {
+    Name = "${var.prefix}_internet"
+  }
+  nat_gateway_tags = {
+    Name = "${var.prefix}_natgateway"
+  }
+  nat_eip_tags = {
+    Name = "${var.prefix}_NAT-IP"
+  }
+
+}
+
+##############vpc_flow_logs########################
+resource "aws_flow_log" "example" {
+  log_destination      =  module.s3_bucket.this_s3_bucket_arn
+  log_destination_type = "s3"
+  traffic_type         = "REJECT"
+  vpc_id               = module.vpc.vpc_id
   tags = {
-    name = "${var.prefix}_vpc"
+    Name = "vpc-flow-logs-s3-bucket"
   }
 }
-# creation of jenkins_instance security_group
+##################creation of s3 bucket#################
+module "s3_bucket" {
+  source  = "terraform-aws-modules/s3-bucket/aws"
+  version = "~> 1.0"
+
+  bucket        = var.bucket_name                     //pass a bucket_name for the creation in the terraform.tfvars 
+  policy        = data.aws_iam_policy_document.flow_log_s3.json
+  force_destroy = true
+  acl                     = "private"
+  restrict_public_buckets = true
+  block_public_policy     = true
+  block_public_acls       = true
+  ignore_public_acls      = true
+  versioning = {
+    enabled = true
+  }
+
+  tags = {
+    Name = "vpc-flow-logs-s3-bucket"
+  }
+}
+##################policy attached to s3 bucket#################
+data "aws_iam_policy_document" "flow_log_s3" {
+  statement {
+    sid = "AWSLogDeliveryWrite"
+
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+
+    actions = ["s3:PutObject"]
+
+     resources = ["arn:aws:s3:::${var.prefix}-logs}/AWSLogs/*"]
+  }
+
+  statement {
+    sid = "AWSLogDeliveryAclCheck"
+
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+
+    actions = ["s3:GetBucketAcl"]
+
+    resources = ["arn:aws:s3:::${var.bucket_name}"]
+  }
+}
+##################alb_acess_log_bucket #####################
+data "aws_elb_service_account" "main" {}
+
+resource "aws_s3_bucket" "elb_logs" {
+  bucket = var.bucket_name_1                           //pass a bucket_name_1 as parameter
+  acl    = "private"
+  force_destroy = true
+
+  policy = <<POLICY
+{
+  "Id": "Policy",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::${var.bucket_name_1}/AWSLogs/*",
+      "Principal": {
+        "AWS": [
+          "${data.aws_elb_service_account.main.arn}"
+        ]
+      }
+    }
+  ]
+}
+POLICY
+}
+################ creation of jenkins_instance security_group############
 module "jenkins_sg" {
   depends_on          = [module.vpc]
   source              = "../modules/security_group"
-  name                = "${var.prefix}-jenkins-sg"
+  name                = "${var.prefix}_jenkins_sg"
   vpc_id              = module.vpc.vpc_id
   ingress_cidr_blocks = [var.vpc_cidr]
   ingress_rules       = var.sg_jenkins_ingress_rules
@@ -37,7 +133,17 @@ module "jenkins_sg" {
       cidr_blocks = var.vpc_cidr
     },
   ]
-  egress_rules = ["all-all"]
+  egress_with_cidr_blocks = [                                            
+   {
+    from_port        = var.egress_with_cidr_blocks_from_port
+    to_port          = var.ingress_with_cidr_blocks_to_port
+    protocol         = "-1"
+    cidr_blocks      = var.sg_engress_cidr_block
+   },
+  ]
+  tags = {
+    name = "${var.prefix}_jenkins_sg"
+  }
 }
 
 data "aws_ami" "ubuntu" {
@@ -58,7 +164,7 @@ data "aws_ami" "ubuntu" {
 }
 
 
-# creation of ec2_instance
+###################### creation of ec2_instance###########################
 module "jenkins_ec2" {
   depends_on                  = [module.jenkins_sg]
   source                      = "../modules/ec2"
@@ -69,8 +175,21 @@ module "jenkins_ec2" {
   monitoring                  = true
   subnet_id                   = module.vpc.private_subnets[0]
   vpc_security_group_ids      = [module.jenkins_sg.security_group_id]
-  associate_public_ip_address = false 
+  associate_public_ip_address = true                                 //enabled auto-assign public-ip if not replace type with false
   user_data                   = file("./provisioner.sh")
+  metadata_options = {
+    State                       = "applied"
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 8
+  }
+  ebs_block_device = [                                                    //ebs encrypted..
+       {   
+           encrypted             = true
+           device_name           = "/dev/xvdf"
+           volume_size           = 10
+       }
+   ] 
   root_block_device = [
     {
       encrypted   = true
@@ -83,17 +202,35 @@ module "jenkins_ec2" {
     name = "${var.prefix}-jenkins"
   }
 }
-# creation of ALB security_group
+#####################vpc_endpoints##############
+resource "aws_vpc_endpoint" "ec2" {
+  vpc_id            = module.vpc.vpc_id
+  service_name      = "com.amazonaws.eu-west-1.ec2"
+  vpc_endpoint_type = "Interface"
+  security_group_ids = [module.jenkins_sg.security_group_id]
+  private_dns_enabled = true
+}
+#####################creation of ALB security_group###########################
 module "alb_sg" {
   depends_on          = [module.vpc]
   source              = "../modules/security_group"
-  name                = "${var.prefix}-alb-sg"
+  name                = "${var.prefix}_alb_sg"
   vpc_id              = module.vpc.vpc_id
   ingress_cidr_blocks = ["0.0.0.0/0"]
   ingress_rules       = var.sg_alb_ingress_rules
-  egress_rules        = ["all-all"]
+  egress_with_cidr_blocks = [
+     {
+         from_port        = var.egress_with_cidr_blocks_from_port
+         to_port          = var.egress_with_cidr_blocks_to_port
+         protocol         = "-1"
+         cidr_blocks      = var.sg_engress_cidr_block
+     },
+  ]
+  tags = {
+    name = "${var.prefix}_alb_sg"
+  }
 }
-# creation of ALB
+################## creation of ALB##################################
 module "alb" {
   depends_on         = [module.jenkins_ec2]
   source             = "../modules/alb"
@@ -102,18 +239,37 @@ module "alb" {
   vpc_id             = module.vpc.vpc_id
   subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1]]
   security_groups    = [module.alb_sg.security_group_id]
+  enable_deletion_protection = true                                      //deletion_pritection enable..
+  access_logs = {                                                         //access_logs_for alb..
+     bucket = "${aws_s3_bucket.elb_logs.bucket}"
+  }
   target_groups = [
     {
       backend_protocol = var.backend_protocol
       backend_port     = var.backend_port
       target_type      = "instance"
+      name             = "${var.prefix}-jenkins"
       targets = [
         {
           target_id = module.jenkins_ec2.id
           port      = 8080
+          health_check = {
+                   enabled             = true
+                   interval            = 30
+                    path                = "/"
+                    port                = "traffic-port"
+                    healthy_threshold   = 3
+                    unhealthy_threshold = 3
+                    timeout             = 6
+                    protocol            = "HTTP"
+                    matcher             = "200-399"
+           }
         }
       ]
-    }
+      tags = {
+        name = "${var.prefix}-jenkins"
+     }
+   }
   ]
   https_listeners = [
     {
@@ -123,17 +279,70 @@ module "alb" {
       target_group_index = 0
     }
   ]
+
+  http_tcp_listeners = [
+    {
+      port               = 80
+      protocol           = "HTTP"
+      target_group_index = 0
+    }
+  ]
   tags = {
     name = "${var.prefix}-alb"
   }
 }
-# s3_backend configuration
+######################creation of WAF########################
+resource "aws_wafv2_web_acl" "my_web_acl" {
+  name  = "my-web-acl"
+  scope = "REGIONAL"
+
+  default_action {
+    allow {}
+  }
+
+  rule {
+    name     = "RateLimit"
+    priority = 1
+
+    action {
+      block {}
+    }
+   statement {
+
+      rate_based_statement {
+        aggregate_key_type = "IP"
+        limit              = 500
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "RateLimit"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  visibility_config {
+    cloudwatch_metrics_enabled = false
+    metric_name                = "my-web-acl"
+    sampled_requests_enabled   = false
+  }
+}
+
+##########WAF association to ALB resource################
+
+resource "aws_wafv2_web_acl_association" "web_acl_association_my_lb" {
+  resource_arn = module.alb.lb_arn
+  web_acl_arn  = aws_wafv2_web_acl.my_web_acl.arn
+}
+#################### s3_backend configuration###################
 terraform {
   backend "s3" {
     bucket                  = "wingd-tf-state"                        //pass bucket name ad parameter which is already present in aws_account
     key                     = "terraform/eu-west-1/jenkins/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                              // pass a profile parameter
-    shared_credentials_file = "~/.aws/credentials"
+    profile                 = "default"                              //pass a profile parameter
+    shared_credentials_file = "~/.aws.credentials"
   }
 }
+
