@@ -253,17 +253,6 @@ module "alb" {
         {
           target_id = module.jenkins_ec2.id
           port      = 8080
-          health_check = {
-                   enabled             = true
-                   interval            = 30
-                    path                = "/"
-                    port                = "traffic-port"
-                    healthy_threshold   = 3
-                    unhealthy_threshold = 3
-                    timeout             = 6
-                    protocol            = "HTTP"
-                    matcher             = "200-399"
-           }
         }
       ]
       tags = {
