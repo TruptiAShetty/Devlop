@@ -255,6 +255,7 @@ module "alb" {
   subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1]]
   security_groups    = [module.alb_sg.security_group_id]
   enable_deletion_protection = true                                      //deletion_pritection enable..
+  drop_invalid_header_fields = true
   access_logs = {                                                         //access_logs_for alb..
      bucket = "${aws_s3_bucket.elb_logs.bucket}"
   }
