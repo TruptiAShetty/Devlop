@@ -152,4 +152,5 @@ variable "sg_engress_cidr_block" {
      description = "The CIDR block for the engress. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
      type = string
 }
+variable "sg_ingress_ipv6_cidr_block" {}
 
