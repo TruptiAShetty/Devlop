@@ -3,6 +3,7 @@ provider "aws" {
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
+
 ############### creation of VPC networking##################################
 module "vpc" {
   source                 = "../modules/vpc"
@@ -118,25 +119,15 @@ POLICY
 }
 ################ creation of jenkins_instance security_group############
 module "jenkins_sg" {
-  depends_on          = [module.vpc]
   source              = "../modules/security_group"
   name                = "${var.prefix}_jenkins_sg"
   vpc_id              = module.vpc.vpc_id
-  ingress_cidr_blocks = [var.vpc_cidr]
   ingress_rules       = var.sg_jenkins_ingress_rules
-  ingress_with_cidr_blocks = [
-    {
-      from_port   = var.ingress_with_cidr_blocks_from_port
-      to_port     = var.ingress_with_cidr_blocks_to_port
-      protocol    = var.protocol
-      description = "Jenkins Port"
-      cidr_blocks = var.vpc_cidr
-    },
-  ]
+  ingress_cidr_blocks = [var.vpc_cidr]
   egress_with_cidr_blocks = [                                            
    {
     from_port        = var.egress_with_cidr_blocks_from_port
-    to_port          = var.ingress_with_cidr_blocks_to_port
+    to_port          = var.egress_with_cidr_blocks_to_port
     protocol         = "-1"
     cidr_blocks      = var.sg_engress_cidr_block
    },
@@ -146,6 +137,15 @@ module "jenkins_sg" {
   }
 }
 
+resource "aws_security_group_rule" "ingress_with_source_security_group_id" {
+       description              = "Jenkins Port"
+      from_port                = 8080
+      protocol                 = "tcp"
+      security_group_id        =module.jenkins_sg.security_group_id
+      source_security_group_id = module.alb_sg.security_group_id
+      to_port                  = 8080
+      type                     = "ingress"
+}
 data "aws_ami" "ubuntu" {
   most_recent = true
   filter {
@@ -198,9 +198,6 @@ module "jenkins_ec2" {
       volume_size = var.jenkins_ec2_volume_size
     },
   ]
-  tags = {
-    name = "${var.prefix}-jenkins"
-  }
 }
 #####################vpc_endpoints##############
 resource "aws_vpc_endpoint" "ec2" {
@@ -218,16 +215,34 @@ module "alb_sg" {
   vpc_id              = module.vpc.vpc_id
   ingress_cidr_blocks = ["0.0.0.0/0"]
   ingress_rules       = var.sg_alb_ingress_rules
+  ingress_with_ipv6_cidr_blocks = [
+    {
+      from_port        = 80
+      to_port          = 80
+      protocol         = "tcp"
+      description      = "Service ports (ipv6)"
+      ipv6_cidr_blocks = "::/0"
+    },
+    {
+      from_port        = 443
+      to_port          = 443
+      protocol         = "tcp"
+      description      = "Service ports (ipv6)"
+      ipv6_cidr_blocks = "::/0"
+    },
+
+  ]
   egress_with_cidr_blocks = [
      {
          from_port        = var.egress_with_cidr_blocks_from_port
          to_port          = var.egress_with_cidr_blocks_to_port
          protocol         = "-1"
          cidr_blocks      = var.sg_engress_cidr_block
+        
      },
   ]
   tags = {
-    name = "${var.prefix}_alb_sg"
+    Name = "${var.prefix}_alb_sg"
   }
 }
 ################## creation of ALB##################################
@@ -249,15 +264,24 @@ module "alb" {
       backend_port     = var.backend_port
       target_type      = "instance"
       name             = "${var.prefix}-jenkins"
+      health_check = {
+                   enabled             = true
+                   interval            = 30
+                    path                = "/login"
+                    port                = "traffic-port"
+                    healthy_threshold   = 3
+                    unhealthy_threshold = 2
+                    timeout             = 3
+                    interval            = 20
+                    protocol            = "HTTP"
+                    matcher             = "200-399"
+           }
       targets = [
         {
           target_id = module.jenkins_ec2.id
           port      = 8080
         }
       ]
-      tags = {
-        name = "${var.prefix}-jenkins"
-     }
    }
   ]
   https_listeners = [
@@ -269,17 +293,14 @@ module "alb" {
     }
   ]
 
-  http_tcp_listeners = [
-    {
-      port               = 80
-      protocol           = "HTTP"
-      target_group_index = 0
-    }
-  ]
+  
   tags = {
-    name = "${var.prefix}-alb"
+    Name = "${var.prefix}-alb"
   }
 }
+
+
+
 ######################creation of WAF########################
 resource "aws_wafv2_web_acl" "my_web_acl" {
   name  = "my-web-acl"
@@ -324,6 +345,8 @@ resource "aws_wafv2_web_acl_association" "web_acl_association_my_lb" {
   resource_arn = module.alb.lb_arn
   web_acl_arn  = aws_wafv2_web_acl.my_web_acl.arn
 }
+
+
 #################### s3_backend configuration###################
 terraform {
   backend "s3" {
