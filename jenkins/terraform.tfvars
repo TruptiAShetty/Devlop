@@ -16,6 +16,7 @@ jenkins_ec2_instance_type = "t2.medium"
 jenkins_ec2_volume_size   = "20"
 iam_instance_profile      = "ssm-role1"
 
+
 ###############jenkins security_group########
 ingress_with_cidr_blocks_from_port  = 8080
 ingress_with_cidr_blocks_to_port    = 8080
@@ -32,7 +33,8 @@ sg_jenkins_ingress_rules     = ["https-443-tcp"]
 
 
 
-bucket_name               = "vpc-aws-logs-1245"
+bucket_name              = "vpc-aws-logs-1245"
 bucket_name_1             = "wingd-elb-123785"
 sg_engress_cidr_block     = "0.0.0.0/0"
+sg_ingress_ipv6_cidr_block = "::/0"
 
