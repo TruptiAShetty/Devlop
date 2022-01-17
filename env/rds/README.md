@@ -8,7 +8,7 @@ A)manual steps for the creation of RDS in Dev environment:
     4. Change the parameter vpc_id in dev-terraform.tfvars (which is created from jenkins folder)
     5. Change the parameter subnet_id in dev-terraform.tfvars (which is created from jenkins_folder).Pass the parameter of subnet_id as a private_subnets.
     6. After that we should configure s3 backend by using "terrform init" command
-    7.senciorio :
+    7.senario :
        7.1 Then we should create workspace by using command "terraform workspace new dev"
                 "syntax: terraform workspace new name"
        7.2 After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace we are placed in .
