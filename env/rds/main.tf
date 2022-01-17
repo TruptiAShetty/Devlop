@@ -33,7 +33,7 @@ module "db" {
   username                              = var.db_username
   password                              = var.db_password
   port                                  = var.db_port
-  name                                  = "${var.prefix}_rds"
+  name                                  = "${var.prefix}_${terraform.workspace}_rds"
   multi_az                              = var.db_multi_az
   subnet_ids                            = var.subnet_ids                     // pass subnet_ids as parameter which is already in existion aws_account
   vpc_security_group_ids                = [module.rds_sg.security_group_id]
