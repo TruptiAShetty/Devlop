@@ -122,7 +122,7 @@ module "evt_ec2" {
   instance_type               = var.evt_instance_type
   iam_instance_profile        = var.iam_instance_profile                          //pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
-  subnet_id                   = var.subnet_id
+  subnet_id                   = var.subnet_id                                    //pass a private_subnet_id which is created from jenkins folder 
   vpc_security_group_ids      = [module.evt_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -143,7 +143,7 @@ module "sizop_ec2" {
   instance_type               = var.sizop_instance_type
   iam_instance_profile        = var.iam_instance_profile                          //pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
-  subnet_id                   = var.subnet_id
+  subnet_id                   = var.subnet_id                                    //pass a private_subnet_id which is created from jenkins folder
   vpc_security_group_ids      = [module.sizop_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -164,7 +164,7 @@ module "wideonline1_ec2" {
   instance_type               = var.wideonline1_instance_type
   iam_instance_profile        = var.iam_instance_profile                       //pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
-  subnet_id                   = var.subnet_id
+  subnet_id                   = var.subnet_id                                  //pass a private_subnet_id which is created from jenkins folder
   vpc_security_group_ids      = [module.wideonline1_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -185,7 +185,7 @@ module "wideonline2_ec2" {
   instance_type               = var.wideonline2_instance_type
   iam_instance_profile        = var.iam_instance_profile                     //pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
-  subnet_id                   = var.subnet_id
+  subnet_id                   = var.subnet_id                                //pass a private_subnet_id which is created from jenkins folder
   vpc_security_group_ids      = [module.wideonline2_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -212,8 +212,8 @@ module "alb" {
   source             = "../../modules/alb"
   name               = "${var.prefix}-${terraform.workspace}-alb"
   load_balancer_type = "application"
-  vpc_id             = var.vpc_id
-  subnets            = var.public_subnets
+  vpc_id             = var.vpc_id                                                    // pass a vpc_id which is created from jenkins folder
+  subnets            = var.public_subnets                                           //pass a public_subnets_ids which are created from jenkins folder
   security_groups    = [module.alb_sg.security_group_id]
   target_groups = [
     {
