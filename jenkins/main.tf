@@ -204,6 +204,7 @@ resource "aws_vpc_endpoint" "ec2" {
   vpc_id            = module.vpc.vpc_id
   service_name      = "com.amazonaws.eu-west-1.ec2"
   vpc_endpoint_type = "Interface"
+  subnet_ids        =  [module.vpc.private_subnets[0]]
   security_group_ids = [module.jenkins_sg.security_group_id]
   private_dns_enabled = true
 }
