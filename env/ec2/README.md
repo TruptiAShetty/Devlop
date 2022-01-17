@@ -22,7 +22,8 @@ A)manual steps for the creation of ec2 instances in Dev environment:
        8.5 If we want to destroy the environment which is created 
                 "command: terraform destroy -var-file dev-terraform.tfvars"
 
-B)manual steps for the creation of ec2 instances in QA environment : 
+B)manual steps for the creation of ec2 instances in QA environment :
+
     1. Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
     2. cd to the env folder and then we can see the of ec2 & rds 
@@ -46,6 +47,7 @@ B)manual steps for the creation of ec2 instances in QA environment :
                "command: terraform destroy -var-file qa-terraform.tfvars"
 
 C)manual steps for the creation of ec2 instances in QA environment : 
+
     1. Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
     2. cd to the env folder and then we can see the of ec2 & rds 
