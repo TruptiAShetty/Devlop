@@ -40,9 +40,9 @@ Steps:
     11) The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
                      terraform plan
     12) For the saving plan of terraform what are going to create we will use a command
-                     terraform plan -out=tf.plan
+                     terraform plan -out=plan.tf
     13) after executing the above command we can see the file name "tf.plan" as been created . we will read the content of the tf.plan by using below command.
-                     terraform show tf.plan 
+                     terraform show plan.tf 
     14) Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
                      terraform apply
         Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created
