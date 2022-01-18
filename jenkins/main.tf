@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = "default"      // pass a profile parameter
+  profile                 = "default"      //manual update required pass a profile parameter
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -44,7 +44,7 @@ module "s3_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
   version = "~> 1.0"
 
-  bucket        = var.bucket_name                     //pass a bucket_name for the creation in the terraform.tfvars 
+  bucket        = var.bucket_name                     //manual update required pass a bucket_name for the creation in the terraform.tfvars if we want we can edit the name  
   policy        = data.aws_iam_policy_document.flow_log_s3.json
   force_destroy = true
   acl                     = "private"
@@ -92,7 +92,7 @@ data "aws_iam_policy_document" "flow_log_s3" {
 data "aws_elb_service_account" "main" {}
 
 resource "aws_s3_bucket" "elb_logs" {
-  bucket = var.bucket_name_1                           //pass a bucket_name_1 as parameter
+  bucket = var.bucket_name_1                           //manual update required pass a bucket_name_1 as parameter
   acl    = "private"
   force_destroy = true
 
@@ -171,11 +171,11 @@ module "jenkins_ec2" {
   name                        = "${var.prefix}-jenkins"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.jenkins_ec2_instance_type
-  iam_instance_profile        = var.iam_instance_profile             //pass iam_instance_profile as a parameter which is  already present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile             //manual update required pass iam_instance_profile as a parameter which is  already present in a existing aws_account
   monitoring                  = true
   subnet_id                   = module.vpc.private_subnets[0]
   vpc_security_group_ids      = [module.jenkins_sg.security_group_id]
-  associate_public_ip_address = true                                 //enabled auto-assign public-ip if not replace type with false
+  associate_public_ip_address = false                                 //enabled auto-assign public-ip if not replace type with false
   user_data                   = file("./provisioner.sh")
   metadata_options = {
     State                       = "applied"
@@ -290,7 +290,7 @@ module "alb" {
     {
       port               = var.https_listeners_port
       protocol           = var.https_listeners_protocol
-      certificate_arn    = "arn:aws:acm:eu-west-1:901259681273:certificate/a58c0fd2-02ad-4ee7-9850-97b8b2361991"      //pass certificate_arn as parameter which is already in existing aws_account 
+      certificate_arn    = "arn:aws:acm:eu-west-1:901259681273:certificate/a58c0fd2-02ad-4ee7-9850-97b8b2361991"      //manual update required pass certificate_arn as parameter which is already in existing aws_account 
       target_group_index = 0
     }
   ]
@@ -352,10 +352,10 @@ resource "aws_wafv2_web_acl_association" "web_acl_association_my_lb" {
 #################### s3_backend configuration###################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                        //pass bucket name ad parameter which is already present in aws_account
+    bucket                  = "wingd-tf-state"                        //manual update required pass bucket name ad parameter which is already present in aws_account
     key                     = "terraform/eu-west-1/jenkins/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                              //pass a profile parameter
+    profile                 = "default"                              //manual update required pass a profile parameter
     shared_credentials_file = "~/.aws.credentials"
   }
 }
