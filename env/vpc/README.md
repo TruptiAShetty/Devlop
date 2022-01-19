@@ -14,7 +14,7 @@ steps for the creation of VPC in env (QA & PROD)
                    "command: terraform workspace show"
          6.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
                    "command: terraform plan -var-file qa-terraform.tfvars"
-	       6.3.1 If we want to save the plan we will use a command
+	           6.3.1 If we want to save the plan we will use a command
 	                 "command: terraform plan -var-file qa-terraform.tfvars -out=tf.qa-plan"
                6.3.2 After executing the above command the file created name tf.dev-plan to read the content of the file .Please execute the below command.
 	                 "command: terraform show tf.prod-plan"
@@ -32,7 +32,7 @@ steps for the creation of VPC in env (QA & PROD)
                      "command: terraform workspace show"
          7.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
                      "command: terraform plan -var-file prod-terraform.tfvars"
-		7.3.1 If we want to save the plan we will use a command
+		        7.3.1 If we want to save the plan we will use a command
 		             "command: terraform plan -var-file prod-terraform.tfvars -out=tf.prod-plan"
                 7.3.2  After executing the above command the file created name tf.dev-plan to read the content of the file .Please execute the below command.
 		             "command: terraform show tf.prod-plan"
@@ -42,4 +42,4 @@ steps for the creation of VPC in env (QA & PROD)
          7.5 If we want to clean or destroy resouces which are created in the aws account.
                      "command: terraform destroy -var-file prod-terraform.tfvars"
          7.6 If we want to switch from one workspace to another workspace we will use a command.
-	             "command: terraform workspace select <workpsace name>"
+	                  "command: terraform workspace select <workpsace name>"
