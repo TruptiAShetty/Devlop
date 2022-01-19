@@ -74,5 +74,22 @@ variable "protocol"{
    description = "protocol to be attached"
    type        = string
 }
+variable "egress_with_cidr_blocks_from_port" {
+    description = "enable port"
+    type        = number
+}
+variable "egress_with_cidr_blocks_to_port" {
+    description = "enable port"
+    type        = number
+}
+variable "sg_engress_cidr_block" {
+     description = "The CIDR block for the engress. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
+     type = string
+}
+variable "max_allocated_storage" {
+  description = "Specifies the value for Storage Autoscaling"
+  type        = number
+}
+
 
 
