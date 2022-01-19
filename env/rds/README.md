@@ -15,11 +15,17 @@ A)manual steps for the creation of RDS in Dev environment:
                 "command: terraform workspace show"
        7.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
                 "command: terraform plan -var-file dev-terraform.tfvars"
+	    7.3.1 If we want to save the plan we will use a command
+	               "command: terraform plan -var-file dev-terraform.tfvars -out=tf.dev-plan"
+            7.3.1 After executing the above command the file created name tf.dev-plan to read the content of the file .Please execute the below command
+	               "command: terraform show tf.dev-plan" 
        7.4 Run the terraform apply command 
                 "command: terraform apply -var-file dev-terraform.tfvars"
            NOTE : dev RDS resources will be created.
        7.5 If we want to destroy the environment which is created 
                 "command: terraform destroy -var-file dev-terraform.tfvars"
+       7.6 If we want to switch from one workspace to another workspace we will use a command.
+                "command: terraform workspace select <workpsace name>"
 
 B)manual steps for the creation of RDS in QA environment :
 
@@ -38,11 +44,18 @@ B)manual steps for the creation of RDS in QA environment :
               "command: terraform workspace show"
        7.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
               "command: terraform plan -var-file qa-terraform.tfvars"
+	     7.3.1 If we want to save the plan we will use a command
+	                "command: terraform plan -var-file qa-terraform.tfvars -out=tf.qa-plan"
+             7.3.2  After executing the above command the file created name tf.qa-plan to read the content of the file .Please execute the below command
+	                "command: terraform show tf.qa-plan"
        7.4 Run the terraform apply command 
                "command: terraform apply -var-file qa-terraform.tfvars"
             NOTE : qa rds resources will be created. 
        7.5 If we want to destroy the environment which is created 
                "command: terraform destroy -var-file qa-terraform.tfvars"
+       7.6 If we want to switch from one workspace to another workspace we will use a command.
+               "command: terraform workspace select <workpsace name>"
+
 
 C)manual steps for the creation of RDS in Prod environment :
  
@@ -61,11 +74,18 @@ C)manual steps for the creation of RDS in Prod environment :
               "command: terraform workspace show"
        7.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
               "command: terraform plan -var-file prod-terraform.tfvars"
+	     7.3.1 If we want to save the plan we will use a command
+	               "command: terraform plan -var-file prod-terraform.tfvars -out=tf.prod-plan"
+             7.3.2 After executing the above command the file created name tf.prod-plan to read the content of the file .Please execute the below command
+	               "command: terraform show tf.prod-plan"
        7.4 Run the terraform apply command 
               "command: terraform apply -var-file prod-terraform.tfvars"
            NOTE : prod rds resources will be created .
        7.5 If we want to destroy the environment which is created 
               "command: terraform destroy -var-file prod-terraform.tfvars"
+       7.6 If we want to switch from one workspace to another workspace we will use a command.
+              "command: terraform workspace select <workpsace name>"
+
 
 
   
