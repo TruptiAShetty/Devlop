@@ -16,7 +16,7 @@ A)manual steps for the creation of ec2 instances in Dev environment:
                 "command: terraform workspace show"
        8.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
                 "command: terraform plan -var-file dev-terraform.tfvars"
-	   Note: If we want to save the plan we will use a command 
+           Note: If we want to save the plan we will use a command 
 	        "command: terraform plan -var-file dev-terraform.tfvars -out=tf.plan"
        8.4 Run the terraform apply command 
                 "command: terraform apply -var-file dev-terraform.tfvars"
@@ -44,11 +44,15 @@ B)manual steps for the creation of ec2 instances in QA environment :
               "command: terraform workspace show"
        8.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
               "command: terraform plan -var-file qa-terraform.tfvars"
+           Note: If we want to save the plan we will use a command 
+              "command: terraform plan -var-file dev-terraform.tfvars -out=tf.plan"
        8.4 Run the terraform apply command 
                "command: terraform apply -var-file qa-terraform.tfvars"
             NOTE : qa ec2  resources will be created 4 ec2 instance(sizop,evt,wideonline1& wideonline2 which this ec2 which will depoly in the private subnet & ALB.
        8.5 If we want to destroy the environment which is created 
                "command: terraform destroy -var-file qa-terraform.tfvars"
+       8.6 If we want to switch from one workspace to another workspace we will use a command.
+              "command: terraform workspace select <workpsace name>
 
 C)manual steps for the creation of ec2 instances in Prod environment : 
 
@@ -68,14 +72,15 @@ C)manual steps for the creation of ec2 instances in Prod environment :
               "command: terraform workspace show"
        8.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
               "command: terraform plan -var-file prod-terraform.tfvars"
+           Note: If we want to save the plan we will use a command
+              "command: terraform plan -var-file dev-terraform.tfvars -out=tf.plan"
        8.4 Run the terraform apply command 
               "command: terraform apply -var-file prod-terraform.tfvars"
            NOTE : prod ec2  resources will be created 4 ec2 instance(sizop,evt,wideonline1& wideonline2 which this ec2 which will depoly in the private subnet & ALB 
        8.5 If we want to destroy the environment which is created 
               "command: terraform destroy -var-file prod-terraform.tfvars"
-
-
-  
+       8.6 If we want to switch from one workspace to another workspace we will use a command.
+              "command: terraform workspace select <workpsace name>" 
                       
 
   
