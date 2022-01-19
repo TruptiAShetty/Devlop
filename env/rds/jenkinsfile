@@ -1,0 +1,21 @@
+//sample Jenkins_file for the environment_rds//
+node {
+  stage('SCM Checkout'){
+         git branch: 'terraform_scripts', credentialsId: '05a3db54-cb9c-421c-b02c-ebb401d4146c', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git' // plaese pass your git lab credentials
+   }
+  stage('terraform init') {
+        sh  'cd env/rds && terraform init' 
+  }
+  stage('terraform workspaces') {
+        sh  'cd env/ec2 && terraform workspace new dev || terraform workspace select dev'  // if we want to deploy in ec2 in qa replace dev with qa (or)if we want to deploy in ec2 in prod replay dev with prod
+  }
+  stage('terraform plan') {
+        sh  'cd env/rds && terraform plan -var-file dev-terraform.tfvars'                  //if we want to deploy in rds in qa replace dev-terraform.tfvars with qa-terraform.tfvars
+   }
+  stage('terraform apply') {
+        sh 'cd env/rds && terraform apply --auto-approve -var-file dev-terraform.tfvars'   
+  }
+}
+
+
+
