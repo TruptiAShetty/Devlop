@@ -17,7 +17,14 @@ module "rds_sg" {
       cidr_blocks = var.vpc_cidr_block
     },
   ]
-  egress_rules = ["all-all"]
+  egress_with_cidr_blocks = [
+   {
+    from_port        = var.egress_with_cidr_blocks_from_port
+    to_port          = var.egress_with_cidr_blocks_to_port
+    protocol         = "-1"
+    cidr_blocks      = var.sg_engress_cidr_block
+   },
+  ]
 }
 # creation of RDS_MYSQL
 module "db" {
@@ -33,7 +40,7 @@ module "db" {
   username                              = var.db_username
   password                              = var.db_password
   port                                  = var.db_port
-  name                                  = "${var.prefix}_${terraform.workspace}_rds"
+  name                                  = "wingd"
   multi_az                              = var.db_multi_az
   subnet_ids                            = var.subnet_ids                     // pass subnet_ids as parameter which is already in existion aws_account
   vpc_security_group_ids                = [module.rds_sg.security_group_id]
@@ -41,8 +48,9 @@ module "db" {
   backup_retention_period               = 0
   skip_final_snapshot                   = true
   deletion_protection                   = true
+  max_allocated_storage                 = var.max_allocated_storage
   performance_insights_retention_period = 7
-  create_monitoring_role                = false
+  create_monitoring_role                = true
 # monitoring_role_name                  = "${var.prefix}-rds-monitor-role"
 # monitoring_interval                   = 30
 }
