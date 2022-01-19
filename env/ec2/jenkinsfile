@@ -7,10 +7,10 @@ node {
         sh  'cd env/ec2 && terraform init' 
   }
   stage('terraform workspaces') {
-        sh  'cd env/ec2 && terraform workspace new dev || terraform workspace select dev'  // if we want to deploy in ec2 in qa replay dev with qa (or)if we want to deploy in ec2 in prod replay dev with prod
+        sh  'cd env/ec2 && terraform workspace new dev || terraform workspace select dev'  // if we want to deploy in ec2 in qa replace dev with qa (or)if we want to deploy in ec2 in prod replay dev with prod
   }
   stage('terraform plan') {
-        sh  'cd env/ec2 && terraform plan -var-file dev-terraform.tfvars'                  //if we want to deploy in ec2 in qa replay dev-terraform.tfvars with qa-terraform.tfvars
+        sh  'cd env/ec2 && terraform plan -var-file dev-terraform.tfvars'                  //if we want to deploy in ec2 in qa replace dev-terraform.tfvars with qa-terraform.tfvars
    }
   stage('terraform apply') {
         sh 'cd env/ec2 && terraform apply --auto-approve -var-file dev-terraform.tfvars'   
