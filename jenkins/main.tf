@@ -92,7 +92,7 @@ data "aws_iam_policy_document" "flow_log_s3" {
 data "aws_elb_service_account" "main" {}
 
 resource "aws_s3_bucket" "elb_logs" {
-  bucket = var.bucket_name_1                           //manual update required pass a bucket_name_1 as parameter
+  bucket = var.bucket_name_1                           //manual update required pass a bucket_name_1 as parameter if we want we can edit in terraform.tfvars
   acl    = "private"
   force_destroy = true
 
