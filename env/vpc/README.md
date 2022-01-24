@@ -15,7 +15,7 @@ steps for the creation of VPC in env (QA & PROD)
          6.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
                    "command: terraform plan -var-file qa-terraform.tfvars"
 	           6.3.1 If we want to save the plan we will use a command
-	                 "command: terraform plan -var-file qa-terraform.tfvars -out=tf.qa-plan"
+	                  command: terraform plan -var-file qa-terraform.tfvars -out="tf.qa-plan"
                6.3.2 After executing the above command the file created name tf.qa-plan to read the content of the file .Please execute the below command.
 	                 "command: terraform show tf.qa-plan"
          6.4 Run the terraform apply command 
@@ -33,7 +33,7 @@ steps for the creation of VPC in env (QA & PROD)
          7.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
                      "command: terraform plan -var-file prod-terraform.tfvars"
 		    7.3.1 If we want to save the plan we will use a command
-		             "command: terraform plan -var-file prod-terraform.tfvars -out=tf.prod-plan"
+		             command: terraform plan -var-file prod-terraform.tfvars -out="tf.prod-plan"
                 7.3.2  After executing the above command the file created name tf.prod-plan to read the content of the file .Please execute the below command.
 		             "command: terraform show tf.prod-plan"
          7.4 Run the terraform apply command 
