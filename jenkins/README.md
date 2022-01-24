@@ -25,8 +25,8 @@ Steps:
          cd jenkins
     5)  For the log file purpose please use the below commands
                       5.1 Windows:
-		             set TF_LOG=TRACE
-			     set TF_LOG_PATH="terraform.txt"
+		             $env:TF_LOG="TRACE"
+			     $env:TF_LOG_PATH="terraform.txt" 
 		          5.2 Linux:
 		             export TF_LOG=TRACE
 			     export TF_LOG_PATH="terraform.txt"
@@ -40,7 +40,7 @@ Steps:
     11) The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
                      terraform plan
     12) For the saving plan of terraform what are going to create we will use a command
-                     terraform plan -out=tf.plan
+                     terraform plan -out="tf.plan"
     13) after executing the above command we can see the file name "tf.plan" as been created . we will read the content of the tf.plan by using below command.
                      terraform show tf.plan 
     14) Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
