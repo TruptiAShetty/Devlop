@@ -1,5 +1,12 @@
 #!/bin/bash
 
+
+function install_java() {
+        sudo apt update
+        sudo apt install -y openjdk-8-jdk
+}
+
+
 function install_jenkins() {
     sudo apt update
     sudo apt install -y openjdk-8-jdk
@@ -36,13 +43,33 @@ function install_aws_cli() {
   cd /tmp
   rm -rf aws
 }
+function install_dotnet() {
+        sudo apt update
+        wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+        dpkg -i packages-microsoft-prod.deb
+        apt-get update
+        apt-get install -y apt-transport-https
+        apt-get update
+        apt-get install -y dotnet-sdk-3.1
+}
+
+function install_node() {
+       sudo apt update
+       curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
+       bash nodesource_setup.sh
+       apt install nodejs -y
+}
+
 
 
 function main() {
+  install_java
   install_jenkins
   install_ansible
   install_terraform
   install_aws_cli
+  install_dotnet
+  install_node
 
 }
 
