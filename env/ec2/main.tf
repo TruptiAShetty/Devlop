@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = "default"                                                 // pass a profile parameter
+  profile                 = "default"                                                 // manual update required pass a profile parameter
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -7,7 +7,7 @@ provider "aws" {
 module "evt_sg" {
   source = "../../modules/security_group"
   name   = "${var.prefix}-${terraform.workspace}-evt-sg"
-  vpc_id = var.vpc_id
+  vpc_id = var.vpc_id                                                          // manual update required in terraform.tfvars
   ingress_with_cidr_blocks = [
     {
       from_port   = var.ingress_with_cidr_blocks_from_port1
@@ -120,9 +120,9 @@ module "evt_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-evt-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.evt_instance_type
-  iam_instance_profile        = var.iam_instance_profile                          //pass iam_instance_profile as a parameter which is present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile                          //manual update reqired pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
-  subnet_id                   = var.subnet_id                                    //pass a private_subnet_id which is created from jenkins folder 
+  subnet_id                   = var.subnet_id                                    //manual updated requited in .tfvars files pass a private_subnet_id 
   vpc_security_group_ids      = [module.evt_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -141,9 +141,9 @@ module "sizop_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-sizop-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.sizop_instance_type
-  iam_instance_profile        = var.iam_instance_profile                          //pass iam_instance_profile as a parameter which is present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile                          //manual update require pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
-  subnet_id                   = var.subnet_id                                    //pass a private_subnet_id which is created from jenkins folder
+  subnet_id                   = var.subnet_id                                   //manual updated requited in .tfvars files pass a private_subnet_id 
   vpc_security_group_ids      = [module.sizop_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -162,9 +162,9 @@ module "wideonline1_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-wideonline1-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.wideonline1_instance_type
-  iam_instance_profile        = var.iam_instance_profile                       //pass iam_instance_profile as a parameter which is present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile                       //manual update require pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
-  subnet_id                   = var.subnet_id                                  //pass a private_subnet_id which is created from jenkins folder
+  subnet_id                   = var.subnet_id                                  //manual updated required pass a private_subnet_id 
   vpc_security_group_ids      = [module.wideonline1_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -183,9 +183,9 @@ module "wideonline2_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-wideonline2-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.wideonline2_instance_type
-  iam_instance_profile        = var.iam_instance_profile                     //pass iam_instance_profile as a parameter which is present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile                     //manual update required pass iam_instance_profile as a parameter which is present in a existing aws_account
   monitoring                  = true
-  subnet_id                   = var.subnet_id                                //pass a private_subnet_id which is created from jenkins folder
+  subnet_id                   = var.subnet_id                                //manual update required pass a private_subnet_id 
   vpc_security_group_ids      = [module.wideonline2_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -212,8 +212,8 @@ module "alb" {
   source             = "../../modules/alb"
   name               = "${var.prefix}-${terraform.workspace}-alb"
   load_balancer_type = "application"
-  vpc_id             = var.vpc_id                                                    // pass a vpc_id which is created from jenkins folder
-  subnets            = var.public_subnets                                           //pass a public_subnets_ids which are created from jenkins folder
+  vpc_id             = var.vpc_id                                                    //manual update required pass a vpc_id which is created from jenkins folder
+  subnets            = var.public_subnets                                           //manual update requird pass a public_subnets_ids 
   security_groups    = [module.alb_sg.security_group_id]
   target_groups = [
     {
@@ -322,10 +322,10 @@ module "alb" {
 # S3_backend configuration
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                          //pass bucket name as parameter which is already present in aws_account
+    bucket                  = "wingd-tf-state"                          //manual update required pass bucket name as parameter which is already present in aws_account
     key                     = "ec2/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                                // pass a profile parameter
+    profile                 = "default"                                // manual update required pass a profile parameter
     shared_credentials_file = "~/.aws/credentials"
   }
 }
