@@ -142,15 +142,34 @@ variable "access_logs" {
 }
 variable "bucket_name" {
      description = "creation of a bucket name for the vpc_logs"
-    type = string
+     type        = string
 }
 variable "bucket_name_1" {
      description = "creation of the bucket for the elb_logs"
-      type = string
+      type       = string
 }
 variable "sg_engress_cidr_block" {
      description = "The CIDR block for the engress. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
-     type = string
+     type        = string
 }
-variable "sg_ingress_ipv6_cidr_block" {}
+variable "alb_sg_ingress_from_port1" {
+        description = "enable port"
+        type        = number 
+}
+variable "alb_sg_ingress_to_port1" {
+     description = "enable port"
+     type        = number
+}
+variable "alb_sg_ingress_from_port2" {
+        description = "enable port"
+        type        = number
+}
+variable "alb_sg_ingress_to_port2" {
+     description = "enable port"
+     type        = number
+}
+variable "certificate_arn" {
+     description = "certificate_arn is attached to the listerns of alb"
+     type        = string
+}
 

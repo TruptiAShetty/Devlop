@@ -3,7 +3,8 @@ region = "eu-west-1"
 ##############vpc#####################
 vpc_cidr               = "10.0.0.0/16"
 azs                    = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-public_subnets         = ["10.0.0.0/24", "10.0.1.0/24"]
+#azs                    = ["us-east-1a", "us-east-1b", "us-east-1c"]
+public_subnets         = ["10.0.0.0/24", "10.0.1.0/24",]
 private_subnets        = ["10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24"]
 enable_nat_gateway     = true
 single_nat_gateway     = true
@@ -30,11 +31,15 @@ https_listeners_port         = 443
 https_listeners_protocol     = "HTTPS"
 sg_alb_ingress_rules         = ["http-80-tcp","https-443-tcp"]
 sg_jenkins_ingress_rules     = ["https-443-tcp"]
+alb_sg_ingress_from_port1    = 80
+alb_sg_ingress_to_port1      = 80
+alb_sg_ingress_to_port2      = 443
+alb_sg_ingress_from_port2    = 443
+certificate_arn              = "arn:aws:acm:eu-west-1:901259681273:certificate/3f404b71-f1a1-4b8f-9c82-4dd062fc9e16"
 
 
 
-bucket_name              = "vpc-aws-logs-1245"
-bucket_name_1             = "wingd-elb-123785"
+bucket_name              = "vpc-aws-logs-1789"
+bucket_name_1             = "wingd-elb-2yuuj77"
 sg_engress_cidr_block     = "0.0.0.0/0"
-sg_ingress_ipv6_cidr_block = "::/0"
 
