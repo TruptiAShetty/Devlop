@@ -34,7 +34,7 @@ variable "iam_instance_profile" {
   type        = string
 }
 
-variable "subnet_id" {
+variable "private_subnet_id" {
   description = "private subnet id for ec2 instances"
   type        = string
 }
@@ -97,7 +97,10 @@ variable "sg_alb_ingress_rules" {
   description = "A list of ingress_rules to attach alb"
   type        = list(string)
 }
-
+variable "certificate_arn" {
+    description = "certificate_arn is attached to the listerns of alb"
+     type        = string
+}
 
 
 

@@ -1,13 +1,13 @@
 provider "aws" {
-  profile                 = "default"                                                 // manual update required pass a profile parameter
+  profile                 = "default"                                                //manual update require profile parameter  
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
 # creation of evt_instance security_group
 module "evt_sg" {
   source = "../../modules/security_group"
-  name   = "${var.prefix}-${terraform.workspace}-evt-sg"
-  vpc_id = var.vpc_id                                                          // manual update required in terraform.tfvars
+  name   = "${var.prefix}-${terraform.workspace}-frontend-sg-evt"
+  vpc_id = var.vpc_id
   ingress_with_cidr_blocks = [
     {
       from_port   = var.ingress_with_cidr_blocks_from_port1
@@ -29,7 +29,7 @@ module "evt_sg" {
 # creation of sizop_instance security_group
 module "sizop_sg" {
   source = "../../modules/security_group"
-  name   = "${var.prefix}-${terraform.workspace}-sizop-sg"
+  name   = "${var.prefix}-${terraform.workspace}-frontend-sg-sizop"
   vpc_id = var.vpc_id
   ingress_with_cidr_blocks = [
     {
@@ -52,7 +52,7 @@ module "sizop_sg" {
 # creation of wideonline1_instance security_group
 module "wideonline1_sg" {
   source = "../../modules/security_group"
-  name   = "${var.prefix}-${terraform.workspace}-wideonline1-sg"
+  name   = "${var.prefix}-${terraform.workspace}-frontend-sg-wideonlineapp"
   vpc_id = var.vpc_id
   ingress_with_cidr_blocks = [
     {
@@ -75,7 +75,7 @@ module "wideonline1_sg" {
 # creation of wideonline2_instance security_group
 module "wideonline2_sg" {
   source = "../../modules/security_group"
-  name   = "${var.prefix}-${terraform.workspace}-wideonline2-sg"
+  name   = "${var.prefix}-${terraform.workspace}-backend-sg-wideonlineapi"
   vpc_id = var.vpc_id
   ingress_with_cidr_blocks = [
     {
@@ -120,9 +120,9 @@ module "evt_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-evt-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.evt_instance_type
-  iam_instance_profile        = var.iam_instance_profile                          //manual update reqired pass iam_instance_profile as a parameter which is present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile                                                 
   monitoring                  = true
-  subnet_id                   = var.subnet_id                                    //manual updated requited in .tfvars files pass a private_subnet_id 
+  subnet_id                   = var.private_subnet_id
   vpc_security_group_ids      = [module.evt_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -141,9 +141,9 @@ module "sizop_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-sizop-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.sizop_instance_type
-  iam_instance_profile        = var.iam_instance_profile                          //manual update require pass iam_instance_profile as a parameter which is present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile
   monitoring                  = true
-  subnet_id                   = var.subnet_id                                   //manual updated requited in .tfvars files pass a private_subnet_id 
+  subnet_id                   = var.private_subnet_id
   vpc_security_group_ids      = [module.sizop_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -159,12 +159,12 @@ module "sizop_ec2" {
 module "wideonline1_ec2" {
   depends_on                  = [module.sizop_ec2]
   source                      = "../../modules/ec2"
-  name                        = "${var.prefix}-${terraform.workspace}-wideonline1-ec2"
+  name                        = "${var.prefix}-${terraform.workspace}-wideonline-app-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.wideonline1_instance_type
-  iam_instance_profile        = var.iam_instance_profile                       //manual update require pass iam_instance_profile as a parameter which is present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile
   monitoring                  = true
-  subnet_id                   = var.subnet_id                                  //manual updated required pass a private_subnet_id 
+  subnet_id                   = var.private_subnet_id
   vpc_security_group_ids      = [module.wideonline1_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -180,12 +180,12 @@ module "wideonline1_ec2" {
 module "wideonline2_ec2" {
   depends_on                  = [module.wideonline1_ec2]
   source                      = "../../modules/ec2"
-  name                        = "${var.prefix}-${terraform.workspace}-wideonline2-ec2"
+  name                        = "${var.prefix}-${terraform.workspace}-wideonlineapi-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.wideonline2_instance_type
-  iam_instance_profile        = var.iam_instance_profile                     //manual update required pass iam_instance_profile as a parameter which is present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile
   monitoring                  = true
-  subnet_id                   = var.subnet_id                                //manual update required pass a private_subnet_id 
+  subnet_id                   = var.private_subnet_id
   vpc_security_group_ids      = [module.wideonline2_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -212,14 +212,15 @@ module "alb" {
   source             = "../../modules/alb"
   name               = "${var.prefix}-${terraform.workspace}-alb"
   load_balancer_type = "application"
-  vpc_id             = var.vpc_id                                                    //manual update required pass a vpc_id which is created from jenkins folder
-  subnets            = var.public_subnets                                           //manual update requird pass a public_subnets_ids 
+  vpc_id             = var.vpc_id
+  subnets            = var.public_subnets
   security_groups    = [module.alb_sg.security_group_id]
   target_groups = [
     {
       backend_protocol = var.backend_protocol
       backend_port     = var.backend_port
       target_type      = "instance"
+      name             = "evt-target"
       targets = [
         {
           target_id = module.evt_ec2.id
@@ -231,6 +232,7 @@ module "alb" {
       backend_protocol = var.backend_protocol
       backend_port     = var.backend_port
       target_type      = "instance"
+      name             = "sizop-target"
       targets = [
         {
           target_id = module.sizop_ec2.id
@@ -242,6 +244,7 @@ module "alb" {
       backend_protocol = var.backend_protocol
       backend_port     = var.backend_port
       target_type      = "instance"
+      name             = "wideonlineapp-target"
       targets = [
         {
           target_id = module.wideonline1_ec2.id
@@ -253,6 +256,7 @@ module "alb" {
       backend_protocol = var.backend_protocol
       backend_port     = var.backend_port
       target_type      = "instance"
+      name             = "wideonlineapi-target"
       targets = [
         {
           target_id = module.wideonline2_ec2.id
@@ -261,14 +265,33 @@ module "alb" {
       ]
     }
   ]
-  https_listeners = [
+  http_tcp_listeners = [
+   {
+      port        = 80
+      protocol    = "HTTP"
+      action_type = "redirect"
+      redirect = {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      }
+    }
+  ]
+   https_listeners = [
     {
       port               = var.https_listeners_port
       protocol           = var.https_listeners_protocol
-      certificate_arn    = "arn:aws:acm:eu-west-1:901259681273:certificate/a58c0fd2-02ad-4ee7-9850-97b8b2361991"            //pass certificate_arn as parameter which is already in existing aws_account
-      target_group_index = 0
+      certificate_arn    = var.certificate_arn                          //manual update required pass certificate_arn as parameter which is already in existing aws_account
+      action_type          = "fixed-response"
+      fixed_response  = {
+           content_type = "text/plain"
+           message_body = "503"
+           status_code  = "503"
+       }
     }
   ]
+
+
   https_listener_rules = [
     {
       https_listener_index = 0
@@ -278,7 +301,7 @@ module "alb" {
         target_group_index = 0
       }]
       conditions = [{
-        path_patterns = ["/evt*"]
+        host_headers = ["evt.dev.wingd.digital"]
       }]
     },
     {
@@ -289,7 +312,7 @@ module "alb" {
         target_group_index = 1
       }]
       conditions = [{
-        path_patterns = ["/sizop*"]
+        host_headers = ["sizop.dev.wingd.digital"]
       }]
     },
     {
@@ -300,7 +323,7 @@ module "alb" {
         target_group_index = 2
       }]
       conditions = [{
-        path_patterns = ["/wideonline1*"]
+        host_headers = ["evt.dev.wingd.digital"]
       }]
     },
     {
@@ -308,12 +331,46 @@ module "alb" {
       priority                = 4
       actions = [{
         type               = "forward"
+        target_group_index = 0
+      }]
+      conditions = [{
+        host_headers = ["wideapi.dev.wingd.digital"]
+      }]
+    },
+    {
+      https_listener_index = 0
+      priority                = 5
+      actions = [{
+        type               = "forward"
+        target_group_index = 0
+      }]
+      conditions = [{
+        host_headers = ["shippingcompany.dev.wingd.digital"]
+      }]
+    },
+    {
+      https_listener_index = 0
+      priority                = 6
+      actions = [{
+        type               = "forward"
+        target_group_index = 0
+      }]
+      conditions = [{
+        host_headers = ["ticketing.dev.wingd.digital"]
+      }]
+    },
+    {
+    https_listener_index = 0
+      priority                = 7
+      actions = [{
+        type               = "forward"
         target_group_index = 3
       }]
       conditions = [{
-        path_patterns = ["/wideonline2*"]
+        host_headers = ["evt.dev.wingd.digital"]
       }]
-    }
+    },
+
   ]
   tags = {
     name = "${var.prefix}-${terraform.workspace}-alb"
@@ -322,10 +379,10 @@ module "alb" {
 # S3_backend configuration
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                          //manual update required pass bucket name as parameter which is already present in aws_account
+    bucket                  = "wingd-tf-state"                                                  
     key                     = "ec2/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                                // manual update required pass a profile parameter
+    profile                 = "default"                                                    
     shared_credentials_file = "~/.aws/credentials"
   }
 }
