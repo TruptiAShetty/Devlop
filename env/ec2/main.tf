@@ -7,7 +7,7 @@ provider "aws" {
 module "evt_sg" {
   source = "../../modules/security_group"
   name   = "${var.prefix}-${terraform.workspace}-frontend-sg-evt"
-  vpc_id = var.vpc_id
+  vpc_id = var.vpc_id                                                              //manual update require in dev-terraform.tfvars,qa-terraform.tfvars & prod-terraform.tfvars
   ingress_with_cidr_blocks = [
     {
       from_port   = var.ingress_with_cidr_blocks_from_port1
@@ -120,9 +120,9 @@ module "evt_ec2" {
   name                        = "${var.prefix}-${terraform.workspace}-evt-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.evt_instance_type
-  iam_instance_profile        = var.iam_instance_profile                                                 
+  iam_instance_profile        = var.iam_instance_profile                  //manual update require in dev-terraform.tfvars,qa-terraform.tfvars & prod-terraform.tfvars                                                           
   monitoring                  = true
-  subnet_id                   = var.private_subnet_id
+  subnet_id                   = var.private_subnet_id                     //manual update require in dev-terraform.tfvars,qa-terraform.tfvars & prod-terraform.tfvars
   vpc_security_group_ids      = [module.evt_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -213,7 +213,7 @@ module "alb" {
   name               = "${var.prefix}-${terraform.workspace}-alb"
   load_balancer_type = "application"
   vpc_id             = var.vpc_id
-  subnets            = var.public_subnets
+  subnets            = var.public_subnets                              //manual update require in dev-terraform.tfvars,qa-terraform.tfvars & prod-terraform.tfvars
   security_groups    = [module.alb_sg.security_group_id]
   target_groups = [
     {
@@ -379,10 +379,10 @@ module "alb" {
 # S3_backend configuration
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                                                  
+    bucket                  = "wingd-tf-state"                //manual update require pass existing bucket in the aws_account                                    
     key                     = "ec2/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                                                    
+    profile                 = "default"                     //manual update require pass a profile                                               
     shared_credentials_file = "~/.aws/credentials"
   }
 }
