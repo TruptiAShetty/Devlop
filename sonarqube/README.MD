@@ -36,7 +36,7 @@ A) Manual Steps to be performed:
       2. Goto sonarqube folder
               cd sonarqube
       3. For the log file purpose please use the below commands
-                  5.1 Windows:
+                 5.1 Windows:
 	             $env:TF_LOG="TRACE"
 		     $env:TF_LOG_PATH="terraform.txt" 
 	          5.2 Linux:
@@ -60,7 +60,7 @@ A) Manual Steps to be performed:
       14. After the creation of the resources. the file name "terraform.txt" will be create where all logs are present in terraform.txt
       15.steps to be performed to start SonarQube application:
              
-	     15.1 Login to the sonarqube instance with the command below command
+	       15.1 Login to the sonarqube instance with the command below command
                         "command:aws ssm start-session --target "instance-id" (here instance-id is wingd-sonar instance_id)
              15.2 sudo su -
              15.3 Change the directory with the command 
@@ -76,7 +76,7 @@ A) Manual Steps to be performed:
                           https://sonar.dev.wingd.digital
        16. Steps to be followed in the server(http://sonar.dev.wingd.digital):
              
-	     16.1 Default username and Password
+	      16.1 Default username and Password
                        username : admin
                        password : admin
              16.2 In the next page we can change the password of the SonarQube
