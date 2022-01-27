@@ -29,7 +29,8 @@ Prerequisties (All install steps done by infra )
       2.7 Goto to the sonarqube installed path.
              cd /opt/sonarqube-8.9.2.46101/bin/linux-x86-64
 
-A) Manual Steps to be performed:    
+A) Manual Steps to be performed:  
+
       1. GIT:
              git clone https://gitlab.wingd.com/wide2/aws_infra_terraform.git
       2. Goto sonarqube folder
@@ -87,6 +88,7 @@ A) Manual Steps to be performed:
 
 B) Integrate Sonarqube with Jenkins server:
 1. On Jenkins server:
+
            1.1 Install Sonarqube plugin
                  1.1.1 Goto manage jenkins <manage plugins> click on avaliable search "sonarqube" & install
            1.2 Configure Sonarqube credentials
