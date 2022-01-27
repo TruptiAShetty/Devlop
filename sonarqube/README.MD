@@ -2,7 +2,6 @@ Sonarqube Setup
    Sonarqube is open -source static testing analysis software,it is used by developers to manage source code quality and consistency.
 
 A) Prerequisties (All install steps done by infra )
-  
    1.Source:https://docs.sonarqube.org/latest/requirements/requirements/ 
        
        1.1 An EC2 instance with a minimum of 2 GB RAM (t2.small)
