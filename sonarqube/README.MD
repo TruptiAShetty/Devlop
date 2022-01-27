@@ -4,6 +4,7 @@ Sonarqube Setup
 Prerequisties (All install steps done by infra )
   
    1.Source:https://docs.sonarqube.org/latest/requirements/requirements/ 
+       
        1.1 An EC2 instance with a minimum of 2 GB RAM (t2.small)
        1.2 Java 11 installation
              amazon-linux-extras list
@@ -11,6 +12,7 @@ Prerequisties (All install steps done by infra )
        1.3 SonarQube cannot be run as root on Unix-based systems, so create a dedicated user account for SonarQube if necessary.
 
    2.Installation steps (this steps are automated through terraform)
+      
       2.1 Download SonarQube latest verions on to EC2 instace
              cd /opt  
              wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.9.2.46101.zip 
@@ -28,6 +30,7 @@ Prerequisties (All install steps done by infra )
              cd /opt/sonarqube-8.9.2.46101/bin/linux-x86-64
 
 A) Manual Steps to be performed: 
+      
       1. GIT:
              git clone https://gitlab.wingd.com/wide2/aws_infra_terraform.git
       2. Goto sonarqube folder
@@ -56,7 +59,8 @@ A) Manual Steps to be performed:
            Note: Sonarqube instance in private subnet & listerns_rules added to the existiing alb
       14. After the creation of the resources. the file name "terraform.txt" will be create where all logs are present in terraform.txt
       15.steps to be performed to start SonarQube application:
-             15.1 Login to the sonarqube instance with the command below command
+             
+	     15.1 Login to the sonarqube instance with the command below command
                         "command:aws ssm start-session --target "instance-id" (here instance-id is wingd-sonar instance_id)
              15.2 sudo su -
              15.3 Change the directory with the command 
@@ -71,7 +75,8 @@ A) Manual Steps to be performed:
              15.6 Connect to the SonarQube server through the browser. It uses port 9000
                           https://sonar.dev.wingd.digital
        16. Steps to be followed in the server(http://sonar.dev.wingd.digital):
-             16.1 Default username and Password
+             
+	     16.1 Default username and Password
                        username : admin
                        password : admin
              16.2 In the next page we can change the password of the SonarQube
@@ -83,9 +88,11 @@ A) Manual Steps to be performed:
 
 B) Integrate Sonarqube with Jenkins:
   Prerequisites
+      
       1.a Sonarqube Server Click here to Setup Sonarqube server
       2.A Jenkins server Click here to set up a Jenkins server
    Steps to be perform: 
+      
       1. On Jenkins server
            1.1 Install Sonarqube plugin
                  1.1.1 Goto manage jenkins <manage plugins> click on avaliable search "sonarqube" & install
