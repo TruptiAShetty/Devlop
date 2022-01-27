@@ -45,7 +45,7 @@ module "db" {
   subnet_ids                            = var.subnet_ids                     // manual update required pass subnet_ids as parameter which is already in existion aws_account
   vpc_security_group_ids                = [module.rds_sg.security_group_id]
   enabled_cloudwatch_logs_exports       = ["general"]
-  backup_retention_period               = 0
+  backup_retention_period               = 7
   skip_final_snapshot                   = true
   deletion_protection                   = true
   max_allocated_storage                 = var.max_allocated_storage
