@@ -145,9 +145,7 @@ resource "aws_security_group_rule" "ingress_with_source_security_group_id" {
       to_port                  = var.ingress_with_cidr_blocks_to_port
       type                     = "ingress"
 }
-resource "aws_ebs_encryption_by_default" "example" {
-  enabled = true
-}
+
 
 
 data "aws_ami" "ubuntu" {
