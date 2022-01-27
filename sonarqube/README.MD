@@ -2,31 +2,32 @@ Sonarqube Setup
    Sonarqube is open -source static testing analysis software,it is used by developers to manage source code quality and consistency.
 
 A) Prerequisties (All install steps done by infra )
-   1.Source:https://docs.sonarqube.org/latest/requirements/requirements/ 
-       
-       1.1 An EC2 instance with a minimum of 2 GB RAM (t2.small)
-       1.2 Java 11 installation
-             amazon-linux-extras list
-             amazon-linux-extras install java-openjdk11.
-       1.3 SonarQube cannot be run as root on Unix-based systems, so create a dedicated user account for SonarQube if necessary.
 
-   2.Installation steps (this steps are automated through terraform)
+       1.Source:https://docs.sonarqube.org/latest/requirements/requirements/ 
+       
+            1.1 An EC2 instance with a minimum of 2 GB RAM (t2.small)
+            1.2 Java 11 installation
+                  amazon-linux-extras list
+                  amazon-linux-extras install java-openjdk11.
+            1.3 SonarQube cannot be run as root on Unix-based systems, so create a dedicated user account for SonarQube if necessary.
+
+       2.Installation steps (this steps are automated through terraform)
       
-      2.1 Download SonarQube latest verions on to EC2 instace
-             cd /opt  
-             wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.9.2.46101.zip 
-      2.2 If unzip command is not found install unzip command 
-             apt install unzip
-      2.3 extract packages
-             unzip /opt/sonarqube-8.9.2.46101.zip
-      2.4 Create a new user
-             Useradd <sonaradmin>
-      2.5 Change ownershipt to the user and Switch to Linux binaries directory to start service
-             chown -R sonaradmin:sonaradmin sonarqube-8.9.2.46101
-      2.6 Give full permissions to the folder
-             chmod -R 777 /opt/sonarqube-8.9.2.46101/
-      2.7 Goto to the sonarqube installed path.
-             cd /opt/sonarqube-8.9.2.46101/bin/linux-x86-64
+            2.1 Download SonarQube latest verions on to EC2 instace
+                    cd /opt  
+                    wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.9.2.46101.zip 
+            2.2 If unzip command is not found install unzip command 
+                    apt install unzip
+            2.3 extract packages
+                    unzip /opt/sonarqube-8.9.2.46101.zip
+            2.4 Create a new user
+                    Useradd <sonaradmin>
+            2.5 Change ownershipt to the user and Switch to Linux binaries directory to start service
+                   chown -R sonaradmin:sonaradmin sonarqube-8.9.2.46101
+            2.6 Give full permissions to the folder
+                   chmod -R 777 /opt/sonarqube-8.9.2.46101/
+            2.7 Goto to the sonarqube installed path.
+                   cd /opt/sonarqube-8.9.2.46101/bin/linux-x86-64
 
 B) Manual Steps to be performed:  
 
