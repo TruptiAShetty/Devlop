@@ -106,6 +106,6 @@ B) Integrate Sonarqube with Jenkins server:
                                      2.4.1.2 Name : SonarQube Scanner 4.6.2.2472(for other project)
                                      2.4.1.2 Check install automatically give version of  "SonarQube Scanner 4.6.2.2472" (for other project)
                  1.4.3 Click apply and save 
-           1.5 Run Pipeline job      
+           1.5 Run Pipeline job (which are already provide in the jenkinsfile of the project)     
       
        
