@@ -179,7 +179,7 @@ module "jenkins_ec2" {
   monitoring                  = true
   subnet_id                   = module.vpc.private_subnets[0]
   vpc_security_group_ids      = [module.jenkins_sg.security_group_id]
-  associate_public_ip_address = false                                 //enabled auto-assign public-ip if not replace type with false
+  associate_public_ip_address = false                                 //disabled auto-assign public-ip if not replace type with true
   user_data                   = file("./provisioner.sh")
   metadata_options = {
     State                       = "applied"
