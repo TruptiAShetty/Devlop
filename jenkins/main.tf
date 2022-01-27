@@ -203,6 +203,9 @@ module "jenkins_ec2" {
     },
   ]
 }
+resource "aws_ebs_encryption_by_default" "example" {                     //ebs enabled
+  enabled = true
+}
 #####################vpc_endpoints##############
 resource "aws_vpc_endpoint" "ec2" {
   vpc_id            = module.vpc.vpc_id
