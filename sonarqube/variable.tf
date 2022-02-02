@@ -29,7 +29,7 @@ variable "vpc_id" {
 }
 
 
-variable "subnet_id" {
+variable "private_subnet_id" {
   description = "private subnet id for ec2 instances"
   type        = string
 }
@@ -64,10 +64,6 @@ variable "https_listeners_port" {
 variable "https_listeners_protocol" {
     description = "protocol to be attached"
     type        = string
-}
-#variable "sg_alb_ingress_rules" {
-#  description = "A list of ingress_rules to attach alb"
-#  type        = list(string)
 }
 variable "sg_sonar_ingress_rules" {
   description = "A list of ingress_rules to attach alb"

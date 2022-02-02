@@ -1,14 +1,14 @@
 provider "aws" {
-  profile                 = "default"                                         //manual update require pass a profile 
+  profile                 = "default"                               //manual update require pass a profile 
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
 
-
+###############creation of sonar_sg###########
 module "sonar_sg" {
   source              = "../modules/security_group"
   name                = "${var.prefix}-sonar-sg"
-  vpc_id              = var.vpc_id                                                  //manual update require voc_id in terraform.tfvars
+  vpc_id              = var.vpc_id
   ingress_cidr_blocks = [var.vpc_cidr]
   ingress_rules       = var.sg_sonar_ingress_rules
   egress_with_cidr_blocks = [                                            
@@ -26,10 +26,11 @@ resource "aws_security_group_rule" "ingress_with_source_security_group_id" {
       from_port                = 9000
       protocol                 = "tcp"
       security_group_id        =module.sonar_sg.security_group_id
-      source_security_group_id = var.source_security_group_id                  //manual update require of alb_security_group_id which we are going to launch a sonarqube in alb
+      source_security_group_id = var.source_security_group_id                             //manual update require of alb_security_group_id which we are going to launch a sonarqube in alb
       to_port                  = 9000
       type                     = "ingress"
 }
+############ebs_enabled#########################
 resource "aws_ebs_encryption_by_default" "example" {
   enabled = true
 }
@@ -52,7 +53,7 @@ data "aws_ami" "ubuntu" {
 }
 
 
-
+###################creation of sonar_ec2@@@@@@@@@@@@@@@@@
 
 module "sonar_ec2" {
   depends_on                  = [module.sonar_sg]
@@ -60,9 +61,9 @@ module "sonar_ec2" {
   name                        = "${var.prefix}-sonar"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.sonar_ec2_instance_type
-  iam_instance_profile        = var.iam_instance_profile                              //manual update require pass ainstance_profile in terraform.tfvars
+  iam_instance_profile        = var.iam_instance_profile                                    //manual update require pass ainstance_profile in terraform.tfvars
   monitoring                  = true
-  subnet_id                   = var.subnet_id                                        // manual update require pass a private subnet_id in terraform .tfvars
+  subnet_id                   = var.private_subnet_id                                      // manual update require pass a private subnet_id in terraform .tfvars
   vpc_security_group_ids      = [module.sonar_sg.security_group_id]
   associate_public_ip_address = false 
   user_data                   = file("./provisioner.sh")
@@ -92,14 +93,12 @@ module "sonar_ec2" {
   }
 }
 
-
-
-
+######################creation of a target group attaching to the exisiting alb###############33
 resource "aws_lb_target_group" "group4" {
-  name     = "sonar-target"
+  name     = "sonar4-target"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = var.vpc_id                                                           
+  vpc_id   = var.vpc_id
 }
 
 resource "aws_lb_target_group_attachment" "attachment1" {
@@ -109,8 +108,8 @@ resource "aws_lb_target_group_attachment" "attachment1" {
 }
 
 resource "aws_lb_listener_rule" "rule1" {
-  listener_arn = var.alb_listener_arn                                         //manual upadte require for the alb_listerner_arn which is present in exisiting aws_account in terraform.tfvars
-  priority     = 10                                                          
+  listener_arn = var.alb_listener_arn                                       //manual upadte require for the alb_listerner_arn which is present in exisiting aws_account in terraform.tfvars
+  priority     = 11
 
   action {
     type             = "forward"
@@ -124,16 +123,14 @@ resource "aws_lb_listener_rule" "rule1" {
   }
 }
 
-
-
-
+##########s3_backend######################
 
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                             //manual update require bucket should present in aws_account
-    key                     = "terraform/eu-west-1/sonar/terraform.tfstate"
+    bucket                  = "wingd-tf-state"                                         //manual update require bucket should present in aws_account
+    key                     = "terraform/eu-west-1/sonarqube/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                                   //manual update require pass a profile 
+    profile                 = "default"                                              //manual update require pass a profile 
     shared_credentials_file = "~/.aws/credentials"
   }
 }
