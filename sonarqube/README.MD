@@ -2,7 +2,7 @@ Sonarqube Setup
    Sonarqube is open -source static testing analysis software,it is used by developers to manage source code quality and consistency.
 A) Manual update required in terraform.tfvars
 
-         1.Private_subnet_id (created from env/vpc folder)
+        1.Private_subnet_id (created from env/vpc folder)
 	   2.vpc_id (created from env/vpc folder)
 	   3.source_security_group_id (we need to give security group id of the wingd-alb-sg)
 	   4.alb_arn(we need to gibe https:443 alb_arn)
