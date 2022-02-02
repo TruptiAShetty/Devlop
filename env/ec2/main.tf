@@ -1,14 +1,14 @@
 provider "aws" {
-  profile                 = "default"                                                  
+  profile                 = "default"                         //manual update require pass a profile parameter                          
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
 ##################vpc endpoints##############
 resource "aws_vpc_endpoint" "ec2" {
-  vpc_id            = var.vpc_id
+  vpc_id            = var.vpc_id                            //manual update require pass a parameter in terraform.tfvars
   service_name      = "com.amazonaws.eu-west-1.ec2"
   vpc_endpoint_type = "Interface"
-  subnet_ids        =  var.private_subnet_ids
+  subnet_ids        =  var.private_subnet_ids              //manual update require pass a parameter in terraform.tfvars
   security_group_ids = [module.evt_sg.security_group_id]
   private_dns_enabled = true
   tags = {
@@ -541,10 +541,10 @@ resource "aws_wafv2_web_acl_association" "web_acl_association_my_lb" {
 ################S3_backend configuration######################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                                                                       
-    key                     = "feedback/ec2/terraform.tfstate"
+    bucket                  = "wingd-tf-state"              //manual update required  pass bucket name ad parameter which is already present in aws_account                                                          
+    key                     = "ec2/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                                                    
+    profile                 = "default"                  //manual update required pass a profile parameter                                     
     shared_credentials_file = "~/.aws/credentials"
   }
 }
