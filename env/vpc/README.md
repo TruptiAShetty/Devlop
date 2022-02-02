@@ -1,4 +1,5 @@
 A) Manual update require in terraform.tfvars
+
                  1.bucket_name 
 
 B)steps for the creation of VPC in env (DEV,QA & PROD)  
