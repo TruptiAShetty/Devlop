@@ -1,152 +1,39 @@
 provider "aws" {
-  profile                 = "default"                           //manual update required pass a profile parameter
+  profile                 = "default"                                         //manual update require pass a profile 
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
 
-############### creation of VPC networking##################################
-module "vpc" {
-  source                 = "../modules/vpc"
-  name                   = "${var.prefix}_vpc"
-  cidr                   = var.vpc_cidr
-  azs                    = var.azs
-  public_subnets         = var.public_subnets
-  private_subnets        = var.private_subnets
-  enable_nat_gateway     = var.enable_nat_gateway
-  single_nat_gateway     = var.single_nat_gateway
-  one_nat_gateway_per_az = var.one_nat_gateway_per_az
-  enable_dns_hostnames   = var.enable_dns_hostnames
-  enable_dns_support     = var.enable_dns_support
-  igw_tags = {
-    Name = "${var.prefix}_internet"
-  }
-  nat_gateway_tags = {
-    Name = "${var.prefix}_natgateway"
-  }
-  nat_eip_tags = {
-    Name = "${var.prefix}_NAT-IP"
-  }
-
-}
-
-##############vpc_flow_logs########################
-resource "aws_flow_log" "example" {
-  log_destination      =  module.s3_bucket.this_s3_bucket_arn
-  log_destination_type = "s3"
-  traffic_type         = "REJECT"
-  vpc_id               = module.vpc.vpc_id
-  tags = {
-    Name = "vpc-flow-logs-s3-bucket"
-  }
-}
-##################creation of s3 bucket#################
-module "s3_bucket" {
-  source  = "terraform-aws-modules/s3-bucket/aws"
-  version = "~> 1.0"
-
-  bucket        = var.bucket_name                     //manual update required pass a bucket_name for the creation in the terraform.tfvars 
-  policy        = data.aws_iam_policy_document.flow_log_s3.json
-  force_destroy = true
-  acl                     = "private"
-  restrict_public_buckets = true
-  block_public_policy     = true
-  block_public_acls       = true
-  ignore_public_acls      = true
-  versioning = {
-    enabled = true
-  }
-
-  tags = {
-    Name = "vpc-flow-logs-s3-bucket"
-  }
-}
-##################policy attached to s3 bucket#################
-data "aws_iam_policy_document" "flow_log_s3" {
-  statement {
-    sid = "AWSLogDeliveryWrite"
-
-    principals {
-      type        = "Service"
-      identifiers = ["delivery.logs.amazonaws.com"]
-    }
-
-    actions = ["s3:PutObject"]
-
-     resources = ["arn:aws:s3:::${var.prefix}-logs}/AWSLogs/*"]
-  }
-
-  statement {
-    sid = "AWSLogDeliveryAclCheck"
-
-    principals {
-      type        = "Service"
-      identifiers = ["delivery.logs.amazonaws.com"]
-    }
-
-    actions = ["s3:GetBucketAcl"]
-
-    resources = ["arn:aws:s3:::${var.bucket_name}"]
-  }
-}
-##################alb_acess_log_bucket #####################
-data "aws_elb_service_account" "main" {}
-
-resource "aws_s3_bucket" "elb_logs" {
-  bucket = var.bucket_name_1                           //manual update required pass a bucket_name for the creation in the terraform.tfvars if we want we can edit the name  
-  acl    = "private"
-  force_destroy = true
-
-  policy = <<POLICY
-{
-  "Id": "Policy",
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "s3:PutObject"
-      ],
-      "Effect": "Allow",
-      "Resource": "arn:aws:s3:::${var.bucket_name_1}/AWSLogs/*",
-      "Principal": {
-        "AWS": [
-          "${data.aws_elb_service_account.main.arn}"
-        ]
-      }
-    }
-  ]
-}
-POLICY
-}
-################ creation of jenkins_instance security_group############
+##################creation of jenkins security
 module "jenkins_sg" {
   source              = "../modules/security_group"
-  name                = "${var.prefix}_jenkins_sg"
-  vpc_id              = module.vpc.vpc_id
-  ingress_rules       = var.sg_jenkins_ingress_rules
+  name                = "${var.prefix}-jenkins-sg"
+  vpc_id              = var.vpc_id                                                  //manual update require vpc_id in terraform.tfvars
   ingress_cidr_blocks = [var.vpc_cidr]
+  ingress_rules       = var.sg_jenkins_ingress_rules
   egress_with_cidr_blocks = [                                            
    {
-    from_port        = var.egress_with_cidr_blocks_from_port
-    to_port          = var.egress_with_cidr_blocks_to_port
+    from_port        = 0
+    to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = var.sg_engress_cidr_block
+    cidr_blocks      = "0.0.0.0/0"
    },
   ] 
-  tags = {
-    name = "${var.prefix}_jenkins_sg"
-  }
+   
 }
 resource "aws_security_group_rule" "ingress_with_source_security_group_id" {
-      description              = "limit source is only come from load balancer"
-      from_port                = var.ingress_with_cidr_blocks_from_port
-      protocol                 = var.protocol
+       description              = "allowed from alb"
+      from_port                = 8080
+      protocol                 = "tcp"
       security_group_id        =module.jenkins_sg.security_group_id
-      source_security_group_id = module.alb_sg.security_group_id
-      to_port                  = var.ingress_with_cidr_blocks_to_port
+      source_security_group_id = var.source_security_group_id                  //manual update require of alb_security_group_id which we are going to launch a jenkins in alb
+      to_port                  = 8080
       type                     = "ingress"
 }
-
-
+###################ebs_enabled####################
+resource "aws_ebs_encryption_by_default" "example" {
+  enabled = true
+}
 
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -166,18 +53,19 @@ data "aws_ami" "ubuntu" {
 }
 
 
-###################### creation of ec2_instance###########################
-module "jenkins_ec2" {
+######################creation of ec2_instance#########################
+
+module "jenkins__ec2" {
   depends_on                  = [module.jenkins_sg]
   source                      = "../modules/ec2"
   name                        = "${var.prefix}-jenkins"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.jenkins_ec2_instance_type
-  iam_instance_profile        = var.iam_instance_profile             //manual update pass iam_instance_profile as a parameter which is  already present in a existing aws_account
+  iam_instance_profile        = var.iam_instance_profile                              //manual update require pass ainstance_profile in terraform.tfvars
   monitoring                  = true
-  subnet_id                   = module.vpc.private_subnets[0]
+  subnet_id                   = var.private_subnet_id                                        // manual update require pass a private subnet_id in terraform .tfvars
   vpc_security_group_ids      = [module.jenkins_sg.security_group_id]
-  associate_public_ip_address = false                                 //disabled auto-assign public-ip if not replace type with true
+  associate_public_ip_address = false 
   user_data                   = file("./provisioner.sh")
   metadata_options = {
     State                       = "applied"
@@ -200,83 +88,21 @@ module "jenkins_ec2" {
       volume_size = var.jenkins_ec2_volume_size
     },
   ]
-}
-resource "aws_ebs_encryption_by_default" "example" {                     //ebs enabled
-  enabled = true
-}
-#####################vpc_endpoints##############
-resource "aws_vpc_endpoint" "ec2" {
-  vpc_id            = module.vpc.vpc_id
-  service_name      = "com.amazonaws.eu-west-1.ec2"
-  vpc_endpoint_type = "Interface"
-  subnet_ids        =  [module.vpc.private_subnets[0]]
-  security_group_ids = [module.jenkins_sg.security_group_id]
-  private_dns_enabled = true
   tags = {
-      Name = "vpc-endpoints"
- }
+    name = "${var.prefix}-jenkins"
+  }
 }
-#####################creation of ALB security_group###########################
-module "alb_sg" {
-  depends_on          = [module.vpc]
-  source              = "../modules/security_group"
-  name                = "${var.prefix}_alb_sg"
-  vpc_id              = module.vpc.vpc_id
-  ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = var.sg_alb_ingress_rules
-  ingress_with_ipv6_cidr_blocks = [
-    {
-      from_port        = 80 
-      to_port          = 80
-      protocol         = var.protocol
-      description      = "Service ports (ipv6)"
-      ipv6_cidr_blocks = "::/0"
-    },
-    {
-      from_port        = 443
-      to_port          = 443
-      protocol         = var.protocol
-      description      = "Service ports (ipv6)"
-      ipv6_cidr_blocks = "::/0"
-    },
 
-  ]
-  egress_with_cidr_blocks = [
-     {
-         from_port        = var.egress_with_cidr_blocks_from_port
-         to_port          = var.egress_with_cidr_blocks_to_port
-         protocol         = "-1"
-         cidr_blocks      = var.sg_engress_cidr_block
-        
-     },
-  ]
-  tags = {
-    Name = "${var.prefix}_alb_sg"
-  }
-}
-################## creation of ALB##################################
-module "alb" {
-  depends_on         = [module.jenkins_ec2]
-  source             = "../modules/alb"
-  name               = "${var.prefix}-alb"
-  load_balancer_type = "application"
-  vpc_id             = module.vpc.vpc_id
-  subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1]]
-  security_groups    = [module.alb_sg.security_group_id]
-  enable_deletion_protection = true                                      //deletion_pritection enable..
-  drop_invalid_header_fields = true
-  access_logs = {                                                         //access_logs_for alb..
-     bucket = "${aws_s3_bucket.elb_logs.bucket}"
-  }
-  target_groups = [
-    {
-      backend_protocol = var.backend_protocol
-      backend_port     = var.backend_port
-      target_type      = "instance"
-      name             = "${var.prefix}-jenkins"
-      health_check = {
+
+######################creation of a target group attaching to the exisiting alb###############33
+
+resource "aws_lb_target_group" "group4" {
+  name     = "jenkins1-target"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id                      
+  health_check {
                    enabled             = true
-                   interval            = 30
                     path                = "/login"
                     port                = "traffic-port"
                     healthy_threshold   = 3
@@ -286,111 +112,38 @@ module "alb" {
                     protocol            = "HTTP"
                     matcher             = "200-399"
            }
-      targets = [
-        {
-          target_id = module.jenkins_ec2.id
-          port      = 8080
-        }
-      ]
-   }
-  ]
-  http_tcp_listeners = [
-   {
-      port        = 80
-      protocol    = "HTTP"
-      action_type = "redirect"
-      redirect = {
-        port        = "443"
-        protocol    = "HTTPS"
-        status_code = "HTTP_301"
-      }
-    }
-  ]
-  https_listeners = [
-    {
-      port               = var.https_listeners_port
-      protocol           = var.https_listeners_protocol
-      certificate_arn    = var.certificate_arn                          //manual update required pass certificate_arn as parameter which is already in existing aws_account 
-      action_type          = "fixed-response"
-      fixed_response  = {
-           content_type = "text/plain"
-           message_body = "503"
-           status_code  = "503"
-       }
-    }
-  ]
 
-   https_listener_rules = [
-    {
-      https_listener_index = 0
-      priority                = 1
-      actions = [{
-        type         = "forward"
-      }]
-        conditions =[{
-             host_headers = ["jenkins.dev.wingd.digital"]
-        }]
+}
+
+resource "aws_lb_target_group_attachment" "attachment1" {
+  target_group_arn = aws_lb_target_group.group4.arn
+  target_id        = module.jenkins__ec2.id
+  port             = 8080
+}
+
+resource "aws_lb_listener_rule" "rule1" {
+  listener_arn = var.alb_listener_arn                                         //manual upadte require for the alb_listerner_arn which is present in exisiting aws_account in terraform.tfvars
+  priority     = 10                                                          
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.group4.arn
+  }
+
+  condition {
+    host_header {
+      values = ["jenkins.dev.wingd.digital"]
     }
-  ]
-  tags = {
-    Name = "${var.prefix}-alb"
   }
 }
 
-######################creation of WAF########################
-resource "aws_wafv2_web_acl" "my_web_acl" {
-  name  = "my-web-acl"
-  scope = "REGIONAL"
-
-  default_action {
-    allow {}
-  }
-
-  rule {
-    name     = "RateLimit"
-    priority = 1
-
-    action {
-      block {}
-    }
-   statement {
-
-      rate_based_statement {
-        aggregate_key_type = "IP"
-        limit              = 500
-      }
-    }
-
-    visibility_config {
-      cloudwatch_metrics_enabled = true
-      metric_name                = "RateLimit"
-      sampled_requests_enabled   = true
-    }
-  }
-
-  visibility_config {
-    cloudwatch_metrics_enabled = false
-    metric_name                = "my-web-acl"
-    sampled_requests_enabled   = false
-  }
-}
-
-##########WAF association to ALB resource################
-
-resource "aws_wafv2_web_acl_association" "web_acl_association_my_lb" {
-  resource_arn = module.alb.lb_arn
-  web_acl_arn  = aws_wafv2_web_acl.my_web_acl.arn
-}
-
-
-#################### s3_backend configuration###################
+#################s3_backend#######################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                        //manual update required  pass bucket name ad parameter which is already present in aws_account
+    bucket                  = "wingd-tf-state"                             //manual update require bucket should present in aws_account
     key                     = "terraform/eu-west-1/jenkins/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                              //manual update required pass a profile parameter
-    shared_credentials_file = "~/.aws.credentials"
+    profile                 = "default"                                   //manual update require pass a profile 
+    shared_credentials_file = "~/.aws/credentials"
   }
 }
-
