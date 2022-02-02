@@ -1,4 +1,7 @@
-steps for the creation of VPC in env (DEV,QA & PROD)  
+A) Manual update require in terraform.tfvars
+                 1.bucket_name 
+
+B)steps for the creation of VPC in env (DEV,QA & PROD)  
 
     1. Check out the code from the gitlab       
     2. cd to the env folder and then we can see the of ec2, rds & vpc 
