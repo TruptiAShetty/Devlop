@@ -1,7 +1,13 @@
 Sonarqube Setup
    Sonarqube is open -source static testing analysis software,it is used by developers to manage source code quality and consistency.
+A) Manual update required in terraform.tfvars
+         1.Private_subnet_id (created from env/vpc folder)
+	   2.vpc_id (created from env/vpc folder)
+	     3.source_security_group_id (we need to give security group id of the wingd-alb-sg)
+	       4.alb_arn(we need to gibe https:443 alb_arn)
 
-A) Prerequisties (All install steps done by infra )
+
+B) Prerequisties (All install steps done by infra )
 
        1.Source:https://docs.sonarqube.org/latest/requirements/requirements/ 
        
@@ -29,7 +35,7 @@ A) Prerequisties (All install steps done by infra )
             2.7 Goto to the sonarqube installed path.
                    cd /opt/sonarqube-8.9.2.46101/bin/linux-x86-64
 
-B) Manual Steps to be performed:  
+C) Manual Steps to be performed:  
 
       1. GIT:
              git clone https://gitlab.wingd.com/wide2/aws_infra_terraform.git
@@ -86,7 +92,7 @@ B) Manual Steps to be performed:
              16.3 In the Righ side of the top <goto my account>
              16.4 Goto the security Generate the token to authenticate from jenkins (copy the token which will useful in the jenkins server)       
 
-B) Integrate Sonarqube with Jenkins server:
+D) Integrate Sonarqube with Jenkins server:
 1. On Jenkins server:
 
            1.1 Install Sonarqube plugin
