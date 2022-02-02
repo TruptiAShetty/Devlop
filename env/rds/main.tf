@@ -26,7 +26,7 @@ module "rds_sg" {
    },
   ]
 }
-# creation of RDS_MYSQL
+################## creation of RDS_MYSQL############################
 module "db" {
   source                                = "../../modules/rds"
   identifier                            = var.identifier
@@ -42,7 +42,7 @@ module "db" {
   port                                  = var.db_port
   name                                  = "wingd"
   multi_az                              = var.db_multi_az
-  subnet_ids                            = var.subnet_ids                     // manual update required pass subnet_ids as parameter which is already in existion aws_account
+  subnet_ids                            = var.private_subnet_ids                     // manual update required pass subnet_ids as parameter which is already in existion aws_account
   vpc_security_group_ids                = [module.rds_sg.security_group_id]
   enabled_cloudwatch_logs_exports       = ["general"]
   backup_retention_period               = 7
@@ -54,7 +54,7 @@ module "db" {
 # monitoring_role_name                  = "${var.prefix}-rds-monitor-role"
 # monitoring_interval                   = 30
 }
-# S3_backend configuration
+################ S3_backend configuration############################
 terraform {
   backend "s3" {
     bucket                  = "wingd-tf-state"                       //manual update requiredpass bucket name as parameter which is already present in aws_account

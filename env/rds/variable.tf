@@ -58,7 +58,7 @@ variable "db_multi_az" {
   type        = bool
   default     = false
 }
-variable "subnet_ids" {
+variable "private_subnet_ids" {
   description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file"
 
 }
