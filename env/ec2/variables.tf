@@ -97,11 +97,20 @@ variable "sg_alb_ingress_rules" {
   description = "A list of ingress_rules to attach alb"
   type        = list(string)
 }
+
+variable "private_subnet_ids" {
+   description = "private_subnet_ids"
+   type        = list(string)
+}
+
 variable "certificate_arn" {
     description = "certificate_arn is attached to the listerns of alb"
      type        = string
 }
 
-
+variable "bucket_name_1" {
+     description = "creation of the bucket for the elb_logs"
+      type       = string
+}
 
 
