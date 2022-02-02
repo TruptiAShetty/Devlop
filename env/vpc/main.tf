@@ -1,12 +1,12 @@
 provider "aws" {
-  profile                 = "default"      // pass a profile parameter
+  profile                 = "default"                                            // pass a profile parameter
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
 ####################creation of VPC networking#################### 
 module "vpc" {
   source                 = "../../modules/vpc"
-  name                   = "${var.prefix}_${terraform.workspace}_vpc"
+  name                   = "${var.prefix}-vpc"
   cidr                   = var.vpc_cidr
   azs                    = var.azs
   public_subnets         = var.public_subnets
@@ -16,9 +16,16 @@ module "vpc" {
   one_nat_gateway_per_az = var.one_nat_gateway_per_az
   enable_dns_hostnames   = var.enable_dns_hostnames
   enable_dns_support     = var.enable_dns_support
-  tags = {
-    name = "${var.prefix}_${terraform.workspace}_vpc"
+  igw_tags = {
+    Name = "${var.prefix}_internet"
   }
+  nat_gateway_tags = {
+    Name = "${var.prefix}_natgateway"
+  }
+  nat_eip_tags = {
+    Name = "${var.prefix}_NAT-IP"
+  }
+
 }
 ##############vpc_flow_logs########################
 resource "aws_flow_log" "example" {
@@ -51,6 +58,13 @@ module "s3_bucket" {
     Name = "vpc-flow-logs-s3-bucket"
   }
 }
+####################block public acess######################
+resource "aws_s3_account_public_access_block" "example" {
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
 ##################policy attached to s3 bucket#################
 data "aws_iam_policy_document" "flow_log_s3" {
   statement {
@@ -79,10 +93,12 @@ data "aws_iam_policy_document" "flow_log_s3" {
     resources = ["arn:aws:s3:::${var.bucket_name}"]
   }
 }
+##################s3_backend#############
+
 terraform {
   backend "s3" {
-    bucket                  = "ganesh-tf-stae12"                        //pass bucket name ad parameter which is already present in aws_account
-    key                     = "network/terraform.tfstate"
+    bucket                  = "wingd-tf-state"                        //pass bucket name ad parameter which is already present in aws_account
+    key                     = "feedback/network/terraform.tfstate"
     region                  = "eu-west-1"
     profile                 = "default"                              // pass a profile parameter
     shared_credentials_file = "~/.aws/credentials"

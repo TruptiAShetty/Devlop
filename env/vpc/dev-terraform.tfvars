@@ -1,4 +1,4 @@
-prefix = "feedback-qa"
+prefix = "feedback-dev"
 region = "eu-west-1"
 ##############vpc#####################
 vpc_cidr               = "10.0.0.0/16"
@@ -10,7 +10,7 @@ single_nat_gateway     = true
 one_nat_gateway_per_az = false
 enable_dns_hostnames   = true
 enable_dns_support     = true
-bucket_name            = "vpc-qa-1234"
+bucket_name            = "vpc-dev-1234"
 
 
 
