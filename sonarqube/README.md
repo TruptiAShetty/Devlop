@@ -1,5 +1,6 @@
 Sonarqube Setup
    Sonarqube is open -source static testing analysis software,it is used by developers to manage source code quality and consistency.
+
 A) Manual update required in terraform.tfvars
 
         1.Private_subnet_id (created from env/vpc folder)
