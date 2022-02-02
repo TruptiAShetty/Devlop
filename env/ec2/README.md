@@ -5,9 +5,9 @@ A)manual steps for the creation of ec2 instances in Dev environment:
     2. cd to the env folder and then we can see the of ec2 & rds 
     3. cd to ec2 folder and then type command "terraform workspace" by typing this command . It can been shown in which workspace basically we are in the "default" workspace.   
        NOTE :Workspaces in Terraform are simply independently managed state files. A workspace contains everything that Terraform needs to manage a given collection of infrastructure, and separate Workspaces function like completely separate working directories. We can manage multiple environments with Workspaces.
-    4. Change the parameter vpc_id in dev-terraform.tfvars (which is created from jenkins folder)
-    5. Change the parameter subnet_id in dev-terraform.tfvars (which is created from jenkins_folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
-    6. Change the parameter public_subnets in dev-terraform.tfvars (which is cretaed from jenkins_folder).
+    4. Change the parameter vpc_id in dev-terraform.tfvars (which is created from env/vpc folder)
+    5. Change the parameter subnet_id in dev-terraform.tfvars (which is created from env/vpc folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
+    6. Change the parameter public_subnets in dev-terraform.tfvars (which is cretaed from env/vpc_folder) & change the parameter of private_subnet_ids for the selection subnet for the vpc endpoints
     7. After that we should configure s3 backend by using "terrform init" command.
     8.senciorio :
        8.1 Then we should create workspace by using command "terraform workspace new dev"
@@ -37,7 +37,7 @@ B)manual steps for the creation of ec2 instances in QA environment :
        NOTE :Workspaces in Terraform are simply independently managed state files. A workspace contains everything that Terraform needs to manage a given collection of infrastructure, and separate Workspaces function like completely separate working directories. We can manage multiple environments with Workspaces.
     4. Change the parameter vpc_id in qa-terraform.tfvars (which is created from the env/vpc folder)
     5. Change the parameter subnet_id in qa-terraform.tfvars (which is created from env/vpc folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
-    6. Change the parameter public_subnets in qa-terraform.tfvars (which is cretaed from env/vpc folder).
+    6. Change the parameter public_subnets in qa-terraform.tfvars (which is cretaed from env/vpc folder) & change the parameter of private_subnet_ids for the selection subnet for the vpc endpoints
     7. After that we should configure s3 backend by using terrform init command.
     8.senario
        8.1 Then we should create workspace by usung command "terraform workspace new qa"
@@ -67,7 +67,7 @@ C)manual steps for the creation of ec2 instances in Prod environment :
        NOTE :Workspaces in Terraform are simply independently managed state files. A workspace contains everything that Terraform needs to manage a given collection of infrastructure, and separate Workspaces function like completely separate working directories. We can manage multiple environments with Workspaces.
     4. Change the parameter vpc_id in prod-terraform.tfvars (which is created from the env/vpc folder)
     5. Change the parameter subnet_id in prod-terraform.tfvars (which is created from env/vpc folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
-    6. Change the parameter public_subnets in prod-terraform.tfvars (which is cretaed from env/vpc folder).
+    6. Change the parameter public_subnets in prod-terraform.tfvars (which is cretaed from env/vpc folder)  & change the parameter of private_subnet_ids for the selection subnet for the vpc endpoints
     7. After that we should configure s3 backend by using terrform init command.
     8.senario :
        8.1 Then we should create workspace by usung command "terraform workspace new prod"
