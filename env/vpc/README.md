@@ -1,4 +1,4 @@
-steps for the creation of VPC in env (QA & PROD)  
+steps for the creation of VPC in env (DEV,QA & PROD)  
 
     1. Check out the code from the gitlab       
     2. cd to the env folder and then we can see the of ec2, rds & vpc 
@@ -8,7 +8,7 @@ steps for the creation of VPC in env (QA & PROD)
     Note: Terraform stores information about your infrastructure in a state file. This state file keeps track of resources created by your configuration and maps them to real-world resources.
     5. After that we should configure s3 backend by using terrform init command.
     6. For the log file purpose please use the below commands
-                  5.1 Windows:
+              5.1 Windows:
 	             $env:TF_LOG="TRACE"
 		     $env:TF_LOG_PATH="terraform.txt" 
 	          5.2 Linux:
