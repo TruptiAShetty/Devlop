@@ -1,4 +1,5 @@
 A) Manual update require in terraform.tfvars
+
          1. private_subnet_ids
 	 2. vpc_id
 
