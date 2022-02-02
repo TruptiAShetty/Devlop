@@ -1,4 +1,13 @@
-A)manual steps for the creation of ec2 instances in Dev environment:
+A) Manual update require in terraform.tfvars
+           
+	   1.private_subnet_id(instance to launch in private_subnet) 
+	   2.vpc_id (vpc_id for instance)
+	   3.public_subnets(two public_subnet for creation of alb)
+	   4.certificate_arn (certificate arn for the https listerners)
+	   5.private_subnet_ids (private_subnet_ids for the vpc endpoints)
+	   6.bucket_name_1(access logs dor alb)
+
+B)manual steps for the creation of ec2 instances in Dev environment:
 
     1. Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
@@ -28,7 +37,7 @@ A)manual steps for the creation of ec2 instances in Dev environment:
        8.6 If we want to switch from one workspace to another workspace we will use a command.
                 "command: terraform workspace select <workpsace name>
 
-B)manual steps for the creation of ec2 instances in QA environment :
+C)manual steps for the creation of ec2 instances in QA environment :
 
     1. Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
@@ -58,7 +67,7 @@ B)manual steps for the creation of ec2 instances in QA environment :
        8.6 If we want to switch from one workspace to another workspace we will use a command.
               "command: terraform workspace select <workpsace name>
 
-C)manual steps for the creation of ec2 instances in Prod environment : 
+D)manual steps for the creation of ec2 instances in Prod environment : 
 
     1. Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
