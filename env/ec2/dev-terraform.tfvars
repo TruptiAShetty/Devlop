@@ -1,4 +1,4 @@
-prefix                              = "feedback-dev"
+prefix                              = "wingd-dev"
 region                              = "eu-west-1"
 evt_instance_type                   = "t3.small"
 sizop_instance_type                 = "t2.small"
