@@ -45,7 +45,7 @@ B) Manual Steps to be performed:
       6. Make sure the following S3 Bucket(wingd-tf-state) available in the AWS console.
           Note: Terraform stores information about your infrastructure in a state file. This state file keeps track of resources created by your configuration and maps them to real-world resources.
       7. Make sure create a role for the ssm in the aws account where we are going to excute the terraform script. while creation of the role take the policy of "AmazonEC2RoleforSSM" & "AmazonSSMManagedInstanceCore" pass the role name to the "Iam_instance_profile" as a parametre in the terraform.tfvars.
-      8. In the terraform script of main.tf change the profile parameter,vpc_id,subnet_id,alb_listerner_arn(added inline comment where have to change) in which the s3 bucket has present.
+      8. In the terraform script of main.tf change the profile parameter,vpc_id,subnet_id,alb_listerner_arn & source_security_group_id in terraform.tfvars(added inline comment where have to change) in which the s3 bucket has present.
       9. Run the terraform init command which initiates the modules & versions 
                  terraform init
       10. The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
