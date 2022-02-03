@@ -120,7 +120,7 @@
 - In the Righ side of the top <goto my account>
 - Goto the security Generate the token to authenticate from jenkins (copy the token which will useful in the jenkins server)       
 
-## Integrate Sonarqube with Jenkins server(https://sonar.dev.wingd.digital):
+## Integrate Sonarqube with Jenkins server(https://jenkins.dev.wingd.digital):
 
 **On Jenkins server**
 
