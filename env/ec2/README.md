@@ -1,6 +1,6 @@
 ## Manual update require in terraform.tfvars
            
-	   1.private_subnet_id(instance to launch in private_subnet) 
+	   > **private_subnet_id**. (instance to launch in private_subnet) 
 	   2.vpc_id (vpc_id for instance)
 	   3.public_subnets(two public_subnet for creation of alb)
 	   4.certificate_arn (certificate arn for the https listerners)
