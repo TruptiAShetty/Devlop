@@ -30,7 +30,7 @@
 
            terraform workspace new dev
 
--After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace are we in.
+- After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace are we in.
 
                    terraform workspace show
 -  Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
@@ -101,7 +101,7 @@
 - Run the terraform apply command 
 
                     terraform apply -var-file prod-terraform.tfvars
-             NOTE : Network resources will be created. 
+    NOTE : Network resources will be created. 
 - If we want to clean or destroy resouces which are created in the aws account.
 
                     terraform destroy -var-file prod-terraform.tfvars
