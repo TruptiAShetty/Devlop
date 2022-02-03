@@ -8,7 +8,7 @@
 - private_subnet_ids (private_subnet_ids for the vpc endpoints)
 - bucket_name_1(access logs for alb)
 
-## Manual steps for the creation of ec2 instances in Dev environment:
+## Manual steps for the creation of ec2 instances in `Dev` environment:
 
 - Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
@@ -18,7 +18,7 @@
 -  Change the parameter vpc_id in dev-terraform.tfvars (which is created from env/vpc folder)
 - Change the parameter subnet_id in dev-terraform.tfvars (which is created from env/vpc folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
 - Change the parameter public_subnets in dev-terraform.tfvars (which is cretaed from env/vpc_folder) & change the parameter of private_subnet_ids for the selection subnet for the vpc endpoints
-- After that we should configure s3 backend by using "terrform init" command.
+- After that we should configure s3 backend by using `terrform init` command.
 **senario1**
 - Then we should create workspace by using command "terraform workspace new dev"
 
@@ -52,7 +52,7 @@
 
                  terraform workspace select <workpsace name>
 
-## Manual steps for the creation of ec2 instances in QA environment :
+## Manual steps for the creation of ec2 instances in `QA` environment :
 
 - Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
@@ -62,12 +62,12 @@
 -  Change the parameter vpc_id in qa-terraform.tfvars (which is created from the env/vpc folder)
 - Change the parameter subnet_id in qa-terraform.tfvars (which is created from env/vpc folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
 - Change the parameter public_subnets in qa-terraform.tfvars (which is cretaed from env/vpc folder) & change the parameter of private_subnet_ids for the selection subnet for the vpc endpoints
-- After that we should configure s3 backend by using terrform init command.
+- After that we should configure s3 backend by using `terrform init` command.
 ***senario2***
 
 - Then we should create workspace by usung command "terraform workspace new qa"
 
-               terraform workspace new name
+               terraform workspace new qa
 - After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace placed in .
 
               terraform workspace show
@@ -92,12 +92,12 @@
 - If we want to switch from one workspace to another workspace we will use a command.
               "command: terraform workspace select <workpsace name>
 
-## Manual steps for the creation of ec2 instances in Prod environment : 
+## Manual steps for the creation of ec2 instances in `Prod` environment : 
 
 - Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
 - cd to the env folder and then we can see the of ec2 & rds 
-- cd to ec2 folder and then type command "terraform workspace" by typing this command . It can been shown in which workspace basically we are in the "default" workspace.   
+- cd to ec2 folder and then type command "terraform workspace" by typing this command . It can been shown in which workspace basically we are in the `default` workspace.   
        NOTE :Workspaces in Terraform are simply independently managed state files. A workspace contains everything that Terraform needs to manage a given collection of infrastructure, and separate Workspaces function like completely separate working directories. We can manage multiple environments with Workspaces.
 - Change the parameter vpc_id in prod-terraform.tfvars (which is created from the env/vpc folder)
 - Change the parameter subnet_id in prod-terraform.tfvars (which is created from env/vpc folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
