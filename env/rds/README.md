@@ -1,9 +1,9 @@
-A) Manual update require in terraform.tfvars
+## Manual update require in terraform.tfvars
 
          1. private_subnet_ids
 	     2. vpc_id
 
-B)manual steps for the creation of RDS in Dev environment:
+## Manual steps for the creation of RDS in Dev environment:
 
     1. Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
@@ -32,7 +32,7 @@ B)manual steps for the creation of RDS in Dev environment:
        7.6 If we want to switch from one workspace to another workspace we will use a command.
                 "command: terraform workspace select <workpsace name>"
 
-C)manual steps for the creation of RDS in QA environment :
+## Manual steps for the creation of RDS in QA environment :
 
     1. Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
@@ -62,7 +62,7 @@ C)manual steps for the creation of RDS in QA environment :
                "command: terraform workspace select <workpsace name>"
 
 
-D)manual steps for the creation of RDS in Prod environment :
+## Manual steps for the creation of RDS in Prod environment :
  
     1. Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
