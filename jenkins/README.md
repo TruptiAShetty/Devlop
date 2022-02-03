@@ -1,3 +1,4 @@
+# Manual steps to deploy jenkins instance in private_subnet 
 ## Manual update require
 
 - Private_subnet_id (created from env/vpc folder)
@@ -6,7 +7,7 @@
 - alb_arn(we need to gibe https:443 alb_arn)
 ## Steps:
 
-**Local machine setup:**
+### Local machine setup:
 
 - terraform required.(terraform version = 1.0.7)
           Installation guide:
