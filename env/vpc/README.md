@@ -1,8 +1,8 @@
-A) Manual update require in terraform.tfvars
+## Manual update require in terraform.tfvars
 
                  1.bucket_name 
 
-B)steps for the creation of VPC in env (DEV,QA & PROD)  
+## steps for the creation of VPC in env (DEV,QA & PROD)  
 
     1. Check out the code from the gitlab       
     2. cd to the env folder and then we can see the of ec2, rds & vpc 
@@ -19,7 +19,7 @@ B)steps for the creation of VPC in env (DEV,QA & PROD)
 	             export TF_LOG=TRACE
 		     export TF_LOG_PATH="terraform.txt"
 
-    7.senciorio 1 for vpc for DEV environment:
+    7.`senciorio 1` for vpc for DEV environment:
          7.1. Then we should create workspace by usung command "terraform workspace new dev"
                    "command: terraform workspace new dev"
          7.2. After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace are we in.
@@ -37,7 +37,7 @@ B)steps for the creation of VPC in env (DEV,QA & PROD)
                    "command: terraform destroy -var-file dev-terraform.tfvars"
          7.6 If we want to switch from one workspace to another workspace we will use a command.
 	          "command: terraform workspace select <workpsace name>"
-    8.senciorio 2 for vpc for QA environment:
+    8.`senciorio 2` for vpc for QA environment:
          8.1. Then we should create workspace by usung command "terraform workspace new qa"
                    "command: terraform workspace new qa"
          8.2. After creation of the terraform workspace qa then we can proceed with a command "terraform workspace show" it show in which workspace are we in.
@@ -55,7 +55,7 @@ B)steps for the creation of VPC in env (DEV,QA & PROD)
                    "command: terraform destroy -var-file qa-terraform.tfvars"
          8.6 If we want to switch from one workspace to another workspace we will use a command.
 	          "command: terraform workspace select <workpsace name>"
-    9.senciorio 3 for vpc for PROD environment:
+    9.`senciorio 3` for vpc for PROD environment:
          9.1. Then we should create workspace by usung command "terraform workspace new prod"
                     "command: terraform workspace new prod"
          9.2. After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace are we in.
