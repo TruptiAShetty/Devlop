@@ -1,9 +1,9 @@
 ## Manual update require
 
-      1.Private_subnet_id (created from env/vpc folder)
-	  2.vpc_id (created from env/vpc folder)
-	  3.source_security_group_id (we need to give security group id of the wingd-alb-sg)
-	  4.alb_arn(we need to gibe https:443 alb_arn)
+- Private_subnet_id (created from env/vpc folder)
+- vpc_id (created from env/vpc folder)
+- source_security_group_id (we need to give security group id of the wingd-alb-sg)
+- alb_arn(we need to gibe https:443 alb_arn)
 ## Steps:
 
 **Local machine setup:**
