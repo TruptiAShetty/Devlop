@@ -9,7 +9,7 @@
 
 ## Manual steps for the creation of ec2 instances in Dev environment:
 
-    ```1. Check out the code from the gitlab
+    1. Check out the code from the gitlab
                  https://www.wingd.com/gitlab/wide2/aws_infra_terraform.git & git checkout terraform_scripts        
     2. cd to the env folder and then we can see the of ec2 & rds 
     3. cd to ec2 folder and then type command "terraform workspace" by typing this command . It can been shown in which workspace basically we are in the "default" workspace.   
@@ -20,8 +20,7 @@
     7. After that we should configure s3 backend by using "terrform init" command.
     8.senciorio :
        8.1 Then we should create workspace by using command "terraform workspace new dev"
-               
-               ``` "syntax: terraform workspace new name"```
+                "syntax: terraform workspace new name"
        8.2 After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace we are placed in .
                 "command: terraform workspace show"
        8.3 Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
@@ -36,7 +35,7 @@
        8.5 If we want to destroy the environment which is created 
                 "command: terraform destroy -var-file dev-terraform.tfvars"
        8.6 If we want to switch from one workspace to another workspace we will use a command.
-                "command: terraform workspace select <workpsace name>```
+                "command: terraform workspace select <workpsace name>
 
 ## Manual steps for the creation of ec2 instances in QA environment :
 
