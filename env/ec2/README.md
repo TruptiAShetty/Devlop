@@ -1,4 +1,4 @@
-A) Manual update require in terraform.tfvars
+## Manual update require in terraform.tfvars
            
 	   1.private_subnet_id(instance to launch in private_subnet) 
 	   2.vpc_id (vpc_id for instance)
