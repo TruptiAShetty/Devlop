@@ -3,7 +3,7 @@
 
 - Private_subnet_id (created from env/vpc folder)
 - vpc_id (created from env/vpc folder)
-- source_security_group_id (we need to give security group id of the wingd-alb-sg)
+- source_security_group_id (we need to give security group id of the wingd-dev-alb-sg)
 - alb_arn(we need to gibe https:443 alb_arn)
 ## Steps:
 
