@@ -5,8 +5,8 @@
 
 - Private_subnet_id (created from env/vpc folder)
 - vpc_id (created from env/vpc folder)
-- source_security_group_id (we need to give security group id of the wingd-alb-sg)
-- alb_arn(we need to gibe https:443 alb_arn)
+- source_security_group_id (we need to give security group id of the wingd-dev-alb-sg for dev env & wingd-qa-alb-sg for qa env)
+- alb_arn(we need to give https:443 alb_arn of wingd-dev-alb for dev env or we need to give https:443 alb_arn of wingd-qa-alb for qa env)
 
 
 ## Prerequisties (All install steps done by infra )
@@ -70,26 +70,86 @@
 
                  terraform init
 
--  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
+-- #### **senario1**
+- Then we should create workspace by using command "terraform workspace new dev"
 
-                 terraform plan
-- For the saving plan of terraform what are going to create we will use a command
+                 terraform workspace new dev
 
-                 terraform plan -out="tf.plan"
-- After executing the above command we can see the file name "tf.plan" as been created . we will read the content of the tf.plan by using below command.
+- After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace we are placed in .
 
-                 terraform show tf.plan 
--  Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
+                 terraform workspace show
 
-                 terraform apply
+-  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace. Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
 
-   Note: Sonarqube instance in private subnet & listerns_rules added to the existiing alb
+            terraform plan -var-file dev-terraform.tfvars
+    
+
+-  If we want to save the plan we will use a command 
+
+	
+           terraform plan -var-file dev-terraform.tfvars -out="tf.dev-plan"
+
+- After executing the above command the file created name tf.dev-plan to read the content of the file .Please execute the below command
+
+	                terraform show tf.dev-plan
+- Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
+Run the terraform apply command 
+
+              terraform apply -var-file dev-terraform.tfvars
+
+   NOTE : dev jenkins instance created ad attached rules to the existing Alb which is created in ec2 folder 
+- If we want to destroy the environment which is created 
+
+                terraform destroy -var-file dev-terraform.tfvars
+
+- If we want to switch from one workspace to another workspace we will use a command.
+
+                 terraform workspace select <workpsace name>
+
+- #### **senario2**
+- hen we should create workspace by using command "terraform workspace new dev"
+
+                 terraform workspace new qa
+
+- After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace we are placed in .
+
+                 terraform workspace show
+
+-  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace. Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
+
+        terraform plan -var-file qa-terraform.tfvars
+    
+
+-  If we want to save the plan we will use a command 
+
+	
+       terraform plan -var-file dev-terraform.tfvars -out="tf.qa-plan"
+
+- After executing the above command the file created name tf.dev-plan to read the content of the file .Please execute the below command
+
+	                terraform show tf.qa-plan
+- Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
+Run the terraform apply command 
+
+              terraform apply -var-file qa-terraform.tfvars
+
+   NOTE : dev sonar instance(wingd-dev-sonar) created and attached rules to the existing Alb wings-dev-alb which is created in ec2 folder & qa sonar instance(wingd-qa-sonar) created and attached rules to the existing Alb  wings-qa-alb which is created in ec2 folder
+- If we want to destroy the environment which is created 
+
+                terraform destroy -var-file qa-terraform.tfvars
+
+- If we want to switch from one workspace to another workspace we will use a command.
+
+                 terraform workspace select <workpsace name>
+
+    
+
 - After the creation of the resources. the file name "terraform.txt" will be create where all logs are present in terraform.txt
 - **steps to be performed to start SonarQube application:**
              
 - Login to the sonarqube instance with the command below command
                         
-                        aws ssm start-session --target "instance-id" (here instance-id is wingd-sonar instance_id)
+                        aws ssm start-session --target "instance-id" (here instance-id is wingd-dev-sonar instance_id (or)wingd-qa-sonar instance_id)
 - sudo su -
 - Change the directory with the command 
 
@@ -106,7 +166,7 @@
 - Connect to the SonarQube server through the browser. It uses port `9000`
 
                           https://sonar.dev.wingd.digital
-- **Steps to be followed in the server(http://sonar.dev.wingd.digital)**
+- **Steps to be followed in the server(http://sonar.dev.wingd.digital) & (http://sonar.qa.wingd.digital)** 
              
 - Default username and Password
 
@@ -120,7 +180,7 @@
 - In the Righ side of the top <goto my account>
 - Goto the security Generate the token to authenticate from jenkins (copy the token which will useful in the jenkins server)       
 
-## Integrate Sonarqube with Jenkins server(https://jenkins.dev.wingd.digital):
+## Integrate Sonarqube with Jenkins server(https://jenkins.dev.wingd.digital) & (https://jenkins.qa.wingd.digital)
 
 **On Jenkins server**
 
@@ -133,7 +193,8 @@
                 3.1  Goto <manage jenkins> <configure system> in sonarqube servers, Add sonarcredentials to the server.
 
                          Name : SonarQube Server
-               Server url :https://sonar.dev.wingd.digital
+               Server url :https://sonar.dev.wingd.digital for dev env
+               Server url :https://sonar.qa.wingd.digital for qa env
                                           
         4. Install SonarScanner in jenkins.
                 4.1  Goto <manage jenkins> <Global tool configuration> in SonarScanner for MSBuild,click on the add SonarScanner for MSbuild follow below set up.
