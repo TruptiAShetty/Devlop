@@ -15,12 +15,20 @@ resource "aws_vpc_endpoint" "ec2" {
       Name = "vpc-endpoints"
  }
 }
-##################Block public acess#######################
+##################Block public access for account#######################
 resource "aws_s3_account_public_access_block" "example" {
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
+}
+####################Block public access for bucket####################
+resource "aws_s3_bucket_public_access_block" "s3Public" {
+       bucket                = var.bucket_name_1
+       block_public_acls     = true
+       block_public_policy   = true
+      restrict_public_buckets= true
+      ignore_public_acls     = true
 }
 ##################alb_acess_log_bucket #####################
 data "aws_elb_service_account" "main" {}
