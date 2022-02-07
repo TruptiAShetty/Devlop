@@ -450,23 +450,12 @@ module "alb" {
         target_group_index = 2
       }]
       conditions = [{
-        host_headers = ["evt.${terraform.workspace}.wingd.digital"]
-      }]
-    },
-    {
-      https_listener_index = 0
-      priority                = 4
-      actions = [{
-        type               = "forward"
-        target_group_index = 2
-      }]
-      conditions = [{
         host_headers = ["shippingcompany.${terraform.workspace}.wingd.digital"]
       }]
     },
     {
       https_listener_index = 0
-      priority                = 5
+      priority                = 4
       actions = [{
         type               = "forward"
         target_group_index = 3
@@ -477,7 +466,7 @@ module "alb" {
     },
     {
       https_listener_index = 0
-      priority                = 6
+      priority                = 5
       actions = [{
         type               = "forward"
         target_group_index = 3
