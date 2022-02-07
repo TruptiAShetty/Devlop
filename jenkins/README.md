@@ -52,25 +52,84 @@
 - Run the terraform init command which initiates the modules & versions 
 
                      
-                    terraform init         
+                    terraform init
+
                     
+- #### **senario1**
+- Then we should create workspace by using command "terraform workspace new dev"
 
-- The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace.
+                 terraform workspace new dev
 
-                     terraform plan
-- For the saving plan of terraform what are going to create we will use a command
+- After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace we are placed in .
 
-                     terraform plan -out="tf.plan"
-- After executing the above command we can see the file name "tf.plan" as been created . we will read the content of the tf.plan by using below command.
+                 terraform workspace show
 
-                     terraform show tf.plan 
+-  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace. Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
+
+        terraform plan -var-file dev-terraform.tfvars
+    
+
+-  If we want to save the plan we will use a command 
+
+	
+       terraform plan -var-file dev-terraform.tfvars -out="tf.dev-plan"
+
+- After executing the above command the file created name tf.dev-plan to read the content of the file .Please execute the below command
+
+	                terraform show tf.dev-plan
 - Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
+Run the terraform apply command 
 
-                     terraform apply
+              terraform apply -var-file dev-terraform.tfvars
 
-    Note: VPC networking, jenkins Ec2 instance in private subnet & Alb in public_subnet will be created
+   NOTE : dev jenkins instance created ad attached rules to the existing Alb which is created in ec2 folder 
+- If we want to destroy the environment which is created 
+
+                terraform destroy -var-file dev-terraform.tfvars
+
+- If we want to switch from one workspace to another workspace we will use a command.
+
+                 terraform workspace select <workpsace name>
+
+- #### **senario2**
+- hen we should create workspace by using command "terraform workspace new dev"
+
+                 terraform workspace new qa
+
+- After creation of the terraform workspace dev then we can proceed with a command "terraform workspace show" it show in which workspace we are placed in .
+
+                 terraform workspace show
+
+-  The terraform plan command evaluates a Terraform configuration to determine the desired state of all the resources it declares, then compares that desired state to the real infrastructure objects being managed with the current working directory and workspace. Then we can excute the command terraform plan it will shows after are the resources going to implement in the aws console.
+
+        terraform plan -var-file qa-terraform.tfvars
+    
+
+-  If we want to save the plan we will use a command 
+
+	
+       terraform plan -var-file dev-terraform.tfvars -out="tf.qa-plan"
+
+- After executing the above command the file created name tf.dev-plan to read the content of the file .Please execute the below command
+
+	                terraform show tf.qa-plan
+- Terraform apply command is used to create or introduce changes to real infrastructure. By default, apply scans the current working directory for the configuration and applies the changes appropriately.
+Run the terraform apply command 
+
+              terraform apply -var-file qa-terraform.tfvars
+
+   NOTE : qa jenkins instance created ad attached rules to the existing Alb which is created in ec2 folder 
+- If we want to destroy the environment which is created 
+
+                terraform destroy -var-file qa-terraform.tfvars
+
+- If we want to switch from one workspace to another workspace we will use a command.
+
+                 terraform workspace select <workpsace name>
+
+    
 - After the creation of the resources. the file name "terraform.txt" will be create where all logs are present in terraform.txt
-    16) After successful resources created.Access the Jenkins portal “https://jenkins.dev.wingd.digital"
+- After successful resources created.Access the Jenkins portal “https://jenkins.dev.wingd.digital" (or) "https://jenkins.qa.wingd.digita"
 
 - Configure aws credentials :
 
@@ -83,7 +142,7 @@
 
             aws ssm start-session --target "instance-id"
          
-	Note: instance-id = which is created by terraform script (wingd-jenkins)
+	Note: instance-id = which is created by terraform script (wingd-dev-jenkins) or (wingd-qa-jenkins)
 
 - Read the file initial password of Jenkins.
 
@@ -91,4 +150,6 @@
 - Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
 - After the creation of the resources we can clean by using the command.
 
-                    terraform destroy
+                 terraform destroy -var-file dev-terraform.tfvars(for dev)
+                 terraform destroy -var-file qa-terraform.tfvars(for qa)
+
