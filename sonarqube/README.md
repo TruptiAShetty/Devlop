@@ -70,7 +70,7 @@
 
                  terraform init
 
--- #### **senario1**
+- #### **senario1**
 - Then we should create workspace by using command "terraform workspace new dev"
 
                  terraform workspace new dev
