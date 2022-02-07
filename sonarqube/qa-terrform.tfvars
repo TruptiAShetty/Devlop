@@ -1,4 +1,4 @@
-prefix                             = "sonartest"
+prefix                             = "wingd-qa"
 region                             = "eu-west-1"
 ##############vpc#####################
 vpc_cidr                           = "10.0.0.0/16"
