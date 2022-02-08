@@ -108,7 +108,7 @@ Run the terraform apply command
 -  If we want to save the plan we will use a command 
 
 	
-       terraform plan -var-file dev-terraform.tfvars -out="tf.qa-plan"
+       terraform plan -var-file qa-terraform.tfvars -out="tf.qa-plan"
 
 - After executing the above command the file created name tf.dev-plan to read the content of the file .Please execute the below command
 
