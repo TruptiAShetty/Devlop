@@ -21,5 +21,5 @@ https_listeners_port                = 443
 https_listeners_protocol            = "HTTPS"
 sg_alb_ingress_rules                = ["http-80-tcp","https-443-tcp"]
 certificate_arn                     = "arn:aws:acm:eu-west-1:901259681273:certificate/3f404b71-f1a1-4b8f-9c82-4dd062fc9e16"
-private_subnet_ids                  = ["subnet-01da78d121e4af2b4"]
+subnet_vpc_endpoint                 = ["subnet-01da78d121e4af2b4"]
 bucket_name_1                       = "wingd-elb-2yuuj7uijj7"
