@@ -8,7 +8,7 @@ resource "aws_vpc_endpoint" "ec2" {
   vpc_id            = var.vpc_id                            //manual update require pass a parameter in terraform.tfvars
   service_name      = "com.amazonaws.eu-west-1.ec2"
   vpc_endpoint_type = "Interface"
-  subnet_ids        =  var.private_subnet_ids              //manual update require pass a parameter in terraform.tfvars
+  subnet_ids        =  var.subnet_vpc_endpoint             //manual update require pass a parameter in terraform.tfvars
   security_group_ids = [module.evt_sg.security_group_id]
   private_dns_enabled = true
   tags = {
