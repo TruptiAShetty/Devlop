@@ -98,7 +98,7 @@ variable "sg_alb_ingress_rules" {
   type        = list(string)
 }
 
-variable "private_subnet_ids" {
+variable "subnet_vpc_endpoint" {
    description = "private_subnet_ids"
    type        = list(string)
 }
