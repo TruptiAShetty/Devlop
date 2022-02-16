@@ -18,7 +18,7 @@
 -  Change the parameter vpc_id in dev-terraform.tfvars (which is created from env/vpc folder)
 - Change the parameter subnet_id in dev-terraform.tfvars (which is created from env/vpc folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
 - Change the parameter public_subnets in dev-terraform.tfvars (which is cretaed from env/vpc_folder) & change the parameter of private_subnet_ids for the selection subnet for the vpc endpoints
-- After that we should configure s3 backend by using `terrform init` command.
+- After that we should configure s3 backend by using `terraform init` command.
 **senario1**
 - Then we should create workspace by using command "terraform workspace new dev"
 
@@ -62,7 +62,7 @@
 -  Change the parameter vpc_id in qa-terraform.tfvars (which is created from the env/vpc folder)
 - Change the parameter subnet_id in qa-terraform.tfvars (which is created from env/vpc folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
 - Change the parameter public_subnets in qa-terraform.tfvars (which is cretaed from env/vpc folder) & change the parameter of private_subnet_ids for the selection subnet for the vpc endpoints
-- After that we should configure s3 backend by using `terrform init` command.
+- After that we should configure s3 backend by using `terraform init` command.
 ***senario2***
 
 - Then we should create workspace by usung command "terraform workspace new qa"
@@ -102,7 +102,7 @@
 - Change the parameter vpc_id in prod-terraform.tfvars (which is created from the env/vpc folder)
 - Change the parameter subnet_id in prod-terraform.tfvars (which is created from env/vpc folder). According to the requirement ec2 should deploy in the private_subnet so pass the parameter of subnet_id as a private_subnet.
 - Change the parameter public_subnets in prod-terraform.tfvars (which is cretaed from env/vpc folder)  & change the parameter of private_subnet_ids for the selection subnet for the vpc endpoints
-- After that we should configure s3 backend by using `terrform init` command.
+- After that we should configure s3 backend by using `terraform init` command.
 **senario** 
 
 - Then we should create workspace by usung command "terraform workspace new prod"
