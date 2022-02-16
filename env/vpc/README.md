@@ -14,7 +14,7 @@
 
     Note: Terraform stores information about your infrastructure in a state file. This state file keeps track of resources created by your configuration and maps them to real-world resources.
 
-- After that we should configure s3 backend by using `terrform init` command.
+- After that we should configure s3 backend by using `terraform init` command.
 - For the log file purpose please use the below commands
 
               5.1 Windows:
