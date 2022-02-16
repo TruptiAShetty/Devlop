@@ -1,14 +1,14 @@
 provider "aws" {
-  profile                 = "default"                         //manual update require pass a profile parameter                          
+  profile                 = "default"                         // Manual Update required for: pass a profile parameter                          
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
 ##################vpc endpoints##############
 resource "aws_vpc_endpoint" "ec2" {
-  vpc_id            = var.vpc_id                            //manual update require pass a parameter in terraform.tfvars
+  vpc_id            = var.vpc_id                            // pass a parameter in terraform.tfvars
   service_name      = "com.amazonaws.eu-west-1.ec2"
   vpc_endpoint_type = "Interface"
-  subnet_ids        =  var.subnet_vpc_endpoint             //manual update require pass a parameter in terraform.tfvars
+  subnet_ids        =  var.subnet_vpc_endpoint             // pass a parameter in terraform.tfvars
   security_group_ids = [module.evt_sg.security_group_id]
   private_dns_enabled = true
   tags = {
@@ -34,7 +34,7 @@ resource "aws_s3_bucket_public_access_block" "s3Public" {
 data "aws_elb_service_account" "main" {}
 
 resource "aws_s3_bucket" "elb_logs" {
-  bucket = var.bucket_name_1                           //manual update required pass a bucket_name for the creation in the terraform.tfvars if we want we can edit the name
+  bucket = var.bucket_name_1                           //pass a bucket_name for the creation in the terraform.tfvars if we want we can edit the name
   acl    = "private"
   force_destroy = true
 
@@ -220,9 +220,9 @@ module "evt_ec2" {
   name                        = "${var.prefix}-evt-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.evt_instance_type
-  iam_instance_profile        = var.iam_instance_profile                 //manual update require pass aparameter instance_profile in terraform.tfvars
+  iam_instance_profile        = var.iam_instance_profile                 // pass aparameter instance_profile in terraform.tfvars
   monitoring                  = true
-  subnet_id                   = var.private_subnet_id                   //manual update require pass a parameter private_subnet_id in terraform.tfvars 
+  subnet_id                   = var.private_subnet_id                   // pass a parameter private_subnet_id in terraform.tfvars 
   vpc_security_group_ids      = [module.evt_sg.security_group_id]
   associate_public_ip_address = false
   root_block_device = [
@@ -342,7 +342,7 @@ module "alb" {
   name               = "${var.prefix}-alb"
   load_balancer_type = "application"
   vpc_id             = var.vpc_id
-  subnets            = var.public_subnets                              //manual update require in dev-terraform.tfvars,qa-terraform.tfvars & prod-terraform.tfvars
+  subnets            = var.public_subnets                              // in dev-terraform.tfvars,qa-terraform.tfvars & prod-terraform.tfvars
   security_groups    = [module.alb_sg.security_group_id]
   enable_deletion_protection = true                                      //deletion_pritection enable..
   drop_invalid_header_fields = true
@@ -416,7 +416,7 @@ module "alb" {
     {
       port               = var.https_listeners_port
       protocol           = var.https_listeners_protocol
-      certificate_arn    = var.certificate_arn                          //manual update required pass certificate_arn as parameter which is already in existing aws_account
+      certificate_arn    = var.certificate_arn                          // pass certificate_arn as parameter which is already in existing aws_account
       action_type          = "fixed-response"
       fixed_response  = {
            content_type = "text/plain"
@@ -538,10 +538,10 @@ resource "aws_wafv2_web_acl_association" "web_acl_association_my_lb" {
 ################S3_backend configuration######################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"              //manual update required  pass bucket name ad parameter which is already present in aws_account                                                          
+    bucket                  = "wingd-tf-state"              // Manual Update required for: pass bucket name ad parameter which is already present in aws_account
     key                     = "ec2/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                  //manual update required pass a profile parameter                                     
+    profile                 = "default"                    // Manual Update required for: pass a profile parameter                                   
     shared_credentials_file = "~/.aws/credentials"
   }
 }
