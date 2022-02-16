@@ -13,7 +13,7 @@
        NOTE :Workspaces in Terraform are simply independently managed state files. A workspace contains everything that Terraform needs to manage a given collection of infrastructure, and separate Workspaces function like completely separate working directories. We can manage multiple environments with Workspaces.
 - Change the parameter vpc_id in dev-terraform.tfvars (which is created from env/vpc folder)
 - Change the parameter subnet_id in dev-terraform.tfvars (which is created from env/vpc folder).Pass the parameter of subnet_id as a private_subnets.
-- After that we should configure s3 backend by using `terrform init` command
+- After that we should configure s3 backend by using `terraform init` command
 
 **senario**
 
@@ -57,7 +57,7 @@
        NOTE :Workspaces in Terraform are simply independently managed state files. A workspace contains everything that Terraform needs to manage a given collection of infrastructure, and separate Workspaces function like completely separate working directories. We can manage multiple environments with Workspaces.
 - Change the parameter vpc_id in qa-terraform.tfvars (which is created from the env/vpc folder)
 - Change the parameter subnet_id in qa-terraform.tfvars (which is created from env/vpc folder). Pass the parameter of subnet_id as a private_subnets.
-- After that we should configure s3 backend by using `terrform init` command.
+- After that we should configure s3 backend by using `terraform init` command.
 
 
 **senario**
@@ -100,7 +100,7 @@
        NOTE :Workspaces in Terraform are simply independently managed state files. A workspace contains everything that Terraform needs to manage a given collection of infrastructure, and separate Workspaces function like completely separate working directories. We can manage multiple environments with Workspaces.
 -  Change the parameter vpc_id in prod-terraform.tfvars (which is created from the env/vpc folder)
 - Change the parameter subnet_id in prod-terraform.tfvars (which is created from env/vpc folder). Pass the parameter of subnet_id as a private_subnets.
-- After that we should configure s3 backend by using `terrform init` command.
+- After that we should configure s3 backend by using `terraform init` command.
 
 **senario** 
 
