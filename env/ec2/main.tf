@@ -78,6 +78,13 @@ module "evt_sg" {
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },
+    {
+      from_port   = var.ingress_with_cidr_blocks_from_port3
+      to_port     = var.ingress_with_cidr_blocks_to_port3
+      protocol    = var.protocol
+      description = "The protocol. If not icmp, tcp, udp, or all use the"
+      cidr_blocks = var.vpc_cidr_range
+    } 
   ]
   egress_with_cidr_blocks = [                                            
    {
@@ -110,6 +117,13 @@ module "sizop_sg" {
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },
+    {
+      from_port   = var.ingress_with_cidr_blocks_from_port3
+      to_port     = var.ingress_with_cidr_blocks_to_port3
+      protocol    = var.protocol
+      description = "The protocol. If not icmp, tcp, udp, or all use the"
+      cidr_blocks = var.vpc_cidr_range
+    }
   ]
   egress_with_cidr_blocks = [                                            
    {
@@ -143,6 +157,13 @@ module "wideonline1_sg" {
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },
+    {
+      from_port   = var.ingress_with_cidr_blocks_from_port3
+      to_port     = var.ingress_with_cidr_blocks_to_port3
+      protocol    = var.protocol
+      description = "The protocol. If not icmp, tcp, udp, or all use the"
+      cidr_blocks = var.vpc_cidr_range
+    }
   ]
   egress_with_cidr_blocks = [                                            
    {
@@ -175,6 +196,13 @@ module "wideonline2_sg" {
       description = "The protocol. If not icmp, tcp, udp, or all use the"
       cidr_blocks = var.vpc_cidr_range
     },
+    {
+      from_port   = var.ingress_with_cidr_blocks_from_port3
+      to_port     = var.ingress_with_cidr_blocks_to_port3
+      protocol    = var.protocol
+      description = "The protocol. If not icmp, tcp, udp, or all use the"
+      cidr_blocks = var.vpc_cidr_range
+    }
   ]
   egress_with_cidr_blocks = [                                            
    {
