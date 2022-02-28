@@ -35,7 +35,7 @@ data "aws_elb_service_account" "main" {}
 
 resource "aws_s3_bucket" "elb_logs" {
   bucket = var.bucket_name_1                           //pass a bucket_name for the creation in the terraform.tfvars if we want we can edit the name
-  #acl    = "private"
+  acl    = "private"
   force_destroy = true
 
   policy = <<POLICY
