@@ -60,7 +60,7 @@
 	          5.2 Linux:
 	             export TF_LOG=TRACE
 		     export TF_LOG_PATH="terraform.txt"
-- Make sure the following `S3 Bucket`(wingd-tf-state) available in the AWS console.
+- Make sure the following `S3 Bucket`(wingd-tf-state-t2) available in the AWS console.
 
   
    Note: Terraform stores information about your infrastructure in a state file. This state file keeps track of resources created by your configuration and maps them to real-world resources.
@@ -145,6 +145,7 @@ Run the terraform apply command
     
 
 - After the creation of the resources. the file name "terraform.txt" will be create where all logs are present in terraform.txt
+
 - **steps to be performed to start SonarQube application:**
              
 - Login to the sonarqube instance with the command below command
@@ -166,7 +167,7 @@ Run the terraform apply command
 - Connect to the SonarQube server through the browser. It uses port `9000`
 
                           https://sonar.dev.wingd.digital
-- **Steps to be followed in the server(http://sonar.dev.wingd.digital) & (http://sonar.qa.wingd.digital)** 
+- **Steps to be followed in the server(https://sonar.dev.wingd.digital) & (https://sonar.qa.wingd.digital)** 
              
 - Default username and Password
 

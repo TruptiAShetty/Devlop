@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = "default"                         // Manual Update required for: pass a profile parameter                          
+  profile                 = "624603455002_AWSAdministratorAccess"                         // Manual Update required for: pass a profile parameter                          
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -34,7 +34,7 @@ resource "aws_s3_bucket_public_access_block" "s3Public" {
 data "aws_elb_service_account" "main" {}
 
 resource "aws_s3_bucket" "elb_logs" {
-  bucket = var.bucket_name_1                           //pass a bucket_name for the creation in the terraform.tfvars if we want we can edit the name
+  bucket = var.bucket_name_1                           // pass a bucket_name for the creation in the terraform.tfvars if we want we can edit the name
   acl    = "private"
   force_destroy = true
 
@@ -266,7 +266,7 @@ module "evt_ec2" {
 module "sizop_ec2" {
   depends_on                  = [module.evt_ec2]
   source                      = "../../modules/ec2"
-  name                        = "${var.prefix}-${terraform.workspace}-sizop-ec2"
+  name                        = "${var.prefix}-sizop-ec2"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.sizop_instance_type
   iam_instance_profile        = var.iam_instance_profile
@@ -566,10 +566,10 @@ resource "aws_wafv2_web_acl_association" "web_acl_association_my_lb" {
 ################S3_backend configuration######################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"              // Manual Update required for: pass bucket name ad parameter which is already present in aws_account
+    bucket                  = "wingd-tf-state-t2"              // Manual Update required for: pass bucket name ad parameter which is already present in aws_account                                                          
     key                     = "ec2/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                    // Manual Update required for: pass a profile parameter                                   
+    profile                 = "624603455002_AWSAdministratorAccess"                  // Manual Update required for: pass a profile parameter                                     
     shared_credentials_file = "~/.aws/credentials"
   }
 }

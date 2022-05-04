@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = "default"                                        // Manual Update required for: passing the AWS profile 
+  profile                 = "624603455002_AWSAdministratorAccess"                                         // Manual Update required for: passing the AWS profile 
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -63,7 +63,7 @@ module "jenkins__ec2" {
   instance_type               = var.jenkins_ec2_instance_type
   iam_instance_profile        = var.iam_instance_profile                              // pass ainstance_profile in terraform.tfvars
   monitoring                  = true
-  subnet_id                   = var.private_subnet_id                                       // pass a private subnet_id in terraform .tfvars
+  subnet_id                   = var.private_subnet_id                                        // pass a private subnet_id in terraform .tfvars
   vpc_security_group_ids      = [module.jenkins_sg.security_group_id]
   associate_public_ip_address = false 
   user_data                   = file("./provisioner.sh")
@@ -73,7 +73,7 @@ module "jenkins__ec2" {
     http_tokens                 = "required"
     http_put_response_hop_limit = 8
   }
-  ebs_block_device = [                                                    //ebs encrypted..
+  ebs_block_device = [                                                    // ebs encrypted..
        {   
            encrypted             = true
            device_name           = "/dev/xvdf"
@@ -132,7 +132,7 @@ resource "aws_lb_listener_rule" "rule1" {
 
   condition {
     host_header {
-      values = ["jenkins.dev.wingd.digital"]
+      values = ["jenkins.${terraform.workspace}.wingd.digital"]
     }
   }
 }
@@ -140,10 +140,10 @@ resource "aws_lb_listener_rule" "rule1" {
 #################s3_backend#######################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                             // Manual Update required for: bucket should present in aws_account
+    bucket                  = "wingd-tf-state-t2"                             // Manual Update required for: bucket should present in aws_account
     key                     = "terraform/eu-west-1/jenkins/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                                    // Manual Update required for: pass a profile 
+    profile                 = "624603455002_AWSAdministratorAccess"                                   // Manual Update required for: pass a profile 
     shared_credentials_file = "~/.aws/credentials"
   }
 }

@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = "default"                               //manual update require pass a profile 
+  profile                 = "624603455002_AWSAdministratorAccess"                               // Manual Update required : pass a profile 
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -118,7 +118,7 @@ resource "aws_lb_listener_rule" "rule1" {
 
   condition {
     host_header {
-      values = ["sonar.dev.wingd.digital"]
+      values = ["sonar.${terraform.workspace}.wingd.digital"]
     }
   }
 }
@@ -127,10 +127,10 @@ resource "aws_lb_listener_rule" "rule1" {
 
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                                         //manual update require bucket should present in aws_account
+    bucket                  = "wingd-tf-state-t2"                                         // Manual Update required : bucket should present in aws_account
     key                     = "terraform/eu-west-1/sonarqube/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                                              //manual update require pass a profile 
+    profile                 = "624603455002_AWSAdministratorAccess"                                             // Manual Update required : pass a profile 
     shared_credentials_file = "~/.aws/credentials"
   }
 }

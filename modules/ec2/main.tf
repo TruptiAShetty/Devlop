@@ -132,6 +132,15 @@ resource "aws_instance" "this" {
 
   tags        = merge({ "Name" = var.name }, var.tags)
   volume_tags = var.enable_volume_tags ? merge({ "Name" = var.name }, var.volume_tags) : null
+  
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags, e.g., because a management agent
+      # Updates these based on some ruleset managed elsewhere.
+     ami
+    ]
+  }
+
 }
 
 resource "aws_spot_instance_request" "this" {

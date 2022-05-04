@@ -129,7 +129,9 @@ Run the terraform apply command
 
     
 - After the creation of the resources. the file name "terraform.txt" will be create where all logs are present in terraform.txt
-- After successful resources created.Access the Jenkins portal “https://jenkins.dev.wingd.digital" (or) "https://jenkins.qa.wingd.digita"
+- After successful resources created.Access the Jenkins portal “https://jenkins.dev.wingd.digital" (or) "https://jenkins.qa.wingd.digital"
+
+### Jenkins VM config:
 
 - Configure aws credentials :
 
@@ -140,13 +142,14 @@ Run the terraform apply command
 
 - Run the below command for connecting to the jenkins instance.
 
-            aws ssm start-session --target "instance-id"
+            aws ssm start-session --target "instance-id" --profile <profile info>
          
 	Note: instance-id = which is created by terraform script (wingd-dev-jenkins) or (wingd-qa-jenkins)
+        Warning: make sure the profile info is linked to the correct AWS account
 
 - Read the file initial password of Jenkins.
 
-        "sudo cat /var/lib/Jenkins/secrets/initialAdminPassword"
+        "sudo cat /var/lib/jenkins/secrets/initialAdminPassword"
 - Copy and paste the initialAdminPassword to the jenkins page and proceed to complete the jenkins installation.
 - After the creation of the resources we can clean by using the command.
 

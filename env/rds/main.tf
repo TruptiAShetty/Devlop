@@ -1,5 +1,5 @@
 provider "aws" {
-  profile                 = "default"                            //// Manual Update required for: pass a profile parameter
+  profile                 = "624603455002_AWSAdministratorAccess"                            // Manual Update required for: pass a profile parameter
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
@@ -57,10 +57,10 @@ module "db" {
 ################ S3_backend configuration############################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"                       // Manual Update required for: pass bucket name as parameter which is already present in aws_account
+    bucket                  = "wingd-tf-state-t2"                       // Manual Update required for: pass bucket name as parameter which is already present in aws_account
     key                     = "rds/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"                             // Manual Update required for: pass a profile parameter
+    profile                 = "624603455002_AWSAdministratorAccess"                             // Manual Update required for: pass a profile parameter
     shared_credentials_file = "~/.aws/credentials"
   }
 }

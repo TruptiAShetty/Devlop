@@ -10,7 +10,7 @@
 - cd to the env folder and then we can see the of ec2, rds & vpc 
 - cd to vpc folder and then type command "terraform workspace" by typing this command . It can been shown in which workspace basically we are in the `default` workspace.   
        NOTE :Workspaces in Terraform are simply independently managed state files. A workspace contains everything that Terraform needs to manage a given collection of infrastructure, and separate Workspaces function like completely separate working directories. We can manage multiple environments with Workspaces.
-- Make sure the following `S3 Bucket`(wingd-tf-state) available in the AWS console.
+- Make sure the following `S3 Bucket`(wingd-tf-state-t2) available in the AWS console.
 
     Note: Terraform stores information about your infrastructure in a state file. This state file keeps track of resources created by your configuration and maps them to real-world resources.
 
