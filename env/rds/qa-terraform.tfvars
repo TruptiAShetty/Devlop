@@ -1,7 +1,7 @@
 prefix                             = "wingd-qa"
 region                             = "eu-west-1"
 engine_version                     = "5.7.19"
-db_instance_class                  = "db.t2.medium"
+db_instance_class                  = "db.t2.small"
 db_allocated_storage               = "30"
 db_username                        = "evt"
 db_password                        = "SunLight#6"
