@@ -1,43 +1,38 @@
 provider "aws" {
-  profile                 = "default"
+  profile                 = "624603455002_AWSAdministratorAccess"                                         // Manual Update required for: passing the AWS profile 
   shared_credentials_file = pathexpand("~/.aws/credentials")
   region                  = var.region
 }
 
-module "vpc" {
-  source                 = "../modules/vpc"
-  name                   = "${var.prefix}_vpc"
-  cidr                   = var.vpc_cidr
-  azs                    = var.azs
-  public_subnets         = var.public_subnets
-  private_subnets        = var.private_subnets
-  enable_nat_gateway     = var.enable_nat_gateway
-  single_nat_gateway     = var.single_nat_gateway
-  one_nat_gateway_per_az = var.one_nat_gateway_per_az
-  enable_dns_hostnames   = var.enable_dns_hostnames
-  enable_dns_support     = var.enable_dns_support
-  tags = {
-    name = "${var.prefix}_vpc"
-  }
-}
-
+##################creation of jenkins security
 module "jenkins_sg" {
-  depends_on          = [module.vpc]
   source              = "../modules/security_group"
   name                = "${var.prefix}-jenkins-sg"
-  vpc_id              = module.vpc.vpc_id
+  vpc_id              = var.vpc_id                                                  // vpc_id in terraform.tfvars
   ingress_cidr_blocks = [var.vpc_cidr]
-  ingress_rules       = ["ssh-tcp"]
-  ingress_with_cidr_blocks = [
-    {
-      from_port   = 8080
-      to_port     = 8080
-      protocol    = "tcp"
-      description = "Jenkins Port"
-      cidr_blocks = var.vpc_cidr
-    },
-  ]
-  egress_rules = ["all-all"]
+  ingress_rules       = var.sg_jenkins_ingress_rules
+  egress_with_cidr_blocks = [                                            
+   {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = "0.0.0.0/0"
+   },
+  ] 
+   
+}
+resource "aws_security_group_rule" "ingress_with_source_security_group_id" {
+       description              = "allowed from alb"
+      from_port                = 8080
+      protocol                 = "tcp"
+      security_group_id        =module.jenkins_sg.security_group_id
+      source_security_group_id = var.source_security_group_id                  // alb_security_group_id which we are going to launch a jenkins in alb
+      to_port                  = 8080
+      type                     = "ingress"
+}
+###################ebs_enabled####################
+resource "aws_ebs_encryption_by_default" "example" {
+  enabled = true
 }
 
 data "aws_ami" "ubuntu" {
@@ -57,18 +52,34 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
-module "jenkins_ec2" {
+
+######################creation of ec2_instance#########################
+
+module "jenkins__ec2" {
   depends_on                  = [module.jenkins_sg]
   source                      = "../modules/ec2"
   name                        = "${var.prefix}-jenkins"
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.jenkins_ec2_instance_type
-  iam_instance_profile        = "ssm-role1"
+  iam_instance_profile        = var.iam_instance_profile                              // pass ainstance_profile in terraform.tfvars
   monitoring                  = true
-  subnet_id                   = module.vpc.private_subnets[0]
+  subnet_id                   = var.private_subnet_id                                        // pass a private subnet_id in terraform .tfvars
   vpc_security_group_ids      = [module.jenkins_sg.security_group_id]
-  associate_public_ip_address = true
+  associate_public_ip_address = false 
   user_data                   = file("./provisioner.sh")
+  metadata_options = {
+    State                       = "applied"
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 8
+  }
+  ebs_block_device = [                                                    // ebs encrypted..
+       {   
+           encrypted             = true
+           device_name           = "/dev/xvdf"
+           volume_size           = 10
+       }
+   ] 
   root_block_device = [
     {
       encrypted   = true
@@ -82,56 +93,57 @@ module "jenkins_ec2" {
   }
 }
 
-module "alb_sg" {
-  depends_on          = [module.vpc]
-  source              = "../modules/security_group"
-  name                = "${var.prefix}-alb-sg"
-  vpc_id              = module.vpc.vpc_id
-  ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["http-80-tcp"]
-  egress_rules        = ["all-all"]
+
+######################creation of a target group attaching to the exisiting alb###############33
+
+resource "aws_lb_target_group" "group4" {
+  name     = "jenkins1-target"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id                      
+  health_check {
+                   enabled             = true
+                    path                = "/login"
+                    port                = "traffic-port"
+                    healthy_threshold   = 3
+                    unhealthy_threshold = 2
+                    timeout             = 3
+                    interval            = 20
+                    protocol            = "HTTP"
+                    matcher             = "200-399"
+           }
+
 }
 
-module "alb" {
-  depends_on         = [module.jenkins_ec2]
-  source             = "../modules/alb"
-  name               = "${var.prefix}-alb"
-  load_balancer_type = "application"
-  vpc_id             = module.vpc.vpc_id
-  subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1]]
-  security_groups    = [module.alb_sg.security_group_id]
-  target_groups = [
-    {
-      backend_protocol = "HTTP"
-      backend_port     = 80
-      target_type      = "instance"
-      targets = [
-        {
-          target_id = module.jenkins_ec2.id
-          port      = 8080
-        }
-      ]
+resource "aws_lb_target_group_attachment" "attachment1" {
+  target_group_arn = aws_lb_target_group.group4.arn
+  target_id        = module.jenkins__ec2.id
+  port             = 8080
+}
+
+resource "aws_lb_listener_rule" "rule1" {
+  listener_arn = var.alb_listener_arn                                         // the alb_listerner_arn which is present in exisiting aws_account in terraform.tfvars
+  priority     = 10                                                          
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.group4.arn
+  }
+
+  condition {
+    host_header {
+      values = ["jenkins.${terraform.workspace}.wingd.digital"]
     }
-  ]
-  http_tcp_listeners = [
-    {
-      port               = 80
-      protocol           = "HTTP"
-      target_group_index = 0
-    }
-  ]
-  tags = {
-    name = "${var.prefix}-alb"
   }
 }
 
-
+#################s3_backend#######################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state"
+    bucket                  = "wingd-tf-state-t2"                             // Manual Update required for: bucket should present in aws_account
     key                     = "terraform/eu-west-1/jenkins/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "default"
+    profile                 = "624603455002_AWSAdministratorAccess"                                   // Manual Update required for: pass a profile 
     shared_credentials_file = "~/.aws/credentials"
   }
 }

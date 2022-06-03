@@ -2,15 +2,15 @@ variable "region" {
   description = "AWS Region the instance is launched in"
   default     = ""
 }
+
 variable "vpc_cidr_block" {
-    description = "VPC CIDR range for security group"
-    type        = string
+   description = "VPC CIDR range for security group"
+   type        = string
 }
 variable "vpc_id" {
   description = "The ID of the VPC that the instance security group belongs to"
   type        = string
 }
-
 variable "prefix" {
   description = "Prefix name for each resource"
   default     = ""
@@ -35,7 +35,7 @@ variable "db_allocated_storage" {
 variable "db_name" {
   description = "The DB name to create. If omitted, no database is created initially"
   type        = string
-  default     = "null"
+  default     = null
 }
 variable "db_username" {
   description = "Username for the master DB user"
@@ -58,7 +58,38 @@ variable "db_multi_az" {
   type        = bool
   default     = false
 }
-variable "subnet_ids" {
+variable "private_subnet_ids" {
   description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file"
 
 }
+variable "ingress_with_cidr_blocks_from_port" {
+   description = "enable port"
+   type        = number
+}
+variable "ingress_with_cidr_blocks_to_port" {
+   description = "enable port"
+   type        = number
+}
+variable "protocol"{
+   description = "protocol to be attached"
+   type        = string
+}
+variable "egress_with_cidr_blocks_from_port" {
+    description = "enable port"
+    type        = number
+}
+variable "egress_with_cidr_blocks_to_port" {
+    description = "enable port"
+    type        = number
+}
+variable "sg_engress_cidr_block" {
+     description = "The CIDR block for the engress. Default value is a valid CIDR, but not acceptable by AWS and should be overridden"
+     type = string
+}
+variable "max_allocated_storage" {
+  description = "Specifies the value for Storage Autoscaling"
+  type        = number
+}
+
+
+

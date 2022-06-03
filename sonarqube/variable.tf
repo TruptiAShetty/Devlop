@@ -7,12 +7,12 @@ variable "region" {
 }
 ###################vpc########################
 ##################public_EC2############################################
-variable "jenkins_ec2_instance_type" {
+variable "sonar_ec2_instance_type" {
   description = "The type of instance to start"
   type        = string
 }
 
-variable "jenkins_ec2_volume_size" {
+variable "sonar_ec2_volume_size" {
   description = "The root volume size"
   type        = string
 }
@@ -65,11 +65,7 @@ variable "https_listeners_protocol" {
     description = "protocol to be attached"
     type        = string
 }
-#variable "sg_alb_ingress_rules" {
-#  description = "A list of ingress_rules to attach alb"
-#  type        = list(string)
-#}
-variable "sg_jenkins_ingress_rules" {
+variable "sg_sonar_ingress_rules" {
   description = "A list of ingress_rules to attach alb"
   type        = list(string)
 }
@@ -78,6 +74,10 @@ variable "iam_instance_profile" {
   type        = string
 }
 
+#variable "alb_arn" {
+#  description = "A pre-defined alb to attach to the instance"
+#  type        = string
+#}
 
 variable "alb_listener_arn" {
   description = "A pre-defined alb_listener to attach to the alb"
