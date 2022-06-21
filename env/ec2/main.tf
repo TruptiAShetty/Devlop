@@ -494,7 +494,7 @@ module "alb" {
       priority                = 4
       actions = [{
         type               = "forward"
-        target_group_index = 3
+        target_group_index = 2
       }]
       conditions = [{
         host_headers = ["ticketing.${terraform.workspace}.wingd.digital"]
@@ -509,6 +509,17 @@ module "alb" {
       }]
       conditions = [{
         host_headers = ["wideapi.${terraform.workspace}.wingd.digital"]
+      }]
+    },
+    {
+      https_listener_index = 0
+      priority                = 6
+      actions = [{
+        type               = "forward"
+        target_group_index = 2
+      }]
+      conditions = [{
+        host_headers = ["wingdusers.${terraform.workspace}.wingd.digital"]
       }]
     },
   ]
