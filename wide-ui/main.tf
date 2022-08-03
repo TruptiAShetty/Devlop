@@ -135,7 +135,7 @@ resource "aws_lb_listener_rule" "rule1" {
 terraform {
   backend "s3" {
     bucket                  = "wideui-tf-state"              // Manual Update required for: pass bucket name ad parameter which is already present in aws_account
-    key                     = "ec2/terraform.tfstate"
+    key                     = "wideui/terraform.tfstate"
     region                  = "eu-west-1"
     profile                 = "default"                    // Manual Update required for: pass a profile parameter                                   
     shared_credentials_file = "~/.aws/credentials"
