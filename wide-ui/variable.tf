@@ -81,7 +81,3 @@ variable "source_security_group_id" {
    description ="port security group id come from wingd-env-alb"
    type        = string
 }
-variable "security_group_id" {
-   description ="port is going to add to the security group id for wingd-env-alb"
-   type        = string
-}
