@@ -53,15 +53,15 @@ resource "aws_security_group_rule" "ingress_with_source_security_group_id" {
       type                     = "ingress"
 }
 
-resource "aws_security_group_rule" "example" {
-  type              = "ingress"
-  from_port         = var.ingress_with_cidr_blocks_from_port4
-  to_port           = var.ingress_with_cidr_blocks_to_port4
-  protocol          = "tcp"
-  cidr_blocks       = ["0.0.0.0/0"]
-  description       = "managed from infrastructure"
-  security_group_id = var.security_group_id               //manual upadte required of alb security group
-}
+// resource "aws_security_group_rule" "example" {
+//   type              = "ingress"
+//   from_port         = var.ingress_with_cidr_blocks_from_port4
+//   to_port           = var.ingress_with_cidr_blocks_to_port4
+//   protocol          = "tcp"
+//   cidr_blocks       = ["0.0.0.0/0"]
+//   description       = "managed from infrastructure"
+//   security_group_id = var.security_group_id               //manual upadte required of alb security group
+// }
 
 ###############creation of wideonlineapp_security group#########
 
