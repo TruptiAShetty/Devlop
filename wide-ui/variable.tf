@@ -56,6 +56,14 @@ variable "ingress_with_cidr_blocks_to_port3" {
    description = "enable port"
    type        = number
 }
+variable "ingress_with_cidr_blocks_from_port4" {
+   description = "enable port"
+   type        = number
+}
+variable "ingress_with_cidr_blocks_to_port4" {
+   description = "enable port"
+   type        = number
+}
 
 variable "protocol"{
    description = "protocol to be attached"
