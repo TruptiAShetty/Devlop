@@ -1,0 +1,1 @@
+@reboot sleep 60 /bin/bash /home/ubuntu/run_sonar.sh
