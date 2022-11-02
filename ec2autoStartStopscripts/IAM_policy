@@ -1,0 +1,46 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:StartInstances",
+                "ec2:StopInstances"
+            ],
+            "Resource": "arn:aws:ec2:*:*:instance/*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "rds:StartDBCluster",
+                "ec2:DescribeInstances",
+                "rds:DescribeDBEngineVersions",
+                "rds:DescribeGlobalClusters",
+                "rds:DescribePendingMaintenanceActions",
+                "rds:DescribeReservedDBInstancesOfferings",
+                "logs:CreateLogStream",
+                "rds:DescribeDBInstances",
+                "rds:DescribeSourceRegions",
+                "ec2:DescribeInstanceStatus",
+                "rds:DescribeDBClusterParameters",
+                "rds:StopDBCluster",
+                "ec2:DescribeTags",
+                "rds:DescribeDBLogFiles",
+                "rds:StopDBInstance",
+                "logs:CreateLogGroup",
+                "logs:PutLogEvents",
+                "rds:StartDBInstance",
+                "rds:DescribeReservedDBInstances",
+                "rds:ListTagsForResource",
+                "rds:DescribeValidDBInstanceModifications",
+                "rds:DescribeDBClusterEndpoints",
+                "rds:DescribeDBClusters",
+                "rds:DescribeDBClusterParameterGroups",
+                "rds:DescribeOptionGroups"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
