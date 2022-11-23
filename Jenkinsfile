@@ -17,8 +17,8 @@ pipeline{
 		terraform init
 		terraform plan
 		terraform apply -auto-approve
-		bucket_name = ${terraform output bucket_name}
-		distribution-id = ${terraform output cloudfront_id}
+		bucket_name = ${terraform output --raw bucket_name}
+		distribution-id = ${terraform output --raw cloudfront_id}
 		'''
 	}
     }
@@ -26,17 +26,17 @@ pipeline{
    stage ('copy the files to s3 bucket'){
       steps {
               sh'''
-	      bucket_name = ${terraform output bucket_name}
-              distribution-id = ${terraform output cloudfront_id}
-	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/auth/dist s3://${bucket-name}/auth/latest --recursive
+	      bucket_name = ${terraform output --raw bucket_name}
+              distribution-id = ${terraform output --raw cloudfront_id}
+	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/auth/dist s3://${bucket_name}/auth/latest --recursive
 	      aws cloudfront create-invalidation --distribution-id ${distribution-id} --paths "/auth/latest/remoteEntry.js"
-	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/common/dist s3://${bucket-name}/common/latest --recursive
+	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/common/dist s3://${bucket_name}/common/latest --recursive
 	      aws cloudfront create-invalidation --distribution-id ${distribution-id} --paths "/common/latest/remoteEntry.js"
-	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/dashboard/dist s3://${bucket-name}/dashboard/latest --recursive
+	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/dashboard/dist s3://${bucket_name}/dashboard/latest --recursive
               aws cloudfront create-invalidation --distribution-id ${distribution-id} --paths "/dashboard/latest/remoteEntry.js"
-	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/header/dist s3://${bucket-name}/header/latest --recursive
+	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/header/dist s3://${bucket_name}/header/latest --recursive
               aws cloudfront create-invalidation --distribution-id ${distribution-id} --paths "/header/latest/remoteEntry.js"
-	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/webapp/dist s3://${bucket-name}/container/latest --recursive
+	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/webapp/dist s3://${bucket_name}/container/latest --recursive
               aws cloudfront create-invalidation --distribution-id ${distribution-id} --paths "/container/latest/remoteEntry.js"
 	      '''
 
