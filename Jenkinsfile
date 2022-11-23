@@ -3,7 +3,7 @@ pipeline{
   stages {
     stage ('SCM Checkout') {
     	steps {
-	 git branch: 'master', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
+	 git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
 	}
       }
     
