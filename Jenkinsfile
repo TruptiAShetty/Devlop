@@ -27,6 +27,8 @@ pipeline{
    stage ('copy the files to s3 bucket'){
       steps {
               sh'''
+	      bucketname=$(terraform output --raw bucket_name)
+	      distributionid=$(terraform output --raw cloudfront_id)
 	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/auth/dist s3://$bucketname/auth/latest --recursive
 	      aws cloudfront create-invalidation --distribution-id $distributionid --paths "/auth/latest/remoteEntry.js"
 	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/common/dist s3://$bucketname/common/latest --recursive
