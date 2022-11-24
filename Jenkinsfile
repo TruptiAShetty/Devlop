@@ -27,6 +27,7 @@ pipeline{
    stage ('copy the files to s3 bucket'){
       steps {
               sh'''
+	      cd /tmp/terraform
 	      bucketname=$(terraform output --raw bucket_name)
 	      distributionid=$(terraform output --raw cloudfront_id)
 	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/packages/auth/dist s3://$bucketname/auth/latest --recursive
