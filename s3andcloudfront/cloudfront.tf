@@ -81,3 +81,10 @@ output "bucket_name" {
 output "cloudfront_id" {
     value = "${aws_cloudfront_distribution.s3_distribution.id}"
 }
+
+
+/*  
+    Copyright (c) 2022 Winterthur Gas & Diesel Ltd. (https://wingd.com)
+    All rights reserved.
+    All files in this SharePoint shall not be copied and/or distributed and/or used for other purposes than agreed without the prior written permission of Winterthur Gas & Diesel Ltd.
+*/

@@ -84,3 +84,9 @@ def shut_rds_all():
 
 shut_rds_all()
 
+
+    #Copyright (c) 2022 Winterthur Gas & Diesel Ltd. (https://wingd.com)
+    #All rights reserved.
+    #All files in this SharePoint shall not be copied and/or distributed and/or used for other purposes than agreed without the prior written permission of Winterthur Gas & Diesel Ltd.
+
+
