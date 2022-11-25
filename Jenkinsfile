@@ -39,6 +39,7 @@ pipeline{
 		distributionid=$(terraform output --raw cloudfront_id)
 		aws s3 cp ${WORKSPACE}/wideui-fe/packages/auth/dist s3://$bucketname/auth/latest --recursive
 		aws cloudfront create-invalidation --distribution-id $distributionid --paths "/auth/latest/remoteEntry.js"
+		cd ${WORKSPACE}/wideui-fe/packages/auth/
 		npm run sonar:dev
 		'''
 	}
@@ -84,7 +85,8 @@ pipeline{
                 distributionid=$(terraform output --raw cloudfront_id)
                 aws s3 cp ${WORKSPACE}/wideui-fe/packages/header/dist s3://$bucketname/header/latest --recursive
                 aws cloudfront create-invalidation --distribution-id $distributionid --paths "/header/latest/remoteEntry.js"
-                npm run sonar:dev
+                cd ${WORKSPACE}/wideui-fe/packages/header/
+		npm run sonar:dev
 		'''
         }
     }
@@ -102,6 +104,7 @@ pipeline{
                 distributionid=$(terraform output --raw cloudfront_id)
                 aws s3 cp ${WORKSPACE}/wideui-fe/packages/webapp/dist s3://$bucketname/container/latest --recursive
                 aws cloudfront create-invalidation --distribution-id $distributionid --paths "/container/latest/remoteEntry.js"
+		cd ${WORKSPACE}/wideui-fe/packages/webapp/
                 npm run sonar:dev
 		'''
         }
