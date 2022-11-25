@@ -4,6 +4,9 @@ pipeline{
     stage ('SCM Checkout') {
     	steps {
 	 git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
+	 dir ('wideui-fe'){ 
+	       git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/wideui.git'
+	       }
 	}
       }
     
@@ -24,10 +27,10 @@ pipeline{
 	}
     }
 
-    stage ('Deployind Auth changes'){
+    stage ('Deploying Auth changes'){
 	steps {
 		sh '''
-		cd ${WORKSPACE}/packages/auth/
+		cd ${WORKSPACE}/wideui-fe/packages/auth/
 		npm install -y
 		npm run test:report
 		npm run build:dev
@@ -43,7 +46,7 @@ pipeline{
     stage ('Common Changes'){
 	steps {
 		sh '''
-		cd ${WORKSPACE}/packages/common/
+		cd ${WORKSPACE}/wideui-fe/packages/common/
                 npm install -y
                 npm run build:dev
 		cd ${WORKSPACE}/terraform
@@ -57,7 +60,7 @@ pipeline{
     stage ('Dashboard Changes'){
         steps {
                 sh '''
-                cd ${WORKSPACE}/packages/dashboard/
+                cd ${WORKSPACE}/wideui-fe/packages/dashboard/
                 npm install -y
                 npm run build:dev
 		cd ${WORKSPACE}/terraform
@@ -72,7 +75,7 @@ pipeline{
     stage ('Header Changes'){
         steps {
                 sh '''
-                cd ${WORKSPACE}/packages/header/
+                cd ${WORKSPACE}/wideui-fe/packages/header/
                 npm install -y
                 npm run test:report
                 npm run build:dev
@@ -89,7 +92,7 @@ pipeline{
     stage ('Webapp Changes'){
         steps {
                 sh '''
-                cd ${WORKSPACE}/packages/webapp/
+                cd ${WORKSPACE}/wideui-fe/packages/webapp/
                 npm install -y
                 npm run test:report
 		sudo rm -rf dist
@@ -108,7 +111,7 @@ pipeline{
    stage ('Remove existing docker images') {
      steps {
             sh '''#!/bin/bash
-	    cd ${WORKSPACE}/docker/
+	    cd ${WORKSPACE}/wideui-fe/docker/
     	    docker-compose down
     	    docker-compose -p wideui down
     	    docker system prune --force --all'''
@@ -117,7 +120,7 @@ pipeline{
    stage ('Build docker tar file'){
 	 steps {
 		   sh '''#!/bin/bash
-    		   cd ${WORKSPACE}/packages/webapp
+    		   cd ${WORKSPACE}/wideui-fe/packages/webapp
     		   npm install -y
     		   sudo usermod -a -G docker $USER && npm run docker'''
 		   }
@@ -126,7 +129,7 @@ pipeline{
 	 steps {
 		sh '''#!/bin/bash
     		aws s3 sync s3://docker-mfe/docker-images . --delete
-    		aws s3 cp ${WORKSPACE}/packages/webapp/dist-docker-images/ s3://docker-mfe/docker-images --exclude "*" --include "*.zip"'''
+    		aws s3 cp ${WORKSPACE}/wideui-fe/packages/webapp/dist-docker-images/ s3://docker-mfe/docker-images --exclude "*" --include "*.zip"'''
 		}
 	}
 
