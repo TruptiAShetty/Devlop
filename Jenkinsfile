@@ -11,7 +11,7 @@ pipeline{
 	steps {
 		sh'''
 		cd ${WORKSPACE}
-		mkdir terraform
+		mkdir -p terraform
 		cp ${WORKSPACE}/s3andcloudfront/cloudfront.tf ${WORKSPACE}/terraform
 		cd ${WORKSPACE}/terraform
 		terraform init
