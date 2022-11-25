@@ -37,7 +37,7 @@ pipeline{
 	        cd ${WORKSPACE}/terraform
 		bucketname=$(terraform output --raw bucket_name)
 		distributionid=$(terraform output --raw cloudfront_id)
-		aws s3 cp ${WORKSPACE}/packages/auth/dist s3://$bucketname/auth/latest --recursive
+		aws s3 cp ${WORKSPACE}/wideui-fe/packages/auth/dist s3://$bucketname/auth/latest --recursive
 		aws cloudfront create-invalidation --distribution-id $distributionid --paths "/auth/latest/remoteEntry.js"
 		npm run sonar:dev
 		'''
@@ -52,7 +52,7 @@ pipeline{
 		cd ${WORKSPACE}/terraform
                 bucketname=$(terraform output --raw bucket_name)
                 distributionid=$(terraform output --raw cloudfront_id)
-                aws s3 cp ${WORKSPACE}/packages/common/dist s3://$bucketname/common/latest --recursive
+                aws s3 cp ${WORKSPACE}/wideui-fe/packages/common/dist s3://$bucketname/common/latest --recursive
                 aws cloudfront create-invalidation --distribution-id $distributionid --paths "/common/latest/remoteEntry.js"
 		'''
 	}
@@ -66,7 +66,7 @@ pipeline{
 		cd ${WORKSPACE}/terraform
                 bucketname=$(terraform output --raw bucket_name)
                 distributionid=$(terraform output --raw cloudfront_id)
-                aws s3 cp ${WORKSPACE}/packages/dashboard/dist s3://$bucketname/dashboard/latest --recursive
+                aws s3 cp ${WORKSPACE}/wideui-fe/packages/dashboard/dist s3://$bucketname/dashboard/latest --recursive
                 aws cloudfront create-invalidation --distribution-id $distributionid --paths "/dashboard/latest/remoteEntry.js"
 		'''
 
@@ -82,7 +82,7 @@ pipeline{
 		cd ${WORKSPACE}/terraform
                 bucketname=$(terraform output --raw bucket_name)
                 distributionid=$(terraform output --raw cloudfront_id)
-                aws s3 cp ${WORKSPACE}/packages/header/dist s3://$bucketname/header/latest --recursive
+                aws s3 cp ${WORKSPACE}/wideui-fe/packages/header/dist s3://$bucketname/header/latest --recursive
                 aws cloudfront create-invalidation --distribution-id $distributionid --paths "/header/latest/remoteEntry.js"
                 npm run sonar:dev
 		'''
@@ -100,7 +100,7 @@ pipeline{
 		cd ${WORKSPACE}/terraform
                 bucketname=$(terraform output --raw bucket_name)
                 distributionid=$(terraform output --raw cloudfront_id)
-                aws s3 cp ${WORKSPACE}/packages/webapp/dist s3://$bucketname/container/latest --recursive
+                aws s3 cp ${WORKSPACE}/wideui-fe/packages/webapp/dist s3://$bucketname/container/latest --recursive
                 aws cloudfront create-invalidation --distribution-id $distributionid --paths "/container/latest/remoteEntry.js"
                 npm run sonar:dev
 		'''
