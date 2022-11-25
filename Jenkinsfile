@@ -105,27 +105,6 @@ pipeline{
     }
 
 
-#   stage ('copy the files to s3 bucket'){
-#      steps {
-#              sh'''
-#	      cd ${WORKSPACE}/terraform
-#	      bucketname=$(terraform output --raw bucket_name)
-#	      distributionid=$(terraform output --raw cloudfront_id)
-#	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/packages/auth/dist s3://$bucketname/auth/latest --recursive
-#	      aws cloudfront create-invalidation --distribution-id $distributionid --paths "/auth/latest/remoteEntry.js"
-#	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/packages/common/dist s3://$bucketname/common/latest --recursive
-#	      aws cloudfront create-invalidation --distribution-id $distributionid --paths "/common/latest/remoteEntry.js"
-#	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/packages/dashboard/dist s3://$bucketname/dashboard/latest --recursive
-#              aws cloudfront create-invalidation --distribution-id $distributionid --paths "/dashboard/latest/remoteEntry.js"
-#	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/packages/header/dist s3://$bucketname/header/latest --recursive
-#              aws cloudfront create-invalidation --distribution-id $distributionid --paths "/header/latest/remoteEntry.js"
-#	      aws s3 cp /var/lib/jenkins/workspace/wideui/wideui-Frontend/packages/webapp/dist s3://$bucketname/container/latest --recursive
-#              aws cloudfront create-invalidation --distribution-id $distributionid --paths "/container/latest/remoteEntry.js"
-#	      '''
-#
-#      }
-#
-#   }
    stage ('Remove existing docker images') {
      steps {
             sh '''#!/bin/bash
