@@ -16,7 +16,7 @@ pipeline{
 		cd ${WORKSPACE}/terraform
 		terraform init
 		terraform plan -out wideuife.out 
-		terraform apply -auto-approve -out wideuife.out 
+		terraform apply -auto-approve wideuife.out 
 		bucketname=$(terraform output --raw bucket_name)
 		sleep 2m
 		distributionid=$(terraform output --raw cloudfront_id)
