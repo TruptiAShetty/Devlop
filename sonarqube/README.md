@@ -206,5 +206,20 @@ Run the terraform apply command
                     4.2.2 Check install automatically give version of  "SonarQube Scanner 4.6.2.2472" (for other project)
                 4.3 Click apply and save 
         5. Run Pipeline job (which are already provide in the jenkinsfile of the project sizop_deployment,evt,sizop_rest & sizop_web)     
-      
+
+#Auto start sonar server on boot (When EC2 machines started) using script
+1. copy the script (run_sonar.sh) to the machine.
+
+https://gitlab.wingd.com/wide2/aws_infra_terraform/-/blob/development/sonarqube/run_sonar.sh
+
+2. configure this script in crontab to start the service on boot ( when ever machine starts)
+
+Please use the following cron
+
+edit using (crontab -e) for edit
+
+https://gitlab.wingd.com/wide2/aws_infra_terraform/-/blob/development/sonarqube/crontab.txt
+
+
+
        
