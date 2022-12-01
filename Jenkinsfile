@@ -26,7 +26,7 @@ pipeline{
 		'''
 	}
     }
-   post {
+  post {
       always {
 	  echo 'post build action'
 	  build job: 'wideui-Frontend', parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: $distributionid], [$class: 'StringParameterValue', name: 'bucketName', value: $bucketname]]
