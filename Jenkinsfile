@@ -26,6 +26,7 @@ pipeline{
 		'''
 	}
     }
+   }
   post {
       always {
 	  echo 'post build action'
@@ -38,5 +39,5 @@ pipeline{
    }
 
 }
-}
+
 
