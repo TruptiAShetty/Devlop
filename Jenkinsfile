@@ -32,26 +32,16 @@ pipeline{
 		sleep 2m
 		distributionid=$(terraform output --raw cloudfront_id)
 		'''
+		script {
+		    build job: 'wideui-Frontend'
+		    bucketname=$(terraform output --raw bucket_name)
+		    distributionid=$(terraform output --raw cloudfront_id)
+		    parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: "${env.distributionid}"], [$class: 'StringParameterValue', name: 'bucketName', value: "${env.bucketname}"]]
+
+
+		}
 	}
     }
    }
-  post {
-      always {
-        script {
-	  cd ${WORKSPACE}/terraform
-	  bucketname=$(terraform output --raw bucket_name)
-	  distributionid=$(terraform output --raw cloudfront_id)
-	  echo 'post build action'
-	  build job: 'wideui-Frontend', parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: "${env.distributionid}"], [$class: 'StringParameterValue', name: 'bucketName', value: "${env.bucketname}"]]
-
-
-      }
-
-      }
-
-
-   }
 
 }
-
-
