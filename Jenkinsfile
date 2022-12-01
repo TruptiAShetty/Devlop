@@ -33,9 +33,12 @@ pipeline{
 		distributionid=$(terraform output --raw cloudfront_id)
 		'''
 		script {
+		    cd ${WORKSPACE}/terraform
 		    build job: 'wideui-Frontend'
-		    bucketname=`terraform output --raw bucket_name`
-		    distributionid=`terraform output --raw cloudfront_id`
+		    def bucketname = sh(script: 'terraform output --raw bucket_name', returnstdout: true)
+		    print bucketname
+		    def distributionid =  sh(script: 'terraform output --raw cloudfront_id', returnstdout: true)
+		    print distributionid
 		    parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: "${env.distributionid}"], [$class: 'StringParameterValue', name: 'bucketName', value: "${env.bucketname}"]]
 
 
