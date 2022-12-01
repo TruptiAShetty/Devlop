@@ -38,7 +38,7 @@ pipeline{
   post {
       always {
 	  echo 'post build action'
-	  build job: 'wideui-Frontend', parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: ${env.distributionid}], [$class: 'StringParameterValue', name: 'bucketName', value: ${env.bucketname}]]
+	  build job: 'wideui-Frontend', parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: "${env.distributionid}"], [$class: 'StringParameterValue', name: 'bucketName', value: "${env.bucketname}"]]
 
 
       }
