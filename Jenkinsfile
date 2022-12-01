@@ -29,6 +29,7 @@ pipeline{
    }
   post {
       always {
+          cd ${WORKSPACE}/terraform
           bucketname=$(terraform output --raw bucket_name)
           distributionid=$(terraform output --raw cloudfront_id)
 	  echo 'post build action'
