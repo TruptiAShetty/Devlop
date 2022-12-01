@@ -1,13 +1,6 @@
-
 pipeline{
-  agent any;
-  environment {
+  agent any
 
-  	bucketname=""
-	distributionid=""
-
-
-  }
   stages {
     stage ('SCM Checkout') {
     	steps {
@@ -29,22 +22,27 @@ pipeline{
 		terraform plan -out wideuife.out 
 		terraform apply -auto-approve wideuife.out 
 		bucketname=$(terraform output --raw bucket_name)
-		sleep 2m
+		echo $bucketname > $HOME/bname.txt
+		sleep 1m
 		distributionid=$(terraform output --raw cloudfront_id)
+		echo $distributionid > $HOME/dname.txt
 		'''
-		script {
-		    cd ${WORKSPACE}/terraform
-		    build job: 'wideui-Frontend'
-		    def bucketname = sh(script: 'terraform output --raw bucket_name', returnstdout: true)
-		    print bucketname
-		    def distributionid =  sh(script: 'terraform output --raw cloudfront_id', returnstdout: true)
-		    print distributionid
-		    parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: 'env.distributionid'], [$class: 'StringParameterValue', name: 'bucketName', value: 'env.bucketname']]
-
-
 		}
+	
 	}
-    }
-   }
+	}
+    post {
+      always {
+          script {
 
-}
+	        echo 'post build action, triggering the wideui-frontend job which will build and deploy'
+		build job: 'wideui-Frontend'
+	        
+          }
+
+      }
+
+
+   }
+ 
+ }
