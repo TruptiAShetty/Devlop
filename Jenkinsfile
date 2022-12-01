@@ -29,6 +29,8 @@ pipeline{
    }
   post {
       always {
+          bucketname=$(terraform output --raw bucket_name)
+          distributionid=$(terraform output --raw cloudfront_id)
 	  echo 'post build action'
 	  build job: 'wideui-Frontend', parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: $distributionid], [$class: 'StringParameterValue', name: 'bucketName', value: $bucketname]]
 
