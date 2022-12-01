@@ -39,7 +39,7 @@ pipeline{
 		    print bucketname
 		    def distributionid =  sh(script: 'terraform output --raw cloudfront_id', returnstdout: true)
 		    print distributionid
-		    parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: '$distributionid'], [$class: 'StringParameterValue', name: 'bucketName', value: '$bucketname']]
+		    parameters:[[$class: 'StringParamaterValue', name: 'distributionId', value: 'env.distributionid'], [$class: 'StringParameterValue', name: 'bucketName', value: 'env.bucketname']]
 
 
 		}
