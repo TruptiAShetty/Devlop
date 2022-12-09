@@ -5,9 +5,6 @@ pipeline{
     stage ('SCM Checkout') {
     	steps {
 	 git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
-	 dir ('wideui-fe'){ 
-	       git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/wideui.git'
-	       }
 	}
       }
     
