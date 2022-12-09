@@ -1,23 +1,29 @@
-resource "aws_s3_bucket" "b" {
-  bucket = "wideui-frontend-terraform"
 
-  tags = {
-    Name = "Frontend Bucket Terrafrom"
-  }
+provider "aws"{
+  region = "${var.region}"
+
 }
 
-resource "aws_s3_bucket_acl" "b_acl" {
-  bucket = aws_s3_bucket.b.id
-  acl    = "private"
+resource "aws_s3_bucket" "b" {
+  bucket = "${var.aws_s3_bucket}"
+
+    website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+
+  tags = {
+    Name = var.bucket_name
+  }
 }
 
 
 locals {
-  s3_origin_id = "wideui-frontend-terraform.s3.eu-west-1.amazonaws.com"
+  s3_origin_id = "${var.aws_s3_bucket}.s3.eu-west-1.amazonaws.com"
 }
 
 resource "aws_cloudfront_origin_access_identity" "s3_cf_oai" {
-      comment= "origin identity for CF"
+      comment= "access-identity-${local.s3_origin_id}"
 }
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
@@ -31,11 +37,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "Wideui_frontend"
-  default_root_object = "index.html"
+  comment             = "wideui-frontend"
+  default_root_object = "${var.doc_root}"
 
 
-  aliases = ["wideui-test.dev.wingd.digital"]
+  aliases = var.domains
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -59,20 +65,42 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "none"
+      restriction_type = "${var.restriction}"
     }
   }
 
   tags = {
-    Environment = "development"
+    Environment = var.restriction_env
   }
 
   viewer_certificate {
     cloudfront_default_certificate = true
-    acm_certificate_arn = "arn:aws:acm:us-east-1:901259681273:certificate/7879f625-e0a3-47b5-940d-fc0313debe5c"
+    acm_certificate_arn = "${var.cert_arn}"
     ssl_support_method = "sni-only"
   }
 }
+
+
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.b.arn}/*"]
+   principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.s3_cf_oai.iam_arn]
+    }
+  }
+}
+resource "aws_s3_bucket_policy" "s3_bucket_policy" {
+  bucket = aws_s3_bucket.b.id
+  policy = data.aws_iam_policy_document.s3_policy.json
+}
+resource "aws_s3_bucket_public_access_block" "s3_bucket_acl" {
+  bucket = aws_s3_bucket.b.id
+  block_public_acls       = true
+  block_public_policy     = true
+}
+
 
 
 output "bucket_name" {
@@ -81,6 +109,10 @@ output "bucket_name" {
 
 output "cloudfront_id" {
     value = "${aws_cloudfront_distribution.s3_distribution.id}"
+}
+
+output "cloudfron_dns"{
+   value = "${aws_cloudfront_distribution.s3_distribution.domain_name}"
 }
 
 
