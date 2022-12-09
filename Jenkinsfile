@@ -16,33 +16,15 @@ pipeline{
 		sh'''
 		cd ${WORKSPACE}
 		mkdir -p terraform
-		cp ${WORKSPACE}/s3andcloudfront/cloudfront.tf ${WORKSPACE}/terraform
+		cp ${WORKSPACE}/s3andcloudfront/* ${WORKSPACE}/terraform
 		cd ${WORKSPACE}/terraform
 		terraform init
-		terraform plan -out wideuife.out 
-		terraform apply -auto-approve wideuife.out 
-		bucketname=$(terraform output --raw bucket_name)
-		echo $bucketname > $HOME/bname.txt
-		sleep 1m
-		distributionid=$(terraform output --raw cloudfront_id)
-		echo $distributionid > $HOME/dname.txt
+	        terraform plan -var-file dev.tfvars -out dev.out
+		terraform apply -auto-approve dev.out
 		'''
 		}
 	
 	}
 	}
-    post {
-      always {
-          script {
-
-	        echo 'post build action, triggering the wideui-frontend job which will build and deploy'
-		build job: 'wideui-Frontend'
-	        
-          }
-
-      }
-
-
-   }
  
  }
