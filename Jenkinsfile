@@ -21,6 +21,11 @@ pipeline{
 		terraform init
 	        terraform plan -var-file dev.tfvars -out dev.out
 		terraform apply -auto-approve dev.out
+		bucketname=$(terraform output --raw bucket_name)
+		echo $bucketname > $HOME/bname.txt
+		sleep 1m
+		distributionid=$(terraform output --raw cloudfront_id)
+		echo $distributionid > $HOME/dname.txt
 		'''
 		}
 	
