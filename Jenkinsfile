@@ -23,6 +23,9 @@ pipeline{
 		sleep 1m
 		distributionid=$(terraform output --raw cloudfront_id)
 		echo $distributionid > $HOME/dname.txt
+		aws s3 cp ${WORKSPACE}/terraform/terraform.tfstate s3://wideui-tf-state/s3andcloudfront/terraform.tfstate
+		aws s3 cp ${HOME}/bname.txt s3://wideui-tf-state/s3andcloudfront/
+		aws s3 cp ${HOME}/dname.txt s3://wideui-tf-state/s3andcloudfront/
 		'''
 		}
 	
