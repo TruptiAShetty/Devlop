@@ -1,0 +1,39 @@
+pipeline{
+  agent any
+
+  stages {
+    stage ('SCM Checkout') {
+    	steps {
+	 git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
+	}
+      }
+
+    stage ('clone wideui repository to zip it and upload to s3'){
+       steps {
+         dir ('wideui-backend'){
+            git branch: 'development'
+	    credentialsId: 'rahamat-git-credentials'
+	    url: 'https://gitlab.wingd.com/wide2/wideui-backend.git'
+	 }
+
+       }
+    }
+    
+    stage ('run terraform script'){ 
+	steps {
+		sh'''
+		cd ${WORKSPACE}
+		mkdir -p terraform_lambda
+		cp ${WORKSPACE}/lambda/* ${WORKSPACE}/terraform_lambda
+		cd ${WORKSPACE}/terraform_lambda
+		terraform init
+	        terraform plan -var-file terraform.tfvars -out dev_lambda.out
+		terraform apply -auto-approve dev_lambda.out
+		aws s3 cp ${WORKSPACE}/terraform_lambda/terraform.tfstate s3://wideui-tf-state/lambda/terraform.tfstate
+		'''
+		}
+	
+	}
+	}
+ 
+ }
