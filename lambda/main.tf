@@ -6,7 +6,7 @@ provider "aws" {
 
 data "archive_file" "lambda" {
   type        = "zip"
-  source_dir  = "./wideui-backend"
+  source_dir  = "../wideui-backend"
   output_path = "wideui-backend_lambda.zip"
 }
 
