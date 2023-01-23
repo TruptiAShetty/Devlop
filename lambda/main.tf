@@ -10,6 +10,7 @@ data "archive_file" "lambda" {
   output_path = "wideui-backend_lambda.zip"
 }
 
+
 resource "aws_s3_bucket_object" "wideui" {
   bucket = "${var.bucketname}"
   key    = "${var.zipname}"
@@ -132,6 +133,26 @@ resource "aws_lambda_permission" "api_gw" {
   principal     = "apigateway.amazonaws.com"
 
   source_arn = "${aws_apigatewayv2_api.wideuibackend.execution_arn}/*/*"
+}
+
+
+resource "aws_s3_bucket_notification" "my-trigger" {
+    bucket = "${var.bucketname}"
+
+    lambda_function {
+        lambda_function_arn = "${aws_lambda_function.lambda_function.arn}"
+        events              = ["s3:ObjectCreated:*"]
+        filter_prefix       = "wideui-backend_lambda"
+        filter_suffix       = ".zip"
+    }
+}
+
+resource "aws_lambda_permission" "test" {
+  statement_id  = "AllowS3Invoke"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.lambda_function.arn}"
+  principal = "s3.amazonaws.com"
+  source_arn = "arn:aws:s3:::wideui-backend"
 }
 
 
