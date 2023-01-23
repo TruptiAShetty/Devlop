@@ -11,8 +11,8 @@ pipeline{
     stage ('clone wideui repository to zip it and upload to s3'){
        steps {
          dir ('wideui-backend'){
-            git branch: 'development'
-	    credentialsId: 'rahamat-git-credentials'
+            git branch: 'development',
+	    credentialsId: 'rahamat-git-credentials',
 	    url: 'https://gitlab.wingd.com/wide2/wideui-backend.git'
 	 }
 
