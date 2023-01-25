@@ -28,7 +28,7 @@ variable "lambda-function" {
 
 }
 
-variable "subnet_public_id" {
+variable "subnet_public1_id" {
   type        = string
   description = "Public subnet CIDR"
 }
@@ -37,6 +37,23 @@ variable "subnet_private_id" {
   type        = string
   description = "Private subnet CIDR"
 }
+
+
+variable "subnet_public2_id" {
+  type        = string
+  description = "Public subnet CIDR"
+}
+
+variable "subnet_private2_id" {
+  type        = string
+  description = "Private subnet CIDR"
+}
+
+variable "subnet_private3_id" {
+  type        = string
+  description = "Private subnet CIDR"
+}
+
 
 variable "security_group_id"{
    type = string
