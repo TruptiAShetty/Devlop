@@ -12,13 +12,10 @@ data "archive_file" "lambda" {
 
 
 resource "aws_s3_bucket_object" "wideui" {
-  bucket = "${var.aws_s3_bucket_object}"
+  bucket = "${var.bucketname}"
   key    = "${var.zipname}"
   source = data.archive_file.lambda.output_path
-  tags = {
-	Name = var.bucketname
 
-  }
 }
 
 
@@ -141,7 +138,7 @@ resource "aws_lambda_permission" "api_gw" {
 
 
 resource "aws_s3_bucket_notification" "my-trigger" {
-    bucket = aws_s3_bucket_object.wideui.id
+    bucket = "${var.bucketname}"
 
     lambda_function {
         lambda_function_arn = "${aws_lambda_function.lambda_function.arn}"
