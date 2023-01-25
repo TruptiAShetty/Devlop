@@ -138,7 +138,7 @@ resource "aws_lambda_permission" "api_gw" {
 
 
 resource "aws_s3_bucket_notification" "my-trigger" {
-    bucket = "${var.bucketname}"
+    bucket = "wideui-backend-tf"
 
     lambda_function {
         lambda_function_arn = "${aws_lambda_function.lambda_function.arn}"
@@ -153,7 +153,7 @@ resource "aws_lambda_permission" "test" {
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.lambda_function.arn}"
   principal = "s3.amazonaws.com"
-  source_arn = "${aws_s3_bucket_object.wideui.arn}"
+  source_arn = "arn:aws:s3:::wideui-backend-tf"
 }
 
 
