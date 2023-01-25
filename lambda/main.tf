@@ -13,18 +13,18 @@ data "archive_file" "lambda" {
 
 resource "aws_s3_bucket" "b" {
   bucket = "${var.aws_s3_bucket}"
-  key    = "${var.zipname}"
-  source = data.archive_file.lambda.output_path
-
-    website {
-    index_document = "index.html"
-    error_document = "error.html"
-  }
-
   tags = {
     Name = var.bucket_name
   }
 }
+
+resource "aws_s3_bucket_object" "wideui" {
+  bucket = "${aws_s3_bucket.b.bucket}"
+  key = "${var.zipname}"
+  source = data.archive_file.lambda.output_path
+
+}
+
 
 
 data "aws_iam_policy_document" "AWSLambdaTrustPolicy" {
@@ -72,7 +72,7 @@ resource "aws_lambda_function" "lambda_function" {
   #filename                = data.archive_file.lambda.output_path
   function_name           = "${var.lambda-function}"
   role                    = aws_iam_role.iam_role.arn
-  s3_bucket               = aws_s3_bucket_object.wideui.bucket
+  s3_bucket               = aws_s3_bucket.b.bucket
   s3_key                  = aws_s3_bucket_object.wideui.key
   handler                 = "server.handler"
   runtime                 = "nodejs18.x"
