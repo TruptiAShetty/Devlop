@@ -76,7 +76,7 @@ resource "aws_lambda_function" "lambda_function" {
 
 
 resource "aws_apigatewayv2_api" "wideuibackend" {
-  name          = "wideui-backend2"
+  name          = "wideui-backend-tf"
   protocol_type = "HTTP"
 }
 
