@@ -153,7 +153,7 @@ resource "aws_lambda_permission" "test" {
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.lambda_function.arn}"
   principal = "s3.amazonaws.com"
-  source_arn = "arn:aws:s3:::wideui-backend"
+  source_arn = "${aws_s3_bucket_object.wideui.arn}"
 }
 
 
