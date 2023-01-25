@@ -30,7 +30,7 @@ pipeline{
 	        terraform plan -var-file terraform.tfvars -out dev_lambda.out
 		terraform apply -auto-approve dev_lambda.out
 		bucket_name=$(terraform output --raw bucket_name)
-		echo $bucketname > $HOME/bucket_name.txt
+		echo $bucket_name > $HOME/bucket_name.txt
 		sleep 1m
 		lambda_function_name=$(terraform output --raw lambda_function_name)
 		echo $lambda_function_name > $HOME/lambda_name.txt
