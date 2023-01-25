@@ -12,9 +12,13 @@ data "archive_file" "lambda" {
 
 
 resource "aws_s3_bucket_object" "wideui" {
-  bucket = "${var.bucketname}"
+  bucket = "${var.aws_s3_bucket_object}"
   key    = "${var.zipname}"
   source = data.archive_file.lambda.output_path
+  tags = {
+	Name = var.bucketname
+
+  }
 }
 
 
