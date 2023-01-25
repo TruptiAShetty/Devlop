@@ -141,7 +141,7 @@ resource "aws_lambda_permission" "api_gw" {
 
 
 resource "aws_s3_bucket_notification" "my-trigger" {
-    bucket = "${aws_s3_bucket_object.wideui.bucket}"
+    bucket = aws_s3_bucket_object.wideui.id
 
     lambda_function {
         lambda_function_arn = "${aws_lambda_function.lambda_function.arn}"
