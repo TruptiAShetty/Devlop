@@ -62,14 +62,10 @@ variable "security_group_id"{
 
 
 
-variable "aws_s3_bucket_object"{
-  description = "give bucket name"
-  type        = string
-
-}
 
 variable bucketname {
   description = "Bucket name"
+  type = string
 }
 
 variable zipname {
