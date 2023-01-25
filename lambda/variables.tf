@@ -61,9 +61,13 @@ variable "security_group_id"{
 }
 
 
+variable aws_s3_bucket {
+  description = "prvide name"
+  type = string
+}
 
 
-variable bucketname {
+variable bucket_name {
   description = "Bucket name"
   type = string
 }

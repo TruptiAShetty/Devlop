@@ -30,10 +30,10 @@ pipeline{
 	        terraform plan -var-file terraform.tfvars -out dev_lambda.out
 		terraform apply -auto-approve dev_lambda.out
 		bucket_name=$(terraform output --raw bucket_name)
-		echo $bucketname > $HOME/bname.txt
+		echo $bucketname > $HOME/bucket_name.txt
 		sleep 1m
 		lambda_function_name=$(terraform output --raw lambda_function_name)
-		echo $lambda_function_name > $HOME/lname.txt
+		echo $lambda_function_name > $HOME/lambda_name.txt
 		aws s3 cp ${WORKSPACE}/terraform_lambda/terraform.tfstate s3://wideui-tf-state/lambda/terraform.tfstate
 		'''
 		}

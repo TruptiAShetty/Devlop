@@ -11,11 +11,19 @@ data "archive_file" "lambda" {
 }
 
 
-resource "aws_s3_bucket_object" "wideui" {
-  bucket = "${var.bucketname}"
+resource "aws_s3_bucket" "b" {
+  bucket = "${var.aws_s3_bucket}"
   key    = "${var.zipname}"
   source = data.archive_file.lambda.output_path
 
+    website {
+    index_document = "index.html"
+    error_document = "error.html"
+  }
+
+  tags = {
+    Name = var.bucket_name
+  }
 }
 
 
@@ -138,7 +146,7 @@ resource "aws_lambda_permission" "api_gw" {
 
 
 resource "aws_s3_bucket_notification" "my-trigger" {
-    bucket = "wideui-backend-tf"
+    bucket = "${aws_s3_bucket.b.bucket}"
 
     lambda_function {
         lambda_function_arn = "${aws_lambda_function.lambda_function.arn}"
@@ -153,12 +161,12 @@ resource "aws_lambda_permission" "test" {
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.lambda_function.arn}"
   principal = "s3.amazonaws.com"
-  source_arn = "arn:aws:s3:::wideui-backend-tf"
+  source_arn = "${aws_s3_bucket.b.arn}"
 }
 
 
 output "bucket_name"{
-	value = "${aws_s3_bucket_object.wideui.bucket}"
+	value = "${aws_s3_bucket.b.bucket}"
 }
 
 output "lambda_function_name"{
