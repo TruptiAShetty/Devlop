@@ -14,7 +14,7 @@ variable "region" {
   default     = "eu-west-1"
 }
 
-variable "iam-role" {
+variable "aws_iam_role" {
    type = string
    description = "IAM role"
    default = "wideui-role2"
@@ -59,6 +59,8 @@ variable "security_group_id"{
    type = string
    description = "Security Grourp ID"
 }
+
+
 
 variable "aws_s3_bucket_object"{
   description = "give bucket name"
