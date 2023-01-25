@@ -60,6 +60,11 @@ variable "security_group_id"{
    description = "Security Grourp ID"
 }
 
+variable "aws_s3_bucket_object"{
+  description = "give bucket name"
+  type        = string
+
+}
 
 variable bucketname {
   description = "Bucket name"
