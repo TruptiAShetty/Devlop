@@ -69,14 +69,14 @@ resource "aws_lambda_function" "lambda_function" {
   runtime                 = "nodejs18.x"
   #source_code_hash        = filebase64sha256(data.archive_file.lambda.output_path)
   vpc_config {
-    subnet_ids         = ["${var.subnet_public_id}", "${var.subnet_private_id}"]
+    subnet_ids         = ["${var.subnet_public1_id}", "${var.subnet_private_id}", "${var.subnet_public2_id}", "${var.subnet_private2_id}", "${var.subnet_private3_id}"]
     security_group_ids = ["${var.security_group_id}"]
   }
 }
 
 
 resource "aws_apigatewayv2_api" "wideuibackend" {
-  name          = "wideui-backend"
+  name          = "wideui-backend2"
   protocol_type = "HTTP"
 }
 
