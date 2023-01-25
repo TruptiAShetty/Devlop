@@ -14,7 +14,7 @@ variable "region" {
   default     = "eu-west-1"
 }
 
-variable "aws_iam_role" {
+variable "iam-role" {
    type = string
    description = "IAM role"
    default = "wideui-role2"
