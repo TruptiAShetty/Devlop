@@ -208,9 +208,9 @@ Run the terraform apply command
         5. Run Pipeline job (which are already provide in the jenkinsfile of the project sizop_deployment,evt,sizop_rest & sizop_web)     
 
 
-## Auto start sonar server on boot (When EC2 machines started) using script
+# Auto start sonar server on boot (When EC2 machines started) using script
 
-# Previously we started sonar server manually like this
+## Previously we started sonar server manually like this
 1. Go to the sonar instance and connected to te instance
 $sudo su - sonaradmin
 $cd /opt/sonarqube-8.9.2.46101/bin/linux-x86-64
@@ -219,7 +219,7 @@ here we have the file sonar.sh
 By using this sonar.sh file we start/stop/status the sonar server
 ./sonar.sh <start> <stop> <status>
 
-# Below is the step to automate the start up of SonarQube
+## Below is the step to automate the start up of SonarQube
 Step1: 
 1. connect to sonar instance
 2. create a file with the run_sonar.sh
@@ -247,6 +247,7 @@ Step2: configure this script in crontab to start the service on boot ( when ever
 
 Please use the following cron
 1. connect to the root user
+
         sudo su
 2.edit using (crontab -e) for edit
 $crontab -e
