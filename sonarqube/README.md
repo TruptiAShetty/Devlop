@@ -207,11 +207,11 @@ Run the terraform apply command
                 4.3 Click apply and save 
         5. Run Pipeline job (which are already provide in the jenkinsfile of the project sizop_deployment,evt,sizop_rest & sizop_web)     
 
-#Auto start sonar server on boot (When EC2 machines started) using script
 
-Step1: Previously we started sonar server manually like this
+## Auto start sonar server on boot (When EC2 machines started) using script
+
+# Previously we started sonar server manually like this
 1. Go to the sonar instance and connected to te instance
-$sudo su - ubuntu
 $sudo su - sonaradmin
 $cd /opt/sonarqube-8.9.2.46101/bin/linux-x86-64
 $ls
@@ -219,9 +219,13 @@ here we have the file sonar.sh
 By using this sonar.sh file we start/stop/status the sonar server
 ./sonar.sh <start> <stop> <status>
 
-Step2: For this manual process we auomated by using the script
+# Below is the step to automate the start up of SonarQube
+Step1: 
 1. connect to sonar instance
 2. create a file with the run_sonar.sh
+the file is also available from below link:
+https://gitlab.wingd.com/wide2/aws_infra_terraform/-/blob/development/sonarqube/run_sonar.sh
+
 $sudo su - ubuntu (from ubuntu user)
 $vim run_sonar.sh
 Here write our script. The script is available in below link
@@ -234,25 +238,25 @@ exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 su - sonaradmin bash -c "cd /opt/sonarqube-8.9.2.46101/bin/linux-x86-64 && ./sonar.sh start"
 echo "run sonar server"
 
-3. In that script we have to mention our sonar.sh file path (as per our environment setup)
-4. save the file
+Note: In above script we have to mention the sonar.sh file path (as per our environment setup)
 
-https://gitlab.wingd.com/wide2/aws_infra_terraform/-/blob/development/sonarqube/run_sonar.sh
+3. save the file
 
-Step3: configure this script in crontab to start the service on boot ( when ever machine starts)
+
+Step2: configure this script in crontab to start the service on boot ( when ever machine starts)
 
 Please use the following cron
 1. connect to the root user
-$sudo su
+        sudo su
 2.edit using (crontab -e) for edit
-3. #crontab -e
-4.crontab file is opening. In that file we add our script path (run_sonar.sh)
+$crontab -e
+3.crontab file is opening. In that file we add our script path (run_sonar.sh)
 @reboot sleep 60 && /bin/bash /home/ubuntu/run_sonar.sh (Added this setup as per environment)
-5. The crontab script is available in below link
+The crontab script is available in below link
 https://gitlab.wingd.com/wide2/aws_infra_terraform/-/blob/development/sonarqube/crontab.txt
-6. After save the crontab file
+4. After save the crontab file
 
-step4: Checking the automation is working or not
+step3: Checking the automation is working or not
 1. Stop the sonar instance manually and start the instance.
 2. After that wait for 2 to 5 min and check the sonar server status manually or try to access the sonar URL
 
