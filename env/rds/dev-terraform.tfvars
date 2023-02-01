@@ -17,4 +17,5 @@ egress_with_cidr_blocks_from_port  = 0
 egress_with_cidr_blocks_to_port    = 0
 sg_engress_cidr_block              = "0.0.0.0/0"
 max_allocated_storage              = 60
+ca_cert_identifier                 = rds-ca-2019
 

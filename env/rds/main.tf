@@ -51,6 +51,8 @@ module "db" {
   max_allocated_storage                 = var.max_allocated_storage
   performance_insights_retention_period = 7
   create_monitoring_role                = true
+  ca_cert_identifier                    = "${var.ca_cert_identifier}"
+  apply_immediately                     = true
 # monitoring_role_name                  = "${var.prefix}-rds-monitor-role"
 # monitoring_interval                   = 30
 }

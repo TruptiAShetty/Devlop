@@ -91,5 +91,11 @@ variable "max_allocated_storage" {
   type        = number
 }
 
+variable "ca_cert_identifier" {
+  default     = "rds-ca-2019"
+  description = "Allows you to modify the underlying RDS certificate"
+}
+
+
 
 
