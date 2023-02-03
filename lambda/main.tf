@@ -92,7 +92,7 @@ resource "aws_apigatewayv2_api" "wideuibackend" {
 resource "aws_apigatewayv2_stage" "wideuibackend" {
   api_id = aws_apigatewayv2_api.wideuibackend.id
 
-  name        = "dev"
+  name        = "$default"
   auto_deploy = true
 
   access_log_settings {
@@ -123,6 +123,18 @@ resource "aws_apigatewayv2_integration" "lambda_function" {
 }
 
 resource "aws_apigatewayv2_route" "lambda_function" {
+  api_id = aws_apigatewayv2_api.wideuibackend.id
+  route_key = "$default"
+
+}
+resource "aws_apigatewayv2_route" "anyproxy" {
+  api_id    = aws_apigatewayv2_api.wideuibackend.id
+  route_key = "ANY /{proxy+}"
+
+  target = "integrations/${aws_apigatewayv2_integration.lambda_function.id}"
+}
+
+resource "aws_apigatewayv2_route" "any" {
   api_id = aws_apigatewayv2_api.wideuibackend.id
 
   route_key = "ANY /"
@@ -181,16 +193,20 @@ output "lambda_function_name"{
 }
 
 
-#resource aws_api_gateway_domain_name domain {
-#  domain_name     = "${var.domain_name}"
-#  certificate_arn = "${var.certificate_arn}"
-#}
+resource aws_apigatewayv2_domain_name domain {
+  domain_name     = "${var.domain_name}"
+  domain_name_configuration {
+  certificate_arn = "${var.certificate_arn}"
+  endpoint_type = "REGIONAL"
+  security_policy = "TLS_1_2"
+  }
+}
 
-#resource aws_api_gateway_base_path_mapping base_path {
-#  api_id      = "${var.api_id}"
-#  domain_name = "${aws_api_gateway_domain_name.domain.domain_name}"
-#  stage_name  = "${var.api_stage_name}"
-#}
+resource aws_apigatewayv2_api_mapping base_path {
+  api_id      = aws_apigatewayv2_api.wideuibackend.id
+  domain_name = aws_apigatewayv2_domain_name.domain.id
+  stage  = aws_apigatewayv2_stage.wideuibackend.id
+}
 
 #resource aws_route53_record a {
 #  type     = "A"

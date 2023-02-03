@@ -76,13 +76,13 @@ variable zipname {
   description = "zip file name"
 }
 
-#variable domain_name {
-#  description = "Custom domain name."
-#}
+variable domain_name {
+  description = "Custom domain name."
+}
 
-#variable certificate_arn {
-#  description = "ACM certificate ARN."
-#}
+variable certificate_arn {
+  description = "ACM certificate ARN."
+}
 
 #variable route53_zone_id {
 #  description = "Route53 hosted zone ID."
