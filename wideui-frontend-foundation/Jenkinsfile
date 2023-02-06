@@ -12,9 +12,9 @@ pipeline{
 	steps {
 		sh'''
 		cd ${WORKSPACE}
-		mkdir -p terraform
-		cp ${WORKSPACE}/wideui-frontend-foundation/* ${WORKSPACE}/terraform
-		cd ${WORKSPACE}/terraform
+		mkdir -p wideui-frontend-deployment
+		cp ${WORKSPACE}/wideui-frontend-foundation/* ${WORKSPACE}/wideui-frontend-deployment
+		cd ${WORKSPACE}/wideui-frontend-deployment
 		terraform init
 	        terraform plan -var-file dev.tfvars -out dev.out
 		terraform apply -auto-approve dev.out
@@ -23,7 +23,7 @@ pipeline{
 		sleep 1m
 		distributionid=$(terraform output --raw cloudfront_id)
 		echo $distributionid > $HOME/dname.txt
-		aws s3 cp ${WORKSPACE}/terraform/terraform.tfstate s3://wideui-tf-state/wideui-frontend-foundation/terraform.tfstate
+		aws s3 cp ${WORKSPACE}/wideui-frontend-deployment/terraform.tfstate s3://wideui-tf-state/wideui-frontend-foundation/terraform.tfstate
 		aws s3 cp ${HOME}/bname.txt s3://wideui-tf-state/wideui-frontend-foundation/
 		aws s3 cp ${HOME}/dname.txt s3://wideui-tf-state/wideui-frontend-foundation/
 		'''
