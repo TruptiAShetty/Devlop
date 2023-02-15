@@ -14,7 +14,7 @@ bucket_acl = "private"
 domains = ["wideui.qa.wingd.digital"]   // add multiple domains using comma seperator
 
 // TODO: update certificate of the domain
-cert_arn = "arn:aws:acm:eu-west-1:624603455002:certificate/1ca8a5aa-d6bb-41ea-858b-5de58eea61f9"
+cert_arn = "arn:aws:acm:us-east-1:624603455002:certificate/7532c953-5a7b-4435-9dac-c1b3273e816b"
 
 // TODO: update the service Tag (key/value)
 restriction_env = "qa"
