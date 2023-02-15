@@ -11,7 +11,7 @@ bucket_acl = "private"
 // ------Below config is for CloudFront---------
 
 // TODO: update enviroment dev/qa/prod
-domains = ["wideui-test.qa.wingd.digital"]   // add multiple domains using comma seperator
+domains = ["wideui.qa.wingd.digital"]   // add multiple domains using comma seperator
 
 // TODO: update certificate of the domain
 cert_arn = "arn:aws:acm:eu-west-1:624603455002:certificate/1ca8a5aa-d6bb-41ea-858b-5de58eea61f9"
