@@ -1,12 +1,12 @@
-variable "project" {
-  type        = string
-  description = "Project name"
-}
+#variable "project" {
+#  type        = string
+#  description = "Project name"
+#}
 
-variable "environment" {
-  type        = string
-  description = "Environment (dev / stage / prod)"
-}
+#variable "environment" {
+#  type        = string
+#  description = "Environment (dev / stage / prod)"
+#}
 
 variable "region" {
   type        = string
