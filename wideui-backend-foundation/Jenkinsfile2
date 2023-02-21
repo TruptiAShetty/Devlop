@@ -1,0 +1,50 @@
+pipeline{
+  agent any;
+  environment {
+     def bucketName = readFile(file: "$HOME/bucket_name.txt").trim()
+     def lambdaName = readFile(file: "$HOME/lambda_name.txt").trim()
+
+
+}
+stages{
+    
+  stage('SCM Checkout'){
+    steps{
+     git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/wideui-backend.git'
+    }
+  }
+stage('npm install'){
+  steps{
+   sh '''#!/bin/bash
+    cd packages
+    cd ${WORKSPACE}
+    npm install -y'''
+}
+}
+
+stage('zip files'){
+    steps{
+    sh '''#!/bin/bash
+    cd ${WORKSPACE}/packages/server/
+    zip -r wideui-backend_lambda node_modules/ src/ server.js package.json
+    ls -la *.zip
+    '''
+    }
+}
+stage('copy zip to s3'){
+  steps{
+   sh '''#!/bin/bash
+    cd ${WORKSPACE}/packages/server/
+    aws s3 cp wideui-backend_lambda.zip s3://$bucketName
+    aws lambda update-function-code --function-name $lambdaName --s3-bucket $bucketName --s3-key wideui-backend_lambda.zip
+    rm -rf wideui-backend_lambda.zip
+    '''
+  }
+}
+stage('unit testing & code coverage'){
+   steps{
+   sh '''#!/bin/bash
+    cd packages
+    cd ${WORKSPACE}
+    npm run test:report'''
+  
