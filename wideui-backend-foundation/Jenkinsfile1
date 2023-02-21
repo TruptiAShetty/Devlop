@@ -27,7 +27,7 @@ pipeline{
 		cp ${WORKSPACE}/lambda/* ${WORKSPACE}/wideui-backend-deployment
 		cd ${WORKSPACE}/wideui-backend-deployment
 		terraform init
-	        terraform plan -var-file terraform.tfvars -out dev_lambda.out
+	        terraform plan -var-file dev.tfvars -out dev_lambda.out
 		terraform apply -auto-approve dev_lambda.out
 		bucket_name=$(terraform output --raw bucket_name)
 		echo $bucket_name > $HOME/bucket_name.txt
