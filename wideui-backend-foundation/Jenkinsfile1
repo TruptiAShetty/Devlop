@@ -24,7 +24,7 @@ pipeline{
 		sh'''
 		cd ${WORKSPACE}
 		mkdir -p wideui-backend-deployment
-		cp ${WORKSPACE}/lambda/* ${WORKSPACE}/wideui-backend-deployment
+		cp ${WORKSPACE}/wideui-backend-foundation/* ${WORKSPACE}/wideui-backend-deployment
 		cd ${WORKSPACE}/wideui-backend-deployment
 		terraform init
 	        terraform plan -var-file dev.tfvars -out dev_lambda.out
@@ -34,7 +34,7 @@ pipeline{
 		sleep 1m
 		lambda_function_name=$(terraform output --raw lambda_function_name)
 		echo $lambda_function_name > $HOME/lambda_name.txt
-		aws s3 cp ${WORKSPACE}/wideui-backend-deployment/terraform.tfstate s3://wideui-tf-state/lambda/terraform.tfstate
+		aws s3 cp ${WORKSPACE}/wideui-backend-deployment/terraform.tfstate s3://wideui-tf-state/wideui-backend-foundation/terraform.tfstate
 		'''
 		}
 	

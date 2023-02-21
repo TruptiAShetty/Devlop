@@ -10,5 +10,5 @@ security_group_id	  = "sg-0ebffe53c03b1ca58"		//Security group ID (This is wideu
 aws_s3_bucket             = "wideui-backend-tf"			//S3 bucket name
 bucket_name                = "wideui-backend-tf"		//Description of the  bucket
 zipname                   = "wideui-backend_lambda.zip"		//ZIP file name (this will be backend code, this will be deployed as zip to lambda fucntion from s3)
-domain_name               = "wideui-backend-tf.dev.wingd.digital" 	//Domain name that will be associated with the API gateway URL
-certificate_arn           = "arn:aws:acm:eu-west-1:901259681273:certificate/3f404b71-f1a1-4b8f-9c82-4dd062fc9e16"	//Certificate that will be used with the domain *.dev.wingd.digital
+#domain_name               = "wideui-backend-tf.dev.wingd.digital" 	//Domain name that will be associated with the API gateway URL
+#certificate_arn           = "arn:aws:acm:eu-west-1:901259681273:certificate/3f404b71-f1a1-4b8f-9c82-4dd062fc9e16"	//Certificate that will be used with the domain *.dev.wingd.digital
