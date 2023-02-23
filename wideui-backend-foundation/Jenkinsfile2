@@ -47,4 +47,15 @@ stage('unit testing & code coverage'){
     cd packages
     cd ${WORKSPACE}
     npm run test:report'''
-  
+    }
+}
+stage('update sonar report'){
+   steps{
+   sh '''#!/bin/bash
+    cd packages
+    cd ${WORKSPACE}
+    npm run sonar:dev'''
+  }
+}
+}
+}  
