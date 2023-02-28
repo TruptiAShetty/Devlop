@@ -13,6 +13,15 @@ stages{
      git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/wideui-backend.git'
     }
   }
+ 
+stage('copy environment files from S3'){
+    steps{
+    sh '''#!/bin/bash
+     aws s3 cp s3://wide.dev.config/wideui-backend-environment/backend.env src/core/environment/environment.js 
+     '''
+    }
+}    
+
 stage('npm install'){
   steps{
    sh '''#!/bin/bash
