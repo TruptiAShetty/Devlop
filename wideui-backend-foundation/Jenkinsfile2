@@ -35,7 +35,7 @@ stage('zip files'){
     steps{
     sh '''#!/bin/bash
     cd ${WORKSPACE}/packages/server/
-    zip -r wideui-backend_lambda node_modules/ src/ server.js package.json
+    zip -r wideui-backend_lambda node_modules/ server.js 
     ls -la *.zip
     '''
     }
