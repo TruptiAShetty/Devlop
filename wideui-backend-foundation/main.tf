@@ -21,11 +21,35 @@ resource "aws_s3_bucket" "b" {
 resource "aws_s3_bucket_object" "wideui" {
   bucket = "${aws_s3_bucket.b.bucket}"
   key = "${var.zipname}"
-  source = data.archive_file.lambda.output_path
+  #source = data.archive_file.lambda.output_path
 
 }
 
+resource "aws_iam_policy" "bucket_policy" {
+   name = "${var.aws_s3_bucket}"
+   path = "/"
+   description = "Allow"
+   policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "VisualEditor0",
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:DeleteObject"
+        ],
+        "Resource" : [
+          "arn:aws:s3:::*/*",
+          "arn:aws:s3:::${var.aws_s3_bucket}"
+        ]
+      }
+    ]
+  })
 
+}
 
 data "aws_iam_policy_document" "AWSLambdaTrustPolicy" {
   version = "2012-10-17"
@@ -61,7 +85,7 @@ resource "aws_iam_role_policy_attachment" "iam_role_policy_attachment_lambda_dyn
 
 resource "aws_iam_role_policy_attachment" "iam_role_policy_attachment_lambda_s3_access_execution" {
   role       = aws_iam_role.iam_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+  policy_arn = aws_iam_policy.bucket_policy.arn
 }
 
 
@@ -78,14 +102,14 @@ resource "aws_lambda_function" "lambda_function" {
   runtime                 = "nodejs18.x"
   #source_code_hash        = filebase64sha256(data.archive_file.lambda.output_path)
   vpc_config {
-    subnet_ids         = ["${var.subnet_public1_id}", "${var.subnet_private_id}", "${var.subnet_public2_id}", "${var.subnet_private2_id}", "${var.subnet_private3_id}"]
+    subnet_ids         = ["${var.subnet_private_id}", "${var.subnet_private2_id}", "${var.subnet_private3_id}"]
     security_group_ids = ["${var.security_group_id}"]
   }
 }
 
 
 resource "aws_apigatewayv2_api" "wideuibackend" {
-  name          = "wideui-backend"
+  name          = "wideui-backend-tf"
   protocol_type = "HTTP"
 }
 
@@ -127,12 +151,31 @@ resource "aws_apigatewayv2_route" "lambda_function" {
   route_key = "$default"
 
 }
-resource "aws_apigatewayv2_route" "anyproxy" {
+resource "aws_apigatewayv2_route" "putproxy" {
   api_id    = aws_apigatewayv2_api.wideuibackend.id
-  route_key = "ANY /{proxy+}"
+  route_key = "PUT /{proxy+}"
 
   target = "integrations/${aws_apigatewayv2_integration.lambda_function.id}"
 }
+resource "aws_apigatewayv2_route" "postproxy" {
+  api_id    = aws_apigatewayv2_api.wideuibackend.id
+  route_key = "POST /{proxy+}"
+
+ target = "integrations/${aws_apigatewayv2_integration.lambda_function.id}"
+}
+resource "aws_apigatewayv2_route" "deleteproxy" {
+  api_id    = aws_apigatewayv2_api.wideuibackend.id
+  route_key = "DELETE /{proxy+}"
+
+  target = "integrations/${aws_apigatewayv2_integration.lambda_function.id}"
+}
+resource "aws_apigatewayv2_route" "getproxy" {
+  api_id    = aws_apigatewayv2_api.wideuibackend.id
+  route_key = "GET /{proxy+}"
+
+  target = "integrations/${aws_apigatewayv2_integration.lambda_function.id}"
+}
+
 
 resource "aws_apigatewayv2_route" "any" {
   api_id = aws_apigatewayv2_api.wideuibackend.id
