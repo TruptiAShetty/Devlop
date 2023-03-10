@@ -7,8 +7,7 @@ bucket_name = "Frontend Bucket"
 bucket_acl = "private"
 
 domains = ["wideui.qa.test.wingd.digital"]   // add multiple domains using comma seperator
-
-cert_arn = "arn:aws:acm:us-east-1:901259681273:certificate/7879f625-e0a3-47b5-940d-fc0313debe5c"
+cert_arn = "arn:aws:acm:eu-west-1:901259681273:certificate/3f404b71-f1a1-4b8f-9c82-4dd062fc9e16"
 restriction = "none"
 
 restriction_env = "development"
