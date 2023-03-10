@@ -6,12 +6,12 @@ bucket_name = "Frontend Bucket"
 
 bucket_acl = "private"
 
-domains = ["wideui.qa-test.wingd.digital"]   // add multiple domains using comma seperator
+domains = ["wideui.qa.test.wingd.digital"]   // add multiple domains using comma seperator
 
 cert_arn = "arn:aws:acm:us-east-1:901259681273:certificate/7879f625-e0a3-47b5-940d-fc0313debe5c"
 restriction = "none"
 
-restriction_env = "qa"
+restriction_env = "development"
 
 cache_policy = "Managed-CachingOptimized"
 
