@@ -10,7 +10,7 @@ domains = ["wideui.qa.test.wingd.digital"]   // add multiple domains using comma
 cert_arn = "arn:aws:acm:us-east-1:901259681273:certificate/7879f625-e0a3-47b5-940d-fc0313debe5c"
 restriction = "none"
 
-restriction_env = "development"
+restriction_env = "qa"
 
 cache_policy = "Managed-CachingOptimized"
 
