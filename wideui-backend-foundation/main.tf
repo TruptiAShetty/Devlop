@@ -4,11 +4,11 @@ provider "aws" {
 
 # create a zip file and copy to s3
 
-#data "archive_file" "lambda" {
-##  type        = "zip"
-##  source_dir  = "../wideui-backend"
-##  output_path = "wideui-backend-lambda.zip"
-##}
+data "archive_file" "lambda" {
+  type        = "zip"
+  source_dir  = "../wideui-backend"
+  output_path = "wideui-backend-lambda.zip"
+}
 
 
 resource "aws_s3_bucket" "b" {
