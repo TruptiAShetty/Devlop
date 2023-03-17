@@ -1,7 +1,5 @@
 provider "aws" {
-  profile                 = "624603455002_AWSAdministratorAccess"                         // Manual Update required for: pass a profile parameter                          
-  shared_credentials_file = pathexpand("~/.aws/credentials")
-  region                  = var.region
+  region = "${var.region}"
 }
 ##################vpc endpoints##############
 resource "aws_vpc_endpoint" "ec2" {
@@ -577,10 +575,10 @@ resource "aws_wafv2_web_acl_association" "web_acl_association_my_lb" {
 ################S3_backend configuration######################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state-t2"              // Manual Update required for: pass bucket name ad parameter which is already present in aws_account                                                          
+    bucket                  = "wingd-tf-state-t3"              // Manual Update required for: pass bucket name ad parameter which is already present in aws_account                                                          
     key                     = "ec2/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "624603455002_AWSAdministratorAccess"                  // Manual Update required for: pass a profile parameter                                     
+    profile                 = "503263480993_AdministratorAccess"                  // Manual Update required for: pass a profile parameter                                     
     shared_credentials_file = "~/.aws/credentials"
   }
 }

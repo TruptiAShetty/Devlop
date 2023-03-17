@@ -1,4 +1,4 @@
-prefix = "wingd-dev"
+prefix = "wingd-dev2"
 region = "eu-west-1"
 ##############vpc#####################
 vpc_cidr               = "10.0.0.0/16"
@@ -10,7 +10,7 @@ single_nat_gateway     = true
 one_nat_gateway_per_az = false
 enable_dns_hostnames   = true
 enable_dns_support     = true
-bucket_name            = "vpc-dev-flowlog"
+bucket_name            = "vpc-dev2-flowlog"
 
 
 

@@ -1,7 +1,5 @@
 provider "aws" {
-  profile                 = "624603455002_AWSAdministratorAccess"                                         // Manual Update required for: passing the AWS profile 
-  shared_credentials_file = pathexpand("~/.aws/credentials")
-  region                  = var.region
+  region = "${var.region}"
 }
 
 ##################creation of jenkins security
@@ -140,10 +138,10 @@ resource "aws_lb_listener_rule" "rule1" {
 #################s3_backend#######################
 terraform {
   backend "s3" {
-    bucket                  = "wingd-tf-state-t2"                             // Manual Update required for: bucket should present in aws_account
+    bucket                  = "wingd-tf-state-t3"                             // Manual Update required for: bucket should present in aws_account
     key                     = "terraform/eu-west-1/jenkins/terraform.tfstate"
     region                  = "eu-west-1"
-    profile                 = "624603455002_AWSAdministratorAccess"                                   // Manual Update required for: pass a profile 
+    profile                 = "503263480993_AdministratorAccess"                                   // Manual Update required for: pass a profile 
     shared_credentials_file = "~/.aws/credentials"
   }
 }
