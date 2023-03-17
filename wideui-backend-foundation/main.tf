@@ -21,7 +21,7 @@ resource "aws_s3_bucket" "b" {
 resource "aws_s3_bucket_object" "wideui" {
   bucket = "${aws_s3_bucket.b.bucket}"
   key = "${var.zipname}"
-  source = data.archive_file.lambda.output_path
+  #source = data.archive_file.lambda.output_path
 
 }
 
@@ -93,14 +93,14 @@ resource "aws_iam_role_policy_attachment" "iam_role_policy_attachment_lambda_s3_
 resource "aws_lambda_function" "lambda_function" {
   code_signing_config_arn = ""
   description             = ""
-  filename                = data.archive_file.lambda.output_path
+# # #filename                = data.archive_file.lambda.output_path
   function_name           = "${var.lambda-function}"
   role                    = aws_iam_role.iam_role.arn
   s3_bucket               = aws_s3_bucket.b.bucket
   s3_key                  = aws_s3_bucket_object.wideui.key
   handler                 = "server.handler"
   runtime                 = "nodejs18.x"
-  source_code_hash        = filebase64sha256(data.archive_file.lambda.output_path)
+# # #source_code_hash        = filebase64sha256(data.archive_file.lambda.output_path)
   vpc_config {
     subnet_ids         = ["${var.subnet_private_id}", "${var.subnet_private2_id}", "${var.subnet_private3_id}"]
     security_group_ids = ["${var.security_group_id}"]
