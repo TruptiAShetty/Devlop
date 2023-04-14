@@ -1,0 +1,36 @@
+pipeline{
+  agent any
+
+  stages {
+    stage ('SCM Checkout') {
+    	steps {
+	 git branch: 'development', credentialsId: 'rahamth-git-credentials-dev2', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
+	}
+      }
+stage ('Configure aws profile'){
+        steps {
+             sh'''
+             export AWS_ACCESS_KEY_ID=""${AWS_ACCESS_KEY}""
+             export AWS_SECRET_ACCESS_KEY=""${AWS_SECRET_ACCESS_KEY}""
+             export AWS_SESSION_TOKEN=""${AWS_SESSION_TOKEN}""
+             aws configure list
+             '''
+        }
+    }
+    
+    stage ('run terraform script'){ 
+	steps {
+		sh'''
+		cd ${WORKSPACE}
+		mkdir -p wideui-cognito-setup
+		cp ${WORKSPACE}/UAA-foundation/wideui-cognito/* ${WORKSPACE}/wideui-cognito-setup
+		cd ${WORKSPACE}/wideui-cognito-setup
+		terraform init
+	    terraform plan -var-file dev.tfvars -out dev.out
+		terraform apply -auto-approve dev.out
+	    aws s3 cp ${WORKSPACE}/wideui-dynamodb-deployment/terraform.tfstate s3://wingd-tf-state-t3/wideui-cognito/terraform.tfstate
+        '''
+	}
+}
+}
+}
