@@ -12,9 +12,9 @@ variable "pool_name" {
  # description = "Custom domain name."
 #}
 
-variable certificate_arn {
-  description = "ACM certificate ARN."
-}
+#variable certificate_arn {
+  #description = "ACM certificate ARN."
+#}
 
 variable region {
    

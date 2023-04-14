@@ -52,11 +52,24 @@ resource "aws_cognito_user" "example" {
 }
 
 resource "aws_cognito_user_group" "main" {
-  name         = "WingD-Admin"
+  name         = "winGD-Admin"
   user_pool_id = aws_cognito_user_pool.pool.id
   description  = "Managed by Terraform"
   precedence   = 42
 }
+resource "aws_cognito_user_group" "service" {
+  name         = "winGD-ServiceEngineer"
+  user_pool_id = aws_cognito_user_pool.pool.id
+  description  = "Managed by Terraform"
+  precedence   = 43
+}
+resource "aws_cognito_user_group" "guest" {
+  name         = "winGD-Guest"
+  user_pool_id = aws_cognito_user_pool.pool.id
+  description  = "Managed by Terraform"
+  precedence   = 44
+}
+
 
 
 resource "aws_cognito_user_pool_client" "client" {
