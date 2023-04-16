@@ -47,11 +47,11 @@ variable "s3_custom_authorizer_key" {
 
 }
 
-variable "APIID" {
-        type = string
-        description = "BAckend API gateway ID"
+#variable "APIID" {
+#       type = string
+#        description = "BAckend API gateway ID"
 
-}
+#}
 
 
 
