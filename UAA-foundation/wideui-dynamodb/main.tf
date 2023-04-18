@@ -5,6 +5,11 @@ resource "aws_dynamodb_table" "dynamodb" {
   write_capacity = 10
   hash_key       = "Config-Group"
 
+    attribute {
+    name = "Config-Group"
+    type = "S"
+  }
+
 
   tags = {
     Name        = "dynamodb-table-1"
@@ -12,7 +17,7 @@ resource "aws_dynamodb_table" "dynamodb" {
   }
 }
 
-resource "aws_dynamodb_table_item" "example" {
+resource "aws_dynamodb_table_item" "item1" {
   table_name = aws_dynamodb_table.dynamodb.name
   hash_key   = aws_dynamodb_table.dynamodb.hash_key
 
@@ -31,7 +36,7 @@ resource "aws_dynamodb_table_item" "example" {
 ITEM
 }
 
-resource "aws_dynamodb_table_item" "example1" {
+resource "aws_dynamodb_table_item" "item2" {
   table_name = aws_dynamodb_table.dynamodb.name
   hash_key   = aws_dynamodb_table.dynamodb.hash_key
 
@@ -51,7 +56,7 @@ resource "aws_dynamodb_table_item" "example1" {
 ITEM
 }
 
-resource "aws_dynamodb_table_item" "example2" {
+resource "aws_dynamodb_table_item" "item3" {
   table_name = aws_dynamodb_table.dynamodb.name
   hash_key   = aws_dynamodb_table.dynamodb.hash_key
 
