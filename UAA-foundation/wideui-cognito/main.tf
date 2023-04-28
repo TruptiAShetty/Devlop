@@ -4,15 +4,12 @@ provider "aws" {
 
 resource "aws_cognito_user_pool" "pool" {
   name = "${var.pool_name}"
+  alias_attributes = ["email"]
+  //auto_verified_attributes = ["email"]
+  username_configuration {
+	case_sensitive = false
+  }
 
-//  mfa_configuration          = "OPTIONAL"
-//  email_configuration {
-//        configuraiton_set = ""
-//        email_sending_account = ""
-//        from_email_address = ""
-//        reply_to_email_address = ""
-//
-//      }
   account_recovery_setting {
     recovery_mechanism {
       name     = "verified_email"
@@ -41,15 +38,16 @@ resource "aws_cognito_user_pool" "pool" {
 #  user_pool_id    = aws_cognito_user_pool.pool.id
 #}
 
-resource "aws_cognito_user" "example" {
-  user_pool_id = aws_cognito_user_pool.pool.id
-  username     = "Rahamat"
+##resource "aws_cognito_user" "example" {
+##  user_pool_id = aws_cognito_user_pool.pool.id
+##  username     = "Rahamthulla"
 
-  attributes = {
-    email          = "Rahamthulla.Pannekatla@ltts.com"
-    email_verified = true
-  }
-}
+
+##  attributes = {
+##    email          = ""
+##    email_verified = false
+##  }
+##}
 
 resource "aws_cognito_user_group" "main" {
   name         = "winGD-Admin"

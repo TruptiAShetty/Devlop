@@ -26,9 +26,9 @@ stage ('Configure aws profile'){
 		cp ${WORKSPACE}/UAA-foundation/wideui-dynamodb/* ${WORKSPACE}/wideui-dynamodb-setup
 		cd ${WORKSPACE}/wideui-dynamodb-setup
 		terraform init
-	    terraform plan -var-file dev.tfvars -out dev.out
+	    terraform plan -out dev.out
 		terraform apply -auto-approve dev.out
-	    aws s3 cp ${WORKSPACE}/wideui-dynamodb-deployment/terraform.tfstate s3://wingd-tf-state-t3/wideui-dynamodb/terraform.tfstate
+	    aws s3 cp ${WORKSPACE}/wideui-dynamodb-setup/terraform.tfstate s3://wingd-tf-state-t3/wideui-dynamodb/terraform.tfstate
         '''
 	}
 }

@@ -5,7 +5,7 @@ variable "lambda_arn" {
 
 variable "pool_name" {
    type = string
-   default = "wideui-dev3"
+   default = "wideui-dev4"
 }
 
 #variable domain_name {
