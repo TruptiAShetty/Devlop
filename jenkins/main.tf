@@ -28,6 +28,20 @@ resource "aws_security_group_rule" "ingress_with_source_security_group_id" {
       to_port                  = 8080
       type                     = "ingress"
 }
+
+resource "aws_security_group_rule" "ingress_with_source_security_group_id_sonar" {
+       description              = "allowed from alb"
+      from_port                = 9000
+      protocol                 = "tcp"
+      security_group_id        =module.jenkins_sg.security_group_id
+      source_security_group_id = var.source_security_group_id                  // alb_security_group_id which we are going to launch a jenkins in alb
+      to_port                  = 9000
+      type                     = "ingress"
+}
+
+
+
+
 ###################ebs_enabled####################
 resource "aws_ebs_encryption_by_default" "example" {
   enabled = true
@@ -119,6 +133,21 @@ resource "aws_lb_target_group_attachment" "attachment1" {
   port             = 8080
 }
 
+
+resource "aws_lb_target_group" "group_sonar" {
+  name     = "sonar4-target"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+}
+
+resource "aws_lb_target_group_attachment" "attachment2" {
+  target_group_arn = aws_lb_target_group.group_sonar.arn
+  target_id        = module.jenkins__ec2.id
+  port             = 9000
+}
+
+
 resource "aws_lb_listener_rule" "rule1" {
   listener_arn = var.alb_listener_arn                                         // the alb_listerner_arn which is present in exisiting aws_account in terraform.tfvars
   priority     = 10                                                          
@@ -134,6 +163,24 @@ resource "aws_lb_listener_rule" "rule1" {
     }
   }
 }
+
+
+resource "aws_lb_listener_rule" "rule2" {
+  listener_arn = var.alb_listener_arn                                       //manual upadte require for the alb_listerner_arn which is present in exisiting aws_account in terraform.tfvars
+  priority     = 11
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.group_sonar.arn
+  }
+
+  condition {
+    host_header {
+      values = ["sonar.${terraform.workspace}.wingd.digital"]
+    }
+  }
+}
+
 
 #################s3_backend#######################
 terraform {
