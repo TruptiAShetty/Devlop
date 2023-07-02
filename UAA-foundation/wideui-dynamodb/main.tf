@@ -1,12 +1,12 @@
 resource "aws_dynamodb_table" "dynamodb" {
-  name           = "GroupAccess"
+  name           = "GroupAccessInformation-T"
   billing_mode   = "PROVISIONED"
   read_capacity  = 10
   write_capacity = 10
-  hash_key       = "Config-Group"
+  hash_key       = "Group_name"
 
     attribute {
-    name = "Config-Group"
+    name = "Group_name"
     type = "S"
   }
 
