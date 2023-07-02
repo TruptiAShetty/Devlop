@@ -14,7 +14,7 @@ variable "iam-role" {
 variable "lambda-function_pretoken" {
    type = string
    description = "lambda function name"
-   default = "wideui-pretoken"
+   default = "wideui-pretoken-test"
 
 }
 
@@ -22,7 +22,7 @@ variable "lambda-function_pretoken" {
 variable "lambda-function_custom_authorizer" {
    type = string
    description = "lambda function name"
-   default = "wideui-custom-authorizer"
+   default = "wideui-custom-authorizer-test"
 
 }
 
@@ -30,7 +30,7 @@ variable "lambda-function_custom_authorizer" {
 variable "s3_bucket" {
    type = string
    description = "s3 bucket name"
-   default = "wideui-dev2-backend"
+   default = "wideui-backend-tf"
 
 }
 

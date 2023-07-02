@@ -2,8 +2,6 @@ provider "aws" {
   region  = "${var.region}"
 }
 
-
-
 resource "aws_s3_bucket_object" "pretoken" {
   bucket = "${var.s3_bucket}"
   key = "${var.s3_pretoken_key}"
