@@ -23,7 +23,7 @@ resource "aws_dynamodb_table_item" "item1" {
 
   item = <<ITEM
 {
-  "Config-Group": {"S": "WinGD-Admin"},
+  "Group_name": {"S": "WinGD-Admin"},
   "Api_Access": {"S": "*"},
   "favorite": {"S": "*"},
   "Http_Verbs": {"S": "*"},
@@ -42,7 +42,7 @@ resource "aws_dynamodb_table_item" "item2" {
 
   item = <<ITEM
 {
-  "Config-Group": {"S": "WinGD-Guest"},
+  "Group_name": {"S": "WinGD-Guest"},
   "Api_Access": {"L": [ {"S": "/api/v2.1/favourite"},{"S": "/api/v2.1/anglegraph"},{"S":"/api/v2.1/anglegraphsignals"},{"S": "/api/v2.1/signals"}]},
   "favorite":  {"L": [ {"S": "GET"}]},
   "Http_Verbs":  {"L": [ {"S": "GET"},{"S": "POST"}]},
@@ -62,7 +62,7 @@ resource "aws_dynamodb_table_item" "item3" {
 
   item = <<ITEM
 {
-  "Config-Group": {"S": "WinGD-ServiceEngineer"},
+  "Group_name": {"S": "WinGD-ServiceEngineer"},
   "Api_Access": {"L": [ {"S": "/api/v2.1/favourite"},{"S": "/api/v2.1/anglegraph"},{"S":"/api/v2.1/anglegraphsignals"},{"S": "/api/v2.1/signals"}]},
   "favorite":  {"L": [ {"S": "GET"},{"S": "POST"}]},
   "Http_Verbs":  {"L": [ {"S": "GET"},{"S": "POST"},{"S": "PUT"}]},
