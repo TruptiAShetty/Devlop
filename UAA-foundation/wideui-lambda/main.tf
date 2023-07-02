@@ -45,28 +45,28 @@ resource "aws_iam_role_policy_attachment" "iam_role_policy_attachment_lambda_dyn
 resource "aws_lambda_function" "lambda_function_pretoken" {
   code_signing_config_arn = ""
   description             = ""
-# # #filename                = data.archive_file.lambda.output_path
+  filename                = data.archive_file.lambda.output_path
   function_name           = "${var.lambda-function_pretoken}"
   role                    = aws_iam_role.iam_role.arn
   s3_bucket               = aws_s3_bucket_object.pretoken.bucket
   s3_key                  = aws_s3_bucket_object.pretoken.key
   handler                 = "lambda_function_pretoken.lambda_handler"
   runtime                 = "python3.9"
-#  source_code_hash        = filebase64sha256(data.archive_file.lambda.output_path)
+  source_code_hash        = filebase64sha256(data.archive_file.lambda.output_path)
 }
 
 
 resource "aws_lambda_function" "lambda_function_custom_authorizer" {
   code_signing_config_arn = ""
   description             = ""
-# # #filename                = data.archive_file.lambda.output_path
+  filename                = data.archive_file.lambda.output_path
   function_name           = "${var.lambda-function_custom_authorizer}"
   role                    = aws_iam_role.iam_role.arn
   s3_bucket               = aws_s3_bucket_object.custom_authorizer.bucket
   s3_key                  = aws_s3_bucket_object.custom_authorizer.key
   handler                 = "lambda_function_custom_authorizer.lambda_handler"
   runtime                 = "python3.9"
-#  source_code_hash        = filebase64sha256(data.archive_file.lambda.output_path)
+  source_code_hash        = filebase64sha256(data.archive_file.lambda.output_path)
 }
 
 
