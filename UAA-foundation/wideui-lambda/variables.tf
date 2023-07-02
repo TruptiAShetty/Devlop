@@ -27,25 +27,25 @@ variable "lambda-function_custom_authorizer" {
 }
 
 
-variable "s3_bucket" {
-   type = string
-   description = "s3 bucket name"
-   default = "wideui-backend-tf"
+#variable "s3_bucket" {
+#   type = string
+#   description = "s3 bucket name"
+#   default = "wideui-backend-tf"
 
-}
+#}
 
-variable "s3_pretoken_key" {
-   type = string
-   description = "S3 object key"
+#variable "s3_pretoken_key" {
+#   type = string
+#   description = "S3 object key"
    
 
-}
+#}
 
-variable "s3_custom_authorizer_key" {
-	type = string
-	description = "s3 object key"
+#variable "s3_custom_authorizer_key" {
+#	type = string
+#	description = "s3 object key"
 
-}
+#}
 
 #variable "APIID" {
 #       type = string
