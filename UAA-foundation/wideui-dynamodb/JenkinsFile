@@ -4,7 +4,7 @@ pipeline{
   stages {
     stage ('SCM Checkout') {
     	steps {
-	 git branch: 'development', credentialsId: 'rahamth-git-credentials-dev2', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
+	 git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
 	}
       }
 stage ('Configure aws profile'){

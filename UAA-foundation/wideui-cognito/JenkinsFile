@@ -4,7 +4,7 @@ pipeline{
   stages {
     stage ('SCM Checkout') {
     	steps {
-	 git branch: 'development', credentialsId: 'rahamth-git-credentials-dev2', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
+	 git branch: 'development', credentialsId: 'rahamat-git-credentials', url: 'https://gitlab.wingd.com/wide2/aws_infra_terraform.git'
 	}
       }
 stage ('Configure aws profile'){
@@ -26,9 +26,9 @@ stage ('Configure aws profile'){
 		cp ${WORKSPACE}/UAA-foundation/wideui-cognito/* ${WORKSPACE}/wideui-cognito-setup
 		cd ${WORKSPACE}/wideui-cognito-setup
 		terraform init
-	    terraform plan -var-file dev.tfvars -out dev.out
+	    terraform plan -var-file dev-terraform.tfvars -out dev.out
 		terraform apply -auto-approve dev.out
-	    aws s3 cp ${WORKSPACE}/wideui-dynamodb-deployment/terraform.tfstate s3://wingd-tf-state-t3/wideui-cognito/terraform.tfstate
+	    aws s3 cp ${WORKSPACE}/wideui-cognito-setup/terraform.tfstate s3://wingd-tf-state-t3/wideui-cognito/terraform.tfstate
         '''
 	}
 }
