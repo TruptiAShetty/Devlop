@@ -1,5 +1,5 @@
 region                    = "eu-west-1"                         //Region where aws resources will be provided
-profile                  = "624603455002_AWSAdministratorAccess"    //AWS account profile where aws resources will be provided
+profile                  = "187608717974_AdministratorAccess-externalkey"    //AWS account profile where aws resources will be provided
 iam-role                  = "wideui-UAA-role"           //IAM role name which will be created
 lambda-function_custom_authorizer         = "wideui-custom-authorizer"                  //Lambda-fucntion Nname
 s3_bucket                 = "wide.prod.config"       //bucket name
