@@ -4,12 +4,6 @@ variable "region" {
   default     = "eu-west-1"
 }
 
-variable "profile" {
-  type        = string
-  description = "AWS account profile"
-  default     = "503263480993"
-}
-
 variable "iam-role" {
    type = string
    description = "IAM role"
