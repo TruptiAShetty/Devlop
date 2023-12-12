@@ -20,8 +20,8 @@ resource "aws_instance" "example1" {
 ################S3_backend configuration######################
 terraform {
   backend "s3" {
-    bucket                  = "artifact1234"              // Manual Update required for: pass bucket name ad parameter which is already present in aws_account                                                          
-    key                     = "key/terraform.tfstate"
+    bucket                  = "wingd-tf-state-t6"              // Manual Update required for: pass bucket name ad parameter which is already present in aws_account                                                          
+    key                     = "profile/terraform.tfstate"
     region                  = "us-east-1"
 #    profile                 = env("aws_profile")                  // Manual Update required for: pass a profile parameter                                     
    shared_credentials_file = "~/.aws/credentials"
