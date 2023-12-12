@@ -4,7 +4,7 @@ variable "aws_profile" {
 
 provider "aws" {
   profile = var.aws_profile
-  region = "us-west-1"
+  region = "eu-west-1"
 }
 
 resource "aws_instance" "example1" {
@@ -22,7 +22,7 @@ terraform {
   backend "s3" {
     bucket                  = "wingd-tf-state-t6"              // Manual Update required for: pass bucket name ad parameter which is already present in aws_account                                                          
     key                     = "profile/terraform.tfstate"
-    region                  = "us-west-1"                 // Manual Update required for: pass a profile parameter                                     
+    region                  = "eu-west-1"                 // Manual Update required for: pass a profile parameter                                     
    shared_credentials_file = "~/.aws/credentials"
   }
 }
