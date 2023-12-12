@@ -27,12 +27,3 @@ terraform {
    shared_credentials_file = "~/.aws/credentials"
   }
 }
-
-terraform {
-  backend "s3" {
-    bucket                  = "wingd-tf-state-t3"                        
-    key                     = "network/terraform.tfstate"
-    region                  = "eu-west-1"                           
-    shared_credentials_file = "~/.aws/credentials"
-  }
-}
