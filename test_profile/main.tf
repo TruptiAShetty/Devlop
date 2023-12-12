@@ -4,11 +4,11 @@ variable "aws_profile" {
 
 provider "aws" {
   profile = var.aws_profile
-  region = "us-east-1"
+  region = "us-west-1"
 }
 
 resource "aws_instance" "example1" {
-  ami           = "ami-0230bd60aa48260c6"  # Specify the AMI ID for your desired operating system
+  ami           = "ami-07355fe79b493752d"  # Specify the AMI ID for your desired operating system
   instance_type = "t2.micro"  # Specify the instance type
 
   tags = {
