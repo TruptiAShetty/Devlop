@@ -1,9 +1,9 @@
-variable "aws_profile" {
-  default = "default"
-}
+#variable "aws_profile" {
+  #default = "default"
+#}
 
 provider "aws" {
-  profile = var.aws_profile
+ # profile = var.aws_profile
   region = "eu-west-1"
 }
 
