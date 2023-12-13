@@ -3,7 +3,7 @@
 #}
 
 provider "aws" {
- # profile = var.aws_profile
+  profile = 503263480993_AWSPowerUserAccess
   region = "eu-west-1"
 }
 
