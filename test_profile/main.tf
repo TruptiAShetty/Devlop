@@ -3,7 +3,7 @@
 #}
 
 provider "aws" {
-  profile = 503263480993_AWSPowerUserAccess
+  profile = "503263480993_AWSPowerUserAccess"
   region = "eu-west-1"
 }
 
